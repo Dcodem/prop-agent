@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ orgId: result.org.id, userId: result.user.id });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return NextResponse.json({ error: err.errors[0].message }, { status: 400 });
+      return NextResponse.json({ error: err.issues[0].message }, { status: 400 });
     }
     console.error("Signup error:", err);
     return NextResponse.json({ error: "Failed to create account" }, { status: 500 });
