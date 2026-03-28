@@ -6,6 +6,7 @@ import { logMessage } from "@/lib/db/queries/messages";
 import { db } from "@/lib/db";
 import { organizations } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { inngest } from "@/lib/inngest/client";
 
 export async function POST(request: Request) {
   try {
@@ -66,8 +67,10 @@ export async function POST(request: Request) {
       status: "received",
     });
 
-    // TODO (Plan 3): Trigger Inngest pipeline here
-    // await inngest.send({ name: "message/received", data: { message, orgId: org.id } });
+    await inngest.send({
+      name: "message/received",
+      data: { message, orgId: org.id },
+    });
 
     // Return empty TwiML (actual reply sent asynchronously via the pipeline)
     return new Response(
