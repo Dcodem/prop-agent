@@ -69,6 +69,7 @@ export async function createTestVendor(
 }
 
 export async function cleanupTestData() {
+  await db.execute(sql`DELETE FROM message_log`);
   await db.execute(sql`DELETE FROM case_timeline`);
   await db.execute(sql`DELETE FROM cases`);
   await db.execute(sql`DELETE FROM tenants`);

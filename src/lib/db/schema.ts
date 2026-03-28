@@ -202,6 +202,43 @@ export const processedMessages = pgTable("processed_messages", {
   processedAt: timestamp("processed_at").defaultNow().notNull(),
 });
 
+export const messageLogDirectionEnum = pgEnum("message_log_direction", [
+  "inbound",
+  "outbound",
+]);
+
+export const messageLogStatusEnum = pgEnum("message_log_status", [
+  "sent",
+  "delivered",
+  "failed",
+  "bounced",
+  "received",
+]);
+
+export const messageLog = pgTable("message_log", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  orgId: uuid("org_id")
+    .references(() => organizations.id, { onDelete: "cascade" })
+    .notNull(),
+  caseId: uuid("case_id").references(() => cases.id),
+  direction: messageLogDirectionEnum("direction").notNull(),
+  channel: caseSourceEnum("channel").notNull(), // reuse "email" | "sms"
+  externalMessageId: text("external_message_id"),
+  fromAddress: text("from_address").notNull(),
+  toAddress: text("to_address").notNull(),
+  subject: text("subject"),
+  body: text("body").notNull(),
+  messageType: text("message_type").notNull(), // tenant_reply, pm_notification, etc.
+  status: messageLogStatusEnum("status").notNull(),
+  errorMessage: text("error_message"),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type MessageLog = typeof messageLog.$inferSelect;
+export type NewMessageLog = typeof messageLog.$inferInsert;
+
 // ─── Type Exports ────────────────────────────────────────
 
 export type Organization = typeof organizations.$inferSelect;
