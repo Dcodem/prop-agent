@@ -6,10 +6,14 @@ import { makeDecision } from "@/lib/pipeline/decide";
 import { executeActions } from "@/lib/pipeline/execute";
 import { createCase, addTimelineEntry } from "@/lib/db/queries/cases";
 import type { InboundMessage } from "@/lib/messaging/types";
+import type { PipelineContext, ClassificationResult, DecisionResult } from "@/lib/pipeline/types";
 
 export const processMessage = inngest.createFunction(
-  { id: "process-message", retries: 2 },
-  { event: "message/received" },
+  {
+    id: "process-message",
+    retries: 2,
+    triggers: [{ event: "message/received" }],
+  },
   async ({ event, step }) => {
     const { message, orgId } = event.data as {
       message: InboundMessage;
@@ -19,7 +23,7 @@ export const processMessage = inngest.createFunction(
     // Step 1: Identify sender
     const identity = await step.run("identify-sender", async () => {
       return identifySender(message.from, message.channel, orgId);
-    });
+    }) as unknown as Awaited<ReturnType<typeof identifySender>>;
 
     // Step 2: Enrich context
     const context = await step.run("enrich-context", async () => {
@@ -30,7 +34,7 @@ export const processMessage = inngest.createFunction(
         property: identity.property,
         isNewTenant: identity.isNewTenant,
       });
-    });
+    }) as unknown as PipelineContext;
 
     // Step 3: Classify with Claude
     const classification = await step.run("classify-message", async () => {
@@ -41,7 +45,7 @@ export const processMessage = inngest.createFunction(
         recentCases: context.existingCases,
         channel: message.channel,
       });
-    });
+    }) as ClassificationResult;
 
     // Create or update case
     const caseRecord = await step.run("create-case", async () => {
@@ -68,7 +72,7 @@ export const processMessage = inngest.createFunction(
       });
 
       return newCase;
-    });
+    }) as unknown as Awaited<ReturnType<typeof createCase>>;
 
     // Step 4: Decide
     const decision = await step.run("make-decision", async () => {
@@ -76,7 +80,7 @@ export const processMessage = inngest.createFunction(
       const result = makeDecision(classification, thresholds);
       result.caseId = caseRecord.id;
       return result;
-    });
+    }) as DecisionResult;
 
     // Step 5: Execute
     const executionResults = await step.run("execute-actions", async () => {

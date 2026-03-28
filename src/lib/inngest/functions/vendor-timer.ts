@@ -1,14 +1,18 @@
 import { inngest } from "../client";
-import { getCase, addTimelineEntry, updateCase } from "@/lib/db/queries/cases";
+import { getCase, addTimelineEntry } from "@/lib/db/queries/cases";
 import { selectVendor } from "@/lib/vendor/select";
 import { dispatchVendor } from "@/lib/vendor/dispatch";
 import { getProperty } from "@/lib/db/queries/properties";
 import { getOrganization } from "@/lib/db/queries/organizations";
 import { DEFAULT_URGENCY_TIMERS } from "@/lib/pipeline/types";
+import type { Case } from "@/lib/db/schema";
 
 export const vendorTimer = inngest.createFunction(
-  { id: "vendor-response-timer", retries: 1 },
-  { event: "vendor/dispatched" },
+  {
+    id: "vendor-response-timer",
+    retries: 1,
+    triggers: [{ event: "vendor/dispatched" }],
+  },
   async ({ event, step }) => {
     const { caseId, orgId, vendorId, urgency } = event.data as {
       caseId: string;
@@ -25,7 +29,7 @@ export const vendorTimer = inngest.createFunction(
     // Check if vendor responded
     const caseRecord = await step.run("check-vendor-response", async () => {
       return getCase(caseId, orgId);
-    });
+    }) as unknown as Case | null;
 
     if (!caseRecord || caseRecord.status !== "waiting_on_vendor") {
       return { status: "vendor_responded_or_case_resolved" };
@@ -45,7 +49,7 @@ export const vendorTimer = inngest.createFunction(
     // Check again
     const caseAfterReminder = await step.run("check-after-reminder", async () => {
       return getCase(caseId, orgId);
-    });
+    }) as unknown as Case | null;
 
     if (!caseAfterReminder || caseAfterReminder.status !== "waiting_on_vendor") {
       return { status: "vendor_responded_after_reminder" };

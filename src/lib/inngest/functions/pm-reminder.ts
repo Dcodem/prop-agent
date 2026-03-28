@@ -2,8 +2,11 @@ import { inngest } from "../client";
 import { getCase, addTimelineEntry } from "@/lib/db/queries/cases";
 
 export const pmReminder = inngest.createFunction(
-  { id: "pm-escalation-reminder", retries: 1 },
-  { event: "pm/reminder-needed" },
+  {
+    id: "pm-escalation-reminder",
+    retries: 1,
+    triggers: [{ event: "pm/reminder-needed" }],
+  },
   async ({ event, step }) => {
     const { caseId, orgId, intervals } = event.data as {
       caseId: string;

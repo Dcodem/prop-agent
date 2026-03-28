@@ -5,8 +5,10 @@ import { eq, and, lt } from "drizzle-orm";
 import { addTimelineEntry, updateCase } from "@/lib/db/queries/cases";
 
 export const caseAutoClose = inngest.createFunction(
-  { id: "case-auto-close" },
-  { cron: "0 */6 * * *" }, // Run every 6 hours
+  {
+    id: "case-auto-close",
+    triggers: [{ cron: "0 */6 * * *" }], // Run every 6 hours
+  },
   async ({ step }) => {
     const now = new Date();
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60_000);
