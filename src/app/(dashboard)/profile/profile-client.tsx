@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { updateProfileAction, resetPasswordAction } from "./actions";
+import { useRouter } from "next/navigation";
+import { updateProfileAction, resetPasswordAction, deactivateAccountAction } from "./actions";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface ProfileClientProps {
   user: {
@@ -14,11 +16,15 @@ interface ProfileClientProps {
 }
 
 export function ProfileClient({ user, orgName }: ProfileClientProps) {
+  const router = useRouter();
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeactivateDialog, setShowDeactivateDialog] = useState(false);
+  const [showCloseDialog, setShowCloseDialog] = useState(false);
   const [editName, setEditName] = useState(user.name);
   const [editPhone, setEditPhone] = useState(user.phone ?? "");
   const [saving, startSave] = useTransition();
   const [resetting, startReset] = useTransition();
+  const [deactivating, startDeactivate] = useTransition();
   const [saveError, setSaveError] = useState<string | null>(null);
   const [resetMsg, setResetMsg] = useState<string | null>(null);
 
@@ -52,6 +58,17 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
         setResetMsg(`Error: ${result.error}`);
       } else {
         setResetMsg("Password reset email sent. Check your inbox.");
+      }
+    });
+  }
+
+  function handleDeactivate() {
+    startDeactivate(async () => {
+      const result = await deactivateAccountAction();
+      if (result.error) {
+        setResetMsg(`Error: ${result.error}`);
+      } else {
+        router.push("/login");
       }
     });
   }
@@ -263,13 +280,35 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
               <h3 className="text-xl font-bold text-on-surface mb-2">Account Finality</h3>
               <p className="text-on-surface-variant text-sm mb-8 max-w-md mx-auto">Deactivating your PropAgent account will cease all autonomous operations and revoke access to historical performance logs.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="w-full sm:w-auto px-8 py-3 bg-surface-container-lowest text-error border border-error/30 text-xs font-bold rounded-lg hover:bg-error/5 transition-colors uppercase tracking-widest">Deactivate PropAgent</button>
-                <button className="w-full sm:w-auto px-8 py-3 text-on-surface-variant text-[10px] font-bold uppercase tracking-widest hover:text-error transition-colors">Close Agent Account</button>
+                <button onClick={() => setShowDeactivateDialog(true)} className="w-full sm:w-auto px-8 py-3 bg-surface-container-lowest text-error border border-error/30 text-xs font-bold rounded-lg hover:bg-error/5 transition-colors uppercase tracking-widest">Deactivate PropAgent</button>
+                <button onClick={() => setShowCloseDialog(true)} className="w-full sm:w-auto px-8 py-3 text-on-surface-variant text-[10px] font-bold uppercase tracking-widest hover:text-error transition-colors">Close Agent Account</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Deactivate Confirm Dialog */}
+      <ConfirmDialog
+        open={showDeactivateDialog}
+        onClose={() => setShowDeactivateDialog(false)}
+        onConfirm={handleDeactivate}
+        title="Deactivate PropAgent"
+        description="This will deactivate your PropAgent AI assistant and sign you out. All autonomous operations will cease. You can reactivate by signing in again."
+        confirmLabel="Deactivate"
+        loading={deactivating}
+      />
+
+      {/* Close Account Confirm Dialog */}
+      <ConfirmDialog
+        open={showCloseDialog}
+        onClose={() => setShowCloseDialog(false)}
+        onConfirm={handleDeactivate}
+        title="Close Agent Account"
+        description="This will permanently close your PropAgent account and sign you out. All data and configuration will be lost. This action cannot be undone."
+        confirmLabel="Close Account"
+        loading={deactivating}
+      />
 
       {/* Edit Profile Modal */}
       {showEditModal && (

@@ -172,7 +172,7 @@ export function TenantDetailClient({
 
       {/* Quick Stats: Tonal Layering */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl border-l-4 border-primary">
+        <div className="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary">
           <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
             Current Rent
           </p>
@@ -218,7 +218,7 @@ export function TenantDetailClient({
         {/* Lease Information & Payments (Left/Center) */}
         <div className="lg:col-span-2 space-y-8">
           {/* Lease Terms Card */}
-          <div className="bg-white p-8 rounded-2xl space-y-6">
+          <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
             <div className="flex justify-between items-end">
               <h3 className="text-2xl font-bold tracking-tight">
                 Lease Information
@@ -260,7 +260,7 @@ export function TenantDetailClient({
           </div>
 
           {/* Payment History Table (The Architectural Ledger) */}
-          <div className="bg-white overflow-hidden rounded-2xl">
+          <div className="bg-surface-container-lowest overflow-hidden rounded-2xl">
             <div className="p-8 pb-4">
               <h3 className="text-2xl font-bold tracking-tight">
                 Payment History
@@ -326,7 +326,7 @@ export function TenantDetailClient({
               activeCases.map((c) => (
                 <div
                   key={c.id}
-                  className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-primary"
+                  className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
@@ -357,7 +357,7 @@ export function TenantDetailClient({
             ) : (
               <>
                 {/* Static fallback cards matching Stitch design */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-primary">
+                <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary">
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                       Plumbing
@@ -381,7 +381,7 @@ export function TenantDetailClient({
                   </div>
                 </div>
                 {/* Request Card 2 */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-outline-variant">
+                <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-outline-variant">
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                       Electrical

@@ -111,7 +111,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <div className="flex gap-3">
               <Link
                 href={`/properties/${property.id}/edit`}
-                className="px-6 py-3 bg-white text-on-surface rounded-lg font-bold shadow-lg flex items-center gap-2 hover:bg-surface-container-low transition-colors"
+                className="px-6 py-3 bg-surface-container-lowest text-on-surface rounded-lg font-bold shadow-lg flex items-center gap-2 hover:bg-surface-container-low transition-colors"
               >
                 <span className="material-symbols-outlined">edit</span>
                 Edit Profile

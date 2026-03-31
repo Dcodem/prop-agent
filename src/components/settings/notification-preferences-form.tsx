@@ -25,19 +25,19 @@ export function NotificationPreferencesForm({
   );
 
   return (
-    <section className="bg-white border border-slate-200 shadow-sm">
+    <section className="bg-surface-container-lowest border border-outline-variant/20 shadow-sm">
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-cyan-700 text-2xl">notifications_active</span>
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Notification Preferences</h2>
+            <span className="material-symbols-outlined text-primary text-2xl">notifications_active</span>
+            <h2 className="text-xl font-bold text-on-surface tracking-tight">Notification Preferences</h2>
           </div>
-          <p className="text-sm text-slate-500 mb-10 leading-relaxed">Manage how and when you receive agent activity updates and system alerts.</p>
+          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Manage how and when you receive agent activity updates and system alerts.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
             <div className="space-y-3 col-span-2">
-              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Communication Channels</label>
+              <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Communication Channels</label>
               <select
-                className="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
                 name="urgentChannel"
                 defaultValue={defaults.urgentChannel}
               >
@@ -46,27 +46,27 @@ export function NotificationPreferencesForm({
               </select>
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Quiet Hours Start</label>
+              <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Quiet Hours Start</label>
               <input
-                className="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
                 type="time"
                 name="quietHoursStart"
                 defaultValue={defaults.quietHoursStart ?? "22:00"}
               />
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Quiet Hours End</label>
+              <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Quiet Hours End</label>
               <input
-                className="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
                 type="time"
                 name="quietHoursEnd"
                 defaultValue={defaults.quietHoursEnd ?? "07:00"}
               />
             </div>
             <div className="space-y-3 col-span-2">
-              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">System Timezone</label>
+              <label className="text-sm font-bold text-on-surface uppercase tracking-widest">System Timezone</label>
               <select
-                className="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
                 name="quietHoursTimezone"
                 defaultValue={defaults.quietHoursTimezone}
               >
@@ -83,11 +83,11 @@ export function NotificationPreferencesForm({
             <p className="mt-4 text-sm text-emerald-600 font-medium">Saved successfully.</p>
           )}
         </div>
-        <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex justify-end">
+        <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
             type="submit"
             disabled={isPending}
-            className="bg-cyan-800 hover:bg-cyan-900 text-white px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
+            className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}
           </button>

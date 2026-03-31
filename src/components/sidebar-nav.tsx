@@ -128,7 +128,7 @@ export function SidebarNav({ open = false, onClose }: SidebarNavProps) {
                     onClick={onClose}
                     className={`flex items-center gap-3 px-3 py-2 transition-colors ${
                       active
-                        ? "text-teal-700 font-bold border-r-2 border-teal-700 hover:bg-surface-container-high/50"
+                        ? "text-primary font-bold border-r-2 border-primary hover:bg-surface-container-high/50"
                         : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50"
                     }`}
                   >

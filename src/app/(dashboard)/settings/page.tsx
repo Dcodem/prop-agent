@@ -36,9 +36,9 @@ export default async function SettingsPage() {
   return (
     <div className="max-w-[800px] mx-auto py-12 px-8">
       {/* Page Header */}
-      <div className="mb-12 border-b border-slate-200 pb-8">
-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight font-headline">Settings</h1>
-        <p className="text-slate-500 mt-2 font-medium">Configure your AI agent&apos;s operational parameters</p>
+      <div className="mb-12 border-b border-outline-variant/20 pb-8">
+        <h1 className="text-4xl font-extrabold text-on-surface tracking-tight font-headline">Settings</h1>
+        <p className="text-on-surface-variant mt-2 font-medium">Configure your AI agent&apos;s operational parameters</p>
       </div>
       <div className="space-y-10">
         <ConfidenceThresholdsForm defaults={confidenceThresholds} />
@@ -49,8 +49,8 @@ export default async function SettingsPage() {
         <UrgencyTimersForm defaults={defaultUrgencyTimers} />
         <NotificationPreferencesForm defaults={notificationPrefs} />
       </div>
-      <footer className="mt-20 text-center border-t border-slate-200 pt-10">
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em]">PropAgent AI Dashboard</p>
+      <footer className="mt-20 text-center border-t border-outline-variant/20 pt-10">
+        <p className="text-[10px] text-outline font-bold uppercase tracking-[0.3em]">PropAgent AI Dashboard</p>
       </footer>
     </div>
   );

@@ -9,9 +9,9 @@ import { TradeFilter } from "./trade-filter";
 type Vendor = typeof vendors.$inferSelect;
 
 const AVATAR_COLORS = [
-  { bg: "bg-cyan-100", text: "text-cyan-700" },
+  { bg: "bg-primary-fixed", text: "text-primary" },
   { bg: "bg-amber-100", text: "text-amber-700" },
-  { bg: "bg-slate-200", text: "text-slate-700" },
+  { bg: "bg-surface-container", text: "text-on-surface" },
   { bg: "bg-emerald-100", text: "text-emerald-700" },
   { bg: "bg-violet-100", text: "text-violet-700" },
   { bg: "bg-rose-100", text: "text-rose-700" },

@@ -21,22 +21,22 @@ export function ConfidenceThresholdsForm({
   );
 
   return (
-    <section className="bg-white border border-slate-200 shadow-sm">
+    <section className="bg-surface-container-lowest border border-outline-variant/20 shadow-sm">
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-cyan-700 text-2xl">psychology</span>
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Confidence Thresholds</h2>
+            <span className="material-symbols-outlined text-primary text-2xl">psychology</span>
+            <h2 className="text-xl font-bold text-on-surface tracking-tight">Confidence Thresholds</h2>
           </div>
-          <p className="text-sm text-slate-500 mb-10 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions. Higher scores increase accuracy but may require more manual intervention.</p>
+          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions. Higher scores increase accuracy but may require more manual intervention.</p>
           <div className="space-y-10">
             <div>
               <div className="flex justify-between items-center mb-6">
-                <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">High Confidence</label>
-                <span className="px-4 py-1.5 bg-cyan-50 text-cyan-800 border border-cyan-100 rounded text-sm font-bold">{high.toFixed(2)}</span>
+                <label className="text-sm font-bold text-on-surface uppercase tracking-widest">High Confidence</label>
+                <span className="px-4 py-1.5 bg-primary-fixed text-primary border border-primary/20 rounded text-sm font-bold">{high.toFixed(2)}</span>
               </div>
               <input
-                className="w-full h-1.5 bg-slate-100 rounded-full appearance-none cursor-pointer accent-cyan-700"
+                className="w-full h-1.5 bg-surface-container-low rounded-full appearance-none cursor-pointer accent-primary"
                 max="1"
                 min="0"
                 step="0.05"
@@ -45,18 +45,18 @@ export function ConfidenceThresholdsForm({
                 value={high}
                 onChange={(e) => setHigh(Number(e.target.value))}
               />
-              <div className="flex justify-between mt-3 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+              <div className="flex justify-between mt-3 text-[10px] text-outline font-bold uppercase tracking-widest">
                 <span>Conservative</span>
                 <span>Aggressive</span>
               </div>
             </div>
             <div>
               <div className="flex justify-between items-center mb-6">
-                <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Medium Confidence</label>
-                <span className="px-4 py-1.5 bg-slate-50 text-slate-700 border border-slate-100 rounded text-sm font-bold">{medium.toFixed(2)}</span>
+                <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Medium Confidence</label>
+                <span className="px-4 py-1.5 bg-surface-container-low text-on-surface border border-outline-variant/10 rounded text-sm font-bold">{medium.toFixed(2)}</span>
               </div>
               <input
-                className="w-full h-1.5 bg-slate-100 rounded-full appearance-none cursor-pointer accent-cyan-700"
+                className="w-full h-1.5 bg-surface-container-low rounded-full appearance-none cursor-pointer accent-primary"
                 max="1"
                 min="0"
                 step="0.05"
@@ -74,11 +74,11 @@ export function ConfidenceThresholdsForm({
             <p className="mt-4 text-sm text-emerald-600 font-medium">Saved successfully.</p>
           )}
         </div>
-        <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex justify-end">
+        <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
             type="submit"
             disabled={isPending}
-            className="bg-cyan-800 hover:bg-cyan-900 text-white px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
+            className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}
           </button>

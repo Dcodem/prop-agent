@@ -34,11 +34,11 @@ export function CaseFilters({
   const hasFilters = statusFilter || urgencyFilter || propertyFilter;
 
   return (
-    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap items-center gap-4">
+    <div className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex flex-wrap items-center gap-4">
       <div className="flex items-center gap-2">
-        <label className="text-xs font-bold text-slate-400 uppercase">Filters:</label>
+        <label className="text-xs font-bold text-outline uppercase">Filters:</label>
         <select
-          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[120px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[120px]"
           value={statusFilter}
           onChange={(e) => onStatusFilterChange(e.target.value)}
         >
@@ -50,7 +50,7 @@ export function CaseFilters({
           ))}
         </select>
         <select
-          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[120px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[120px]"
           value={urgencyFilter}
           onChange={(e) => onUrgencyFilterChange(e.target.value)}
         >
@@ -62,7 +62,7 @@ export function CaseFilters({
           ))}
         </select>
         <select
-          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[140px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[140px]"
           value={propertyFilter}
           onChange={(e) => onPropertyFilterChange(e.target.value)}
         >
@@ -76,18 +76,18 @@ export function CaseFilters({
       </div>
       {hasFilters && (
         <button
-          className="text-blue-600 text-sm font-medium hover:underline ml-auto"
+          className="text-primary text-sm font-medium hover:underline ml-auto"
           onClick={onClearFilters}
         >
           Clear filters
         </button>
       )}
-      <div className={`flex items-center bg-slate-100 p-1 rounded-lg ${hasFilters ? "mr-2" : "ml-auto mr-2"}`}>
+      <div className={`flex items-center bg-surface-container-low p-1 rounded-lg ${hasFilters ? "mr-2" : "ml-auto mr-2"}`}>
         <button
           className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
             viewMode === "table"
-              ? "bg-white text-blue-600 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
+              ? "bg-surface-container-lowest text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-on-surface"
           }`}
           onClick={() => onViewModeChange("table")}
         >
@@ -96,15 +96,15 @@ export function CaseFilters({
         <button
           className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
             viewMode === "kanban"
-              ? "bg-white text-blue-600 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
+              ? "bg-surface-container-lowest text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-on-surface"
           }`}
           onClick={() => onViewModeChange("kanban")}
         >
           Kanban
         </button>
       </div>
-      <div className="h-8 w-px bg-slate-200"></div>
+      <div className="h-8 w-px bg-surface-container"></div>
       <a
         href="/cases/new"
         className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-colors"

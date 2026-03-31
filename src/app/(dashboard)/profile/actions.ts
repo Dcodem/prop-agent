@@ -35,6 +35,20 @@ export async function updateProfileAction(formData: FormData) {
   return { success: true };
 }
 
+export async function deactivateAccountAction() {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+
+  if (!authUser) {
+    return { error: "Not authenticated" };
+  }
+
+  await supabase.auth.signOut();
+  return { success: true };
+}
+
 export async function resetPasswordAction() {
   const supabase = await createServerSupabaseClient();
   const {

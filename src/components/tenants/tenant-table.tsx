@@ -28,7 +28,7 @@ function getInitials(name: string) {
 }
 
 const INITIAL_COLORS = [
-  "bg-cyan-100 text-cyan-700",
+  "bg-primary-fixed text-primary",
   "bg-amber-100 text-amber-700",
   "bg-emerald-100 text-emerald-700",
   "bg-violet-100 text-violet-700",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { vendors } from "@/lib/db/schema";
 import { VendorTable } from "@/components/vendors/vendor-table";
 import { VendorForm } from "@/components/vendors/vendor-form";
@@ -125,9 +126,9 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
           </p>
         </div>
         <div className="relative z-10">
-          <button className="bg-surface-container-lowest text-primary px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-surface-container-low transition-colors cursor-pointer">
-            Learn More
-          </button>
+          <Link href="/settings" className="bg-surface-container-lowest text-primary px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-surface-container-low transition-colors cursor-pointer inline-block">
+            Configure Settings
+          </Link>
         </div>
       </div>
 

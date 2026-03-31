@@ -77,9 +77,9 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
             <div className="flex items-center justify-between px-2 mb-2">
               <div className="flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${col.dot}`}></span>
-                <h3 className="font-bold text-sm tracking-tight text-slate-500 uppercase">{col.label}</h3>
+                <h3 className="font-bold text-sm tracking-tight text-on-surface-variant uppercase">{col.label}</h3>
               </div>
-              <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-outline bg-surface-container-low px-2 py-0.5 rounded-full">
                 {colCases.length}
               </span>
             </div>
@@ -92,9 +92,9 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
               return (
                 <Link key={c.id} href={`/cases/${c.id}`} className="block">
                   <div
-                    className={`bg-white p-5 rounded-xl border-l-[3px] ${
+                    className={`bg-surface-container-lowest p-5 rounded-xl border-l-[3px] ${
                       isResolved
-                        ? "border-slate-300 opacity-70"
+                        ? "border-outline-variant opacity-70"
                         : URGENCY_BORDER[c.urgency ?? "low"]
                     } flex flex-col gap-4 transition-all hover:translate-y-[-2px]`}
                   >
@@ -115,7 +115,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                               (c.urgency === "critical" || c.urgency === "high")
                                 ? "bg-red-50 text-red-700"
-                                : "bg-slate-100 text-slate-600"
+                                : "bg-surface-container-low text-on-surface-variant"
                             }`}>
                               {Math.round(c.confidenceScore * 100)}% Confidence
                             </span>
@@ -126,8 +126,8 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
 
                     {/* Title & location */}
                     <div>
-                      <h4 className="font-bold text-slate-900 leading-snug mb-1 line-clamp-2">{c.rawMessage}</h4>
-                      <p className="text-xs text-slate-500 font-medium">
+                      <h4 className="font-bold text-on-surface leading-snug mb-1 line-clamp-2">{c.rawMessage}</h4>
+                      <p className="text-xs text-on-surface-variant font-medium">
                         {tenant?.unitNumber ? `Unit ${tenant.unitNumber}` : ""}
                         {tenant?.unitNumber && property ? " \u2022 " : ""}
                         {property?.address ?? ""}
@@ -135,15 +135,15 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                     </div>
 
                     {/* Footer */}
-                    <div className="flex justify-between items-center pt-2 border-t border-slate-50">
+                    <div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
                       {tenant ? (
-                        <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600 border-2 border-white">
+                        <div className="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface-variant border-2 border-white">
                           {tenant.name.charAt(0).toUpperCase()}
                         </div>
                       ) : (
                         <div></div>
                       )}
-                      <span className="text-[10px] text-slate-400 font-medium italic">
+                      <span className="text-[10px] text-outline font-medium italic">
                         {isResolved && c.resolvedAt
                           ? `Closed ${timeAgo(c.resolvedAt)}`
                           : timeAgo(c.createdAt)}
@@ -155,8 +155,8 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
             })}
 
             {colCases.length === 0 && (
-              <div className="bg-white/50 p-5 rounded-xl border border-dashed border-slate-200 text-center">
-                <p className="text-xs text-slate-400">No cases</p>
+              <div className="bg-surface-container-lowest/50 p-5 rounded-xl border border-dashed border-outline-variant/20 text-center">
+                <p className="text-xs text-outline">No cases</p>
               </div>
             )}
           </div>
