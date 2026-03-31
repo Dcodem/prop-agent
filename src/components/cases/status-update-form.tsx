@@ -32,7 +32,7 @@ export function StatusUpdateForm({
 
   return (
     <div className="space-y-3">
-      <label className="text-xs font-black text-[#0d1c2e] uppercase tracking-wider px-1">
+      <label className="text-xs font-black text-on-surface uppercase tracking-wider px-1">
         Adjust Status
       </label>
       <div className="relative group">
@@ -40,7 +40,7 @@ export function StatusUpdateForm({
           value={currentStatus}
           onChange={handleChange}
           disabled={isPending}
-          className="w-full appearance-none bg-[#eff4ff] border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-[#006872] transition-all disabled:opacity-50"
+          className="w-full appearance-none bg-primary-fixed border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-primary transition-all disabled:opacity-50"
         >
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -48,7 +48,7 @@ export function StatusUpdateForm({
             </option>
           ))}
         </select>
-        <span className="material-symbols-outlined absolute right-5 top-4 pointer-events-none text-[#3e494a] opacity-50">
+        <span className="material-symbols-outlined absolute right-5 top-4 pointer-events-none text-on-surface-variant opacity-50">
           expand_more
         </span>
       </div>

@@ -62,18 +62,18 @@ export function TenantForm({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
         onClick={onClose}
       />
       {/* Modal */}
-      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 p-8">
+      <div className="relative bg-surface-container-lowest rounded-lg shadow-xl w-full max-w-lg mx-4 p-8">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-extrabold text-cyan-900 tracking-tight">
+          <h3 className="text-xl font-extrabold text-on-surface tracking-tight">
             {isEditing ? "Edit Tenant" : "Add Tenant"}
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1"
+            className="text-outline hover:text-on-surface-variant p-1"
           >
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -84,7 +84,7 @@ export function TenantForm({
 
           {/* Name */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
               Name *
             </label>
             <input
@@ -92,49 +92,49 @@ export function TenantForm({
               type="text"
               required
               defaultValue={tenant?.name ?? ""}
-              className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all placeholder:text-slate-400"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
               placeholder="Full name"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
               Email
             </label>
             <input
               name="email"
               type="email"
               defaultValue={tenant?.email ?? ""}
-              className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all placeholder:text-slate-400"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
               placeholder="email@example.com"
             />
           </div>
 
           {/* Phone */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
               Phone
             </label>
             <input
               name="phone"
               type="tel"
               defaultValue={tenant?.phone ?? ""}
-              className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all placeholder:text-slate-400"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
               placeholder="555-0123"
             />
           </div>
 
           {/* Property */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
               Property *
             </label>
             <select
               name="propertyId"
               required
               defaultValue={tenant?.propertyId ?? ""}
-              className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
             >
               <option value="">Select property...</option>
               {properties.map((p) => (
@@ -147,14 +147,14 @@ export function TenantForm({
 
           {/* Unit Number */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
               Unit Number
             </label>
             <input
               name="unitNumber"
               type="text"
               defaultValue={tenant?.unitNumber ?? ""}
-              className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all placeholder:text-slate-400"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
               placeholder="e.g. 12B"
             />
           </div>
@@ -162,32 +162,32 @@ export function TenantForm({
           {/* Lease Dates */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+              <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
                 Lease Start
               </label>
               <input
                 name="leaseStart"
                 type="date"
                 defaultValue={formatDateForInput(tenant?.leaseStart ?? null)}
-                className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all"
+                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+              <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
                 Lease End
               </label>
               <input
                 name="leaseEnd"
                 type="date"
                 defaultValue={formatDateForInput(tenant?.leaseEnd ?? null)}
-                className="w-full bg-slate-50 border border-slate-200 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-[#00838F]/20 focus:border-[#00838F] transition-all"
+                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               />
             </div>
           </div>
 
           {/* Error display */}
           {state && "error" in state && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2">
+            <div className="text-sm text-error bg-error-container border border-error/20 rounded px-3 py-2">
               {typeof state.error === "string"
                 ? state.error
                 : "Please fix the errors above."}
@@ -199,14 +199,14 @@ export function TenantForm({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded hover:bg-slate-50 transition-colors"
+              className="flex-1 px-4 py-2.5 text-sm font-bold text-on-surface-variant bg-surface-container-lowest border border-outline-variant/20 rounded hover:bg-surface-container-low transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="flex-1 bg-[#00838F] hover:bg-[#006d78] text-white font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+              className="flex-1 bg-primary hover:opacity-90 text-on-primary font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
             >
               {isPending ? (
                 "Saving..."

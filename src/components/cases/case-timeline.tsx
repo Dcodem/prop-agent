@@ -43,23 +43,23 @@ export function CaseTimeline({
   caseStatus: string;
 }) {
   return (
-    <section className="bg-white rounded-2xl p-10 shadow-sm border border-[#bdc9ca]/10">
+    <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h2 className="text-2xl font-extrabold text-[#0d1c2e] tracking-tight">
+          <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">
             System of Record
           </h2>
-          <p className="text-sm text-[#3e494a] font-medium mt-1">
+          <p className="text-sm text-on-surface-variant font-medium mt-1">
             At-a-glance roll call of case interactions
           </p>
         </div>
-        <span className="text-xs font-black text-[#006872] uppercase tracking-widest bg-[#006872]/5 px-4 py-2 rounded-full border border-[#006872]/10">
+        <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/5 px-4 py-2 rounded-full border border-primary/10">
           Audit Ready
         </span>
       </div>
       <div className="relative space-y-0 pl-4">
         {/* Vertical Line Connector */}
-        <div className="absolute left-[31px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#006872] via-[#006872]/30 to-[#d0daf0]"></div>
+        <div className="absolute left-[31px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-primary via-primary/30 to-outline-variant/20"></div>
 
         {timeline.map((entry, idx) => {
           const isFirst = idx === 0;
@@ -73,10 +73,10 @@ export function CaseTimeline({
               <div
                 className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-sm ring-4 ring-white ${
                   isFirst
-                    ? "bg-[#006872] text-white shadow-lg"
+                    ? "bg-primary text-on-primary shadow-lg"
                     : isLast
-                      ? "bg-[#00838f] text-white shadow-md animate-pulse"
-                      : "bg-[#d0daf0] text-[#006872]"
+                      ? "bg-primary text-on-primary shadow-md animate-pulse"
+                      : "bg-outline-variant/20 text-primary"
                 }`}
               >
                 <span className="material-symbols-outlined text-lg">
@@ -86,7 +86,7 @@ export function CaseTimeline({
               <div className="flex-grow pt-1">
                 <div className="flex justify-between items-start mb-1">
                   <h4
-                    className={`font-bold ${isLast ? "text-[#006872]" : "text-[#0d1c2e]"}`}
+                    className={`font-bold ${isLast ? "text-primary" : "text-on-surface"}`}
                   >
                     {isLast
                       ? `Current Stage: ${formatType(caseStatus)}`
@@ -94,13 +94,13 @@ export function CaseTimeline({
                   </h4>
                   <span
                     className={`text-[10px] font-black uppercase tracking-wider ${
-                      isLast ? "text-[#006872]" : "text-[#3e494a]"
+                      isLast ? "text-primary" : "text-on-surface-variant"
                     }`}
                   >
                     {isLast ? "Now" : formatTime(entry.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm text-[#3e494a]">
+                <p className="text-sm text-on-surface-variant">
                   {entry.details ?? "No details provided."}
                 </p>
               </div>
@@ -110,19 +110,19 @@ export function CaseTimeline({
 
         {timeline.length === 0 && (
           <div className="relative flex gap-8">
-            <div className="relative z-10 w-9 h-9 rounded-full bg-[#00838f] flex items-center justify-center text-white shadow-md ring-4 ring-white animate-pulse">
+            <div className="relative z-10 w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-md ring-4 ring-white animate-pulse">
               <span className="material-symbols-outlined text-lg">
                 pending
               </span>
             </div>
             <div className="flex-grow pt-1">
               <div className="flex justify-between items-start mb-1">
-                <h4 className="font-bold text-[#006872]">No activity yet</h4>
-                <span className="text-[10px] font-black text-[#006872] uppercase tracking-wider">
+                <h4 className="font-bold text-primary">No activity yet</h4>
+                <span className="text-[10px] font-black text-primary uppercase tracking-wider">
                   Now
                 </span>
               </div>
-              <p className="text-sm text-[#3e494a]">
+              <p className="text-sm text-on-surface-variant">
                 This case has no timeline entries yet.
               </p>
             </div>
@@ -131,7 +131,7 @@ export function CaseTimeline({
       </div>
 
       {/* Add Note Form */}
-      <div className="mt-10 pt-8 border-t border-[#bdc9ca]/20">
+      <div className="mt-10 pt-8 border-t border-outline-variant/20">
         <AddNoteForm caseId={caseId} />
       </div>
     </section>

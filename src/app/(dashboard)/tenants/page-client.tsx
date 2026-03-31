@@ -60,10 +60,10 @@ export function TenantsPageClient({
       {/* Header Section */}
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h2 className="text-3xl font-extrabold text-cyan-900 tracking-tighter">
+          <h2 className="text-3xl font-extrabold text-on-surface tracking-tighter">
             Tenants
           </h2>
-          <p className="text-slate-500 text-[15px] mt-1 font-medium">
+          <p className="text-on-surface-variant text-[15px] mt-1 font-medium">
             Your architectural ledger of occupants
           </p>
         </div>
@@ -72,7 +72,7 @@ export function TenantsPageClient({
             setEditingTenant(null);
             setShowForm(true);
           }}
-          className="bg-[#00838F] hover:bg-[#006d78] text-white font-bold py-2.5 px-6 rounded flex items-center gap-2 transition-all shadow-sm active:scale-95"
+          className="bg-primary hover:opacity-90 text-on-primary font-bold py-2.5 px-6 rounded flex items-center gap-2 transition-all shadow-sm active:scale-95"
         >
           <span className="material-symbols-outlined text-[20px]">
             person_add
@@ -83,18 +83,18 @@ export function TenantsPageClient({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white p-5 rounded border border-slate-200 flex flex-col">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Total Tenants
           </span>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-cyan-900 tracking-tighter">
+            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
               {totalTenants}
             </span>
           </div>
         </div>
-        <div className="bg-white p-5 rounded border border-slate-200 flex flex-col">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Expiring Soon
           </span>
           <div className="flex items-baseline gap-2">
@@ -106,31 +106,31 @@ export function TenantsPageClient({
             </span>
           </div>
         </div>
-        <div className="bg-white p-5 rounded border border-slate-200 flex flex-col">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Occupancy
           </span>
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-extrabold text-cyan-900 tracking-tighter">
+            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
               {totalTenants > 0 ? "100%" : "0%"}
             </span>
-            <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden">
+            <div className="flex-1 h-1 bg-surface-container-low rounded-full overflow-hidden">
               <div
-                className="h-full bg-cyan-600"
+                className="h-full bg-primary"
                 style={{ width: totalTenants > 0 ? "100%" : "0%" }}
               />
             </div>
           </div>
         </div>
-        <div className="bg-white p-5 rounded border border-slate-200 flex flex-col">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Active Cases
           </span>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-cyan-900 tracking-tighter">
+            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
               {activeCases}
             </span>
-            <span className="text-[11px] text-cyan-600 font-bold bg-cyan-50 px-2 py-0.5 rounded">
+            <span className="text-[11px] text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded">
               Pending
             </span>
           </div>
