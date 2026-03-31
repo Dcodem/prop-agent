@@ -1,96 +1,88 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useActionState, useState } from "react";
 import { updateSpendingLimitsAction } from "@/app/(dashboard)/settings/actions";
 
-interface SpendingLimitsFormProps {
-  currentSpending: number;
-  currentEmergency: number;
-}
+type ActionState = { success: boolean; error?: string } | null;
 
 export function SpendingLimitsForm({
-  currentSpending,
-  currentEmergency,
-}: SpendingLimitsFormProps) {
-  const [spending, setSpending] = useState(currentSpending / 100);
-  const [emergency, setEmergency] = useState(currentEmergency / 100);
+  spendingLimit,
+  emergencySpendingLimit,
+}: {
+  spendingLimit: number;
+  emergencySpendingLimit: number;
+}) {
+  const [defaultLimit, setDefaultLimit] = useState(
+    (spendingLimit / 100).toFixed(2),
+  );
+  const [emergencyLimit, setEmergencyLimit] = useState(
+    (emergencySpendingLimit / 100).toFixed(2),
+  );
 
-  const [state, formAction, isPending] = useActionState(
-    async (_prev: { success?: boolean; error?: string } | null, formData: FormData) => {
-      const result = await updateSpendingLimitsAction(formData);
-      return result;
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(
+    async (_prev, formData) => {
+      // Convert dollars to cents before sending
+      const dollars = Number(formData.get("spendingLimitDisplay"));
+      const emergencyDollars = Number(formData.get("emergencySpendingLimitDisplay"));
+      const fd = new FormData();
+      fd.set("spendingLimit", String(Math.round(dollars * 100)));
+      fd.set("emergencySpendingLimit", String(Math.round(emergencyDollars * 100)));
+      return await updateSpendingLimitsAction(fd);
     },
     null,
   );
 
-  // Format as dollar string with commas and two decimals
-  const formatDollar = (val: number) =>
-    val.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
   return (
-    <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <section className="bg-white border border-slate-200 shadow-sm">
       <form action={formAction}>
-        <input type="hidden" name="spendingLimit" value={Math.round(spending * 100)} />
-        <input type="hidden" name="emergencySpendingLimit" value={Math.round(emergency * 100)} />
-
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="material-symbols-outlined text-blue-600 text-xl">payments</span>
-            <h2 className="text-lg font-bold text-slate-800">Spending Limits</h2>
+        <div className="p-8">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="material-symbols-outlined text-cyan-700 text-2xl">payments</span>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Spending Limits</h2>
           </div>
-          <p className="text-sm text-slate-400 mb-8">Establish maximum budgets for autonomous agent spending.</p>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700">Default Limit</label>
+          <p className="text-sm text-slate-500 mb-10 leading-relaxed">Establish maximum budgets for autonomous agent spending on vendor services.</p>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Default Limit</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
                 <input
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
                   type="text"
-                  value={formatDollar(spending)}
-                  onChange={(e) => {
-                    const raw = e.target.value.replace(/[^0-9.]/g, "");
-                    const num = parseFloat(raw);
-                    if (!isNaN(num)) setSpending(num);
-                  }}
-                  className="w-full pl-8 pr-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
+                  name="spendingLimitDisplay"
+                  value={defaultLimit}
+                  onChange={(e) => setDefaultLimit(e.target.value)}
                 />
               </div>
             </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700">Emergency Limit</label>
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Emergency Limit</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
                 <input
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600 font-bold text-slate-900"
                   type="text"
-                  value={formatDollar(emergency)}
-                  onChange={(e) => {
-                    const raw = e.target.value.replace(/[^0-9.]/g, "");
-                    const num = parseFloat(raw);
-                    if (!isNaN(num)) setEmergency(num);
-                  }}
-                  className="w-full pl-8 pr-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
+                  name="emergencySpendingLimitDisplay"
+                  value={emergencyLimit}
+                  onChange={(e) => setEmergencyLimit(e.target.value)}
                 />
               </div>
             </div>
           </div>
-
-          {state && !state.success && state.error && (
-            <p className="text-red-500 text-sm mt-4">{state.error}</p>
+          {state?.error && (
+            <p className="mt-4 text-sm text-red-600 font-medium">{state.error}</p>
           )}
           {state?.success && (
-            <p className="text-green-600 text-sm mt-4">Spending limits updated.</p>
+            <p className="mt-4 text-sm text-emerald-600 font-medium">Saved successfully.</p>
           )}
         </div>
-
-        <div className="bg-slate-50 px-6 py-4 flex justify-end">
+        <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex justify-end">
           <button
             type="submit"
             disabled={isPending}
-            className="bg-orange-500 hover:opacity-90 text-white px-6 py-2 rounded-lg font-bold text-sm transition-opacity shadow-sm disabled:opacity-50"
+            className="bg-cyan-800 hover:bg-cyan-900 text-white px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
-            {isPending ? "Saving..." : "Save"}
+            {isPending ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>

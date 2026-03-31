@@ -1,23 +1,20 @@
-"use client";
-
-import { useState } from "react";
-
-import { PropertyForm } from "@/components/properties/property-form";
-import { Plus } from "lucide-react";
+import Link from "next/link";
 
 export function AddPropertyButton() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        className="bg-[#00838f] text-white px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-[#00838f]/20 hover:scale-[1.02] active:scale-95 transition-all"
-      >
-        <Plus className="w-4 h-4" />
-        <span>+ Add Property</span>
-      </button>
-      {open && <PropertyForm onClose={() => setOpen(false)} />}
-    </>
+    <Link
+      href="/properties/new"
+      className="group bg-[#eff4ff]/50 rounded-[2rem] overflow-hidden border-2 border-dashed border-[#bdc9ca]/30 hover:border-[#006872]/50 transition-all flex flex-col items-center justify-center p-12 text-center cursor-pointer"
+    >
+      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-[#00838f] shadow-sm mb-6 group-hover:scale-110 transition-transform">
+        <span className="material-symbols-outlined text-3xl">add_home</span>
+      </div>
+      <h4 className="text-xl font-extrabold text-cyan-950 mb-2">
+        Expand Portfolio
+      </h4>
+      <p className="text-sm text-[#3e494a] max-w-[180px]">
+        Add a new commercial or residential asset to your ledger.
+      </p>
+    </Link>
   );
 }

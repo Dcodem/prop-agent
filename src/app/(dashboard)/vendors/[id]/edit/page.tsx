@@ -8,8 +8,8 @@ export default async function EditVendorPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const orgId = await getOrgId();
   const { id } = await params;
+  const orgId = await getOrgId();
 
   const vendor = await getVendor(id, orgId);
   if (!vendor) notFound();

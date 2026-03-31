@@ -1,82 +1,120 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 import { CASE_STATUSES, URGENCY_LEVELS } from "@/lib/constants";
 import { formatEnum } from "@/lib/utils";
+import type { Property } from "@/lib/db/schema";
+
+type ViewMode = "table" | "kanban";
 
 interface CaseFiltersProps {
-  properties: { id: string; address: string }[];
-  currentStatus?: string;
-  currentUrgency?: string;
-  currentPropertyId?: string;
+  properties: Property[];
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
+  statusFilter: string;
+  onStatusFilterChange: (value: string) => void;
+  urgencyFilter: string;
+  onUrgencyFilterChange: (value: string) => void;
+  propertyFilter: string;
+  onPropertyFilterChange: (value: string) => void;
+  onClearFilters: () => void;
 }
 
 export function CaseFilters({
   properties,
-  currentStatus,
-  currentUrgency,
-  currentPropertyId,
+  viewMode,
+  onViewModeChange,
+  statusFilter,
+  onStatusFilterChange,
+  urgencyFilter,
+  onUrgencyFilterChange,
+  propertyFilter,
+  onPropertyFilterChange,
+  onClearFilters,
 }: CaseFiltersProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const updateParam = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-      router.push(`/cases?${params.toString()}`);
-    },
-    [router, searchParams],
-  );
-
-  const hasFilters = currentStatus || currentUrgency || currentPropertyId;
+  const hasFilters = statusFilter || urgencyFilter || propertyFilter;
 
   return (
-    <div className="flex items-center gap-2">
-      <label className="text-xs font-bold text-slate-400 uppercase">Filters:</label>
-      <select
-        className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-cyan-500 focus:border-cyan-500 outline-none min-w-[120px]"
-        value={currentStatus ?? ""}
-        onChange={(e) => updateParam("status", e.target.value)}
-      >
-        <option value="">Status</option>
-        {CASE_STATUSES.map((s) => (
-          <option key={s} value={s}>{formatEnum(s)}</option>
-        ))}
-      </select>
-      <select
-        className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-cyan-500 focus:border-cyan-500 outline-none min-w-[120px]"
-        value={currentUrgency ?? ""}
-        onChange={(e) => updateParam("urgency", e.target.value)}
-      >
-        <option value="">Urgency</option>
-        {URGENCY_LEVELS.map((u) => (
-          <option key={u} value={u}>{formatEnum(u)}</option>
-        ))}
-      </select>
-      <select
-        className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-cyan-500 focus:border-cyan-500 outline-none min-w-[140px]"
-        value={currentPropertyId ?? ""}
-        onChange={(e) => updateParam("propertyId", e.target.value)}
-      >
-        <option value="">Property</option>
-        {properties.map((p) => (
-          <option key={p.id} value={p.id}>{p.address}</option>
-        ))}
-      </select>
+    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap items-center gap-4">
+      <div className="flex items-center gap-2">
+        <label className="text-xs font-bold text-slate-400 uppercase">Filters:</label>
+        <select
+          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[120px]"
+          value={statusFilter}
+          onChange={(e) => onStatusFilterChange(e.target.value)}
+        >
+          <option value="">Status</option>
+          {CASE_STATUSES.map((status) => (
+            <option key={status} value={status}>
+              {formatEnum(status)}
+            </option>
+          ))}
+        </select>
+        <select
+          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[120px]"
+          value={urgencyFilter}
+          onChange={(e) => onUrgencyFilterChange(e.target.value)}
+        >
+          <option value="">Urgency</option>
+          {URGENCY_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {formatEnum(level)}
+            </option>
+          ))}
+        </select>
+        <select
+          className="bg-slate-50 border-slate-200 rounded-lg text-sm px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[140px]"
+          value={propertyFilter}
+          onChange={(e) => onPropertyFilterChange(e.target.value)}
+        >
+          <option value="">Property</option>
+          {properties.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.address}
+            </option>
+          ))}
+        </select>
+      </div>
       {hasFilters && (
         <button
-          onClick={() => router.push("/cases")}
-          className="text-cyan-700 text-sm font-medium hover:underline ml-2"
+          className="text-blue-600 text-sm font-medium hover:underline ml-auto"
+          onClick={onClearFilters}
         >
           Clear filters
         </button>
       )}
+      <div className={`flex items-center bg-slate-100 p-1 rounded-lg ${hasFilters ? "mr-2" : "ml-auto mr-2"}`}>
+        <button
+          className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
+            viewMode === "table"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-slate-500 hover:text-slate-700"
+          }`}
+          onClick={() => onViewModeChange("table")}
+        >
+          Table
+        </button>
+        <button
+          className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
+            viewMode === "kanban"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-slate-500 hover:text-slate-700"
+          }`}
+          onClick={() => onViewModeChange("kanban")}
+        >
+          Kanban
+        </button>
+      </div>
+      <div className="h-8 w-px bg-slate-200"></div>
+      <a
+        href="/cases/new"
+        className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        New Case
+      </a>
     </div>
   );
 }

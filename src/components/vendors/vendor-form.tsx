@@ -1,129 +1,184 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { Modal } from "@/components/ui/modal";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { useActionState } from "react";
 import { VENDOR_TRADES } from "@/lib/constants";
 import { formatEnum } from "@/lib/utils";
-import { createVendorAction, updateVendorAction } from "@/app/(dashboard)/vendors/actions";
+import { createVendorAction } from "@/app/(dashboard)/vendors/actions";
 
 interface VendorFormProps {
-  vendor?: {
-    id: string;
-    name: string;
-    trade: string;
-    email: string | null;
-    phone: string | null;
-    rateNotes: string | null;
-    availabilityNotes: string | null;
-    preferenceScore: number | null;
-  };
-  onClose: () => void;
+  onSuccess: () => void;
 }
 
-export function VendorForm({ vendor, onClose }: VendorFormProps) {
-  const isEdit = !!vendor;
+export function VendorForm({ onSuccess }: VendorFormProps) {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: unknown, formData: FormData) => {
+      const result = await createVendorAction(formData);
+      if (result.success) {
+        onSuccess();
+        return { error: null };
+      }
+      return result;
+    },
+    { error: null } as { error: Record<string, string[]> | null }
+  );
 
-  async function handleSubmit(
-    _prev: { error?: Record<string, string[]>; success?: boolean } | null,
-    formData: FormData,
-  ): Promise<{ error?: Record<string, string[]>; success?: boolean }> {
-    if (isEdit) {
-      return await updateVendorAction(vendor.id, formData);
-    }
-    return await createVendorAction(formData);
-  }
-
-  const [state, formAction, isPending] = useActionState(handleSubmit, null);
-
-  useEffect(() => {
-    if (state && state.success) {
-      onClose();
-    }
-  }, [state, onClose]);
-
-  const tradeOptions = VENDOR_TRADES.map((t) => ({
-    value: t,
-    label: formatEnum(t),
-  }));
+  const errors = state?.error;
 
   return (
-    <Modal
-      open
-      onClose={onClose}
-      title={isEdit ? "Edit Vendor" : "Add Vendor"}
-    >
-      <form action={formAction} className="space-y-4">
-        <Input
-          label="Name"
+    <form action={formAction} className="space-y-4">
+      {/* Name */}
+      <div>
+        <label
+          htmlFor="vendor-name"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Vendor Name
+        </label>
+        <input
+          id="vendor-name"
           name="name"
+          type="text"
           required
-          defaultValue={vendor?.name ?? ""}
-          error={state?.error?.name?.[0]}
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+          placeholder="e.g. Swift Plumbing Inc."
         />
+        {errors?.name && (
+          <p className="text-xs text-[#ba1a1a] mt-1">{errors.name[0]}</p>
+        )}
+      </div>
 
-        <Select
-          label="Trade"
+      {/* Trade */}
+      <div>
+        <label
+          htmlFor="vendor-trade"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Trade
+        </label>
+        <select
+          id="vendor-trade"
           name="trade"
-          options={tradeOptions}
-          placeholder="Select a trade"
-          defaultValue={vendor?.trade ?? ""}
-          error={state?.error?.trade?.[0]}
-        />
+          required
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+        >
+          <option value="">Select trade...</option>
+          {VENDOR_TRADES.map((trade) => (
+            <option key={trade} value={trade}>
+              {formatEnum(trade)}
+            </option>
+          ))}
+        </select>
+        {errors?.trade && (
+          <p className="text-xs text-[#ba1a1a] mt-1">{errors.trade[0]}</p>
+        )}
+      </div>
 
-        <Input
-          label="Email"
+      {/* Email */}
+      <div>
+        <label
+          htmlFor="vendor-email"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Email
+        </label>
+        <input
+          id="vendor-email"
           name="email"
           type="email"
-          defaultValue={vendor?.email ?? ""}
-          error={state?.error?.email?.[0]}
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+          placeholder="e.g. contact@vendor.com"
         />
+        {errors?.email && (
+          <p className="text-xs text-[#ba1a1a] mt-1">{errors.email[0]}</p>
+        )}
+      </div>
 
-        <Input
-          label="Phone"
+      {/* Phone */}
+      <div>
+        <label
+          htmlFor="vendor-phone"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Phone
+        </label>
+        <input
+          id="vendor-phone"
           name="phone"
           type="tel"
-          defaultValue={vendor?.phone ?? ""}
-          error={state?.error?.phone?.[0]}
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+          placeholder="e.g. +1 (555) 012-9844"
         />
+      </div>
 
-        <Textarea
-          label="Rate Notes"
+      {/* Rate Notes */}
+      <div>
+        <label
+          htmlFor="vendor-rate"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Rate Notes
+        </label>
+        <input
+          id="vendor-rate"
           name="rateNotes"
-          defaultValue={vendor?.rateNotes ?? ""}
-          error={state?.error?.rateNotes?.[0]}
+          type="text"
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+          placeholder="e.g. $85/hr standard commercial"
         />
+      </div>
 
-        <Textarea
-          label="Availability Notes"
+      {/* Availability Notes */}
+      <div>
+        <label
+          htmlFor="vendor-availability"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Availability Notes
+        </label>
+        <input
+          id="vendor-availability"
           name="availabilityNotes"
-          defaultValue={vendor?.availabilityNotes ?? ""}
-          error={state?.error?.availabilityNotes?.[0]}
+          type="text"
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
+          placeholder="e.g. Mon-Fri 8am-6pm"
         />
+      </div>
 
-        <Input
-          label="Preference Score"
+      {/* Preference Score */}
+      <div>
+        <label
+          htmlFor="vendor-preference"
+          className="block text-xs font-bold text-[#3e494a] uppercase tracking-widest mb-1"
+        >
+          Preference Score (0-1)
+        </label>
+        <input
+          id="vendor-preference"
           name="preferenceScore"
           type="number"
-          step="0.1"
           min="0"
           max="1"
-          defaultValue={vendor?.preferenceScore?.toString() ?? "0.5"}
-          error={state?.error?.preferenceScore?.[0]}
+          step="0.1"
+          defaultValue="0.5"
+          className="w-full bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-lg px-4 py-2.5 text-sm text-[#0d1c2e] focus:ring-2 focus:ring-[#006872] transition-all"
         />
+        {errors?.preferenceScore && (
+          <p className="text-xs text-[#ba1a1a] mt-1">
+            {errors.preferenceScore[0]}
+          </p>
+        )}
+      </div>
 
-        <div className="flex items-center justify-end gap-3 pt-2">
-          <Button variant="ghost" type="button" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" loading={isPending}>
-            {isEdit ? "Save Changes" : "Add Vendor"}
-          </Button>
-        </div>
-      </form>
-    </Modal>
+      {/* Submit */}
+      <div className="flex justify-end gap-3 pt-2">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="bg-[#00838f] text-white px-6 py-3 rounded-lg font-bold shadow-lg shadow-[#00838f]/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+        >
+          {isPending ? "Saving..." : "Save Vendor"}
+        </button>
+      </div>
+    </form>
   );
 }

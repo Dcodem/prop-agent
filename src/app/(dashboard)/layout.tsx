@@ -3,27 +3,16 @@ import { redirect } from "next/navigation";
 import { SidebarNav } from "@/components/sidebar-nav";
 import { TopBar } from "@/components/top-bar";
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { redirect("/login"); }
+  if (!user) redirect("/login");
 
   return (
     <>
-      {/* Side Navigation Bar */}
-      <aside className="flex flex-col fixed left-0 top-0 h-full py-6 h-screen w-64 bg-slate-50 border-r-0 text-sm font-medium z-30">
-        <SidebarNav />
-      </aside>
-      {/* Top Navigation Bar */}
+      <SidebarNav />
       <TopBar />
-      {/* Main Content Canvas */}
-      <main className="ml-64 pt-16 min-h-screen">
-        {children}
-      </main>
+      <main className="ml-64 pt-16 min-h-screen">{children}</main>
     </>
   );
 }

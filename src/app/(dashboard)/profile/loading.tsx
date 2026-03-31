@@ -1,62 +1,83 @@
 export default function ProfileLoading() {
   return (
-    <div className="p-8 max-w-5xl mx-auto space-y-8 animate-pulse">
-      {/* Profile Header Skeleton */}
-      <div className="flex items-center gap-8">
-        <div className="w-32 h-32 rounded-xl bg-[#e6e8ea]"></div>
-        <div className="flex-1 space-y-3">
-          <div className="h-10 w-64 bg-[#e6e8ea] rounded-lg"></div>
-          <div className="h-5 w-48 bg-[#e6e8ea] rounded-lg"></div>
-          <div className="h-3 w-32 bg-[#e6e8ea] rounded-lg"></div>
-        </div>
-        <div className="h-10 w-36 bg-[#e6e8ea] rounded-lg"></div>
-      </div>
-
-      {/* PropAgent Overview Skeleton */}
-      <div className="bg-white rounded-xl p-8 border-l-4 border-[#e6e8ea]">
-        <div className="h-6 w-28 bg-[#e6e8ea] rounded-full mb-4"></div>
-        <div className="h-7 w-48 bg-[#e6e8ea] rounded-lg mb-2"></div>
-        <div className="h-4 w-80 bg-[#e6e8ea] rounded-lg mb-6"></div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-[#f7f9fb] p-5 rounded-lg h-24"></div>
-          <div className="bg-[#f7f9fb] p-5 rounded-lg h-24"></div>
-          <div className="bg-[#f7f9fb] p-5 rounded-lg h-24"></div>
-        </div>
-      </div>
-
-      {/* Performance Metrics Skeleton */}
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-[#f2f4f6] p-8 rounded-xl h-48"></div>
-        <div className="bg-[#f2f4f6] p-8 rounded-xl h-48"></div>
-        <div className="bg-[#f2f4f6] p-8 rounded-xl h-48"></div>
-      </div>
-
-      {/* Account Details Skeleton */}
-      <div className="bg-white rounded-xl p-8">
-        <div className="h-7 w-40 bg-[#e6e8ea] rounded-lg mb-6"></div>
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className="space-y-2">
-            <div className="h-3 w-24 bg-[#e6e8ea] rounded"></div>
-            <div className="bg-[#e6e8ea] p-4 rounded-lg h-12"></div>
+    <div className="min-h-screen pb-20">
+      <div className="max-w-7xl mx-auto p-8 lg:p-12">
+        {/* Profile Header skeleton */}
+        <section className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16">
+          <div className="flex items-start gap-8">
+            <div className="w-32 h-32 rounded-xl bg-slate-200 animate-pulse border-4 border-white shadow-2xl"></div>
+            <div className="pt-2 space-y-3">
+              <div className="h-3 w-24 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-10 w-56 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-4 w-40 bg-slate-100 rounded animate-pulse"></div>
+            </div>
           </div>
-          <div className="space-y-2">
-            <div className="h-3 w-24 bg-[#e6e8ea] rounded"></div>
-            <div className="bg-[#e6e8ea] p-4 rounded-lg h-12"></div>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className="h-12 w-full bg-[#f7f9fb] rounded-lg"></div>
-          <div className="h-12 w-full bg-[#f7f9fb] rounded-lg"></div>
-          <div className="h-12 w-full bg-[#f7f9fb] rounded-lg"></div>
-        </div>
-      </div>
+          <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
+        </section>
 
-      {/* Security Skeleton */}
-      <div className="bg-white rounded-xl p-8 border-t-4 border-[#e6e8ea]">
-        <div className="h-7 w-40 bg-[#e6e8ea] rounded-lg mb-6"></div>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-[#f7f9fb] p-6 rounded-lg h-36"></div>
-          <div className="bg-[#f7f9fb] p-6 rounded-lg h-36"></div>
+        <div className="space-y-12">
+          {/* PropAgent Overview skeleton */}
+          <div className="bg-white rounded-xl p-8 border-l-4 border-slate-200">
+            <div className="flex justify-between items-start mb-10">
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-28 bg-slate-100 rounded-full animate-pulse"></div>
+                  <div className="h-7 w-48 bg-slate-200 rounded animate-pulse"></div>
+                </div>
+                <div className="h-4 w-80 bg-slate-100 rounded animate-pulse"></div>
+              </div>
+              <div className="h-5 w-24 bg-slate-100 rounded animate-pulse"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-slate-50 p-5 rounded-lg border-l-2 border-slate-200">
+                  <div className="h-3 w-16 bg-slate-200 rounded animate-pulse mb-3"></div>
+                  <div className="h-7 w-28 bg-slate-200 rounded animate-pulse"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Performance Metrics skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-slate-100 p-8 rounded-xl h-48 flex flex-col justify-between">
+                <div className="w-8 h-8 bg-slate-200 rounded animate-pulse"></div>
+                <div className="space-y-2">
+                  <div className="h-10 w-24 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-3 w-28 bg-slate-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Account Details skeleton */}
+          <div className="bg-white rounded-xl p-8">
+            <div className="h-6 w-36 bg-slate-200 rounded animate-pulse mb-8"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+              {[1, 2].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="h-3 w-24 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-12 w-full bg-slate-100 rounded-lg animate-pulse"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Security skeleton */}
+          <div className="bg-white rounded-xl p-8 border-t-4 border-slate-200">
+            <div className="h-6 w-36 bg-slate-200 rounded animate-pulse mb-8"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[1, 2].map((i) => (
+                <div key={i} className="h-24 bg-slate-50 rounded-xl animate-pulse"></div>
+              ))}
+            </div>
+          </div>
+
+          {/* Danger Zone skeleton */}
+          <div className="max-w-3xl mx-auto pt-8">
+            <div className="h-64 bg-slate-50 rounded-xl animate-pulse"></div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,37 +1,74 @@
+"use client";
+
 import Link from "next/link";
-import { timeAgo, formatEnum } from "@/lib/utils";
-import type { Case } from "@/lib/db/schema";
-
-interface CaseKanbanProps {
-  cases: Case[];
-}
-
-const COLUMNS = [
-  { key: "open", label: "New Cases", dot: "bg-[#006872]", statuses: ["open"] },
-  { key: "dispatched", label: "Vendor Dispatched", dot: "bg-cyan-600", statuses: ["waiting_on_vendor"] },
-  { key: "progress", label: "In Progress", dot: "bg-amber-400", statuses: ["in_progress", "waiting_on_tenant"] },
-  { key: "resolved", label: "Resolved", dot: "bg-emerald-500", statuses: ["resolved", "closed"] },
-];
-
-const URGENCY_BORDER: Record<string, string> = {
-  critical: "border-l-red-500",
-  high: "border-l-orange-500",
-  medium: "border-l-amber-500",
-  low: "border-l-blue-500",
-};
+import { formatEnum, timeAgo } from "@/lib/utils";
+import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 const URGENCY_DOT: Record<string, string> = {
   critical: "bg-red-500",
-  high: "bg-orange-500",
+  high: "bg-red-500",
   medium: "bg-amber-500",
   low: "bg-blue-500",
 };
 
-export function CaseKanban({ cases }: CaseKanbanProps) {
+const URGENCY_BORDER: Record<string, string> = {
+  critical: "border-red-500",
+  high: "border-red-500",
+  medium: "border-amber-500",
+  low: "border-blue-500",
+};
+
+/** Map case status to a kanban column key */
+function statusToColumn(status: string): string {
+  switch (status) {
+    case "open":
+      return "new";
+    case "waiting_on_vendor":
+    case "in_progress":
+      return status;
+    case "waiting_on_tenant":
+      return "in_progress";
+    case "resolved":
+    case "closed":
+      return "resolved";
+    default:
+      return "new";
+  }
+}
+
+const COLUMNS = [
+  { key: "new", label: "New Cases", dot: "bg-blue-600" },
+  { key: "waiting_on_vendor", label: "Vendor Dispatched", dot: "bg-cyan-600" },
+  { key: "in_progress", label: "In Progress", dot: "bg-amber-400" },
+  { key: "resolved", label: "Resolved", dot: "bg-emerald-500" },
+] as const;
+
+interface CaseKanbanProps {
+  cases: Case[];
+  properties: Property[];
+  tenants: Tenant[];
+}
+
+export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
+  const propertyMap = new Map(properties.map((p) => [p.id, p]));
+  const tenantMap = new Map(tenants.map((t) => [t.id, t]));
+
+  // Group cases into columns
+  const columns: Record<string, Case[]> = {
+    new: [],
+    waiting_on_vendor: [],
+    in_progress: [],
+    resolved: [],
+  };
+  for (const c of cases) {
+    const col = statusToColumn(c.status);
+    columns[col]?.push(c);
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
       {COLUMNS.map((col) => {
-        const colCases = cases.filter((c) => col.statuses.includes(c.status));
+        const colCases = columns[col.key] ?? [];
         const isResolved = col.key === "resolved";
 
         return (
@@ -42,36 +79,75 @@ export function CaseKanban({ cases }: CaseKanbanProps) {
                 <span className={`w-2 h-2 rounded-full ${col.dot}`}></span>
                 <h3 className="font-bold text-sm tracking-tight text-slate-500 uppercase">{col.label}</h3>
               </div>
-              <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{colCases.length}</span>
+              <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                {colCases.length}
+              </span>
             </div>
 
             {/* Cards */}
             {colCases.map((c) => {
-              const urgencyBorder = URGENCY_BORDER[c.urgency ?? "low"] ?? "border-l-slate-300";
-              const urgencyDot = URGENCY_DOT[c.urgency ?? "low"] ?? "bg-slate-400";
-              const confidence = c.confidenceScore != null ? Math.round(c.confidenceScore * 100) : null;
+              const property = c.propertyId ? propertyMap.get(c.propertyId) : null;
+              const tenant = c.tenantId ? tenantMap.get(c.tenantId) : null;
 
               return (
-                <Link key={c.id} href={`/cases/${c.id}`}>
-                  <div className={`bg-white p-5 rounded-xl border-l-[3px] ${urgencyBorder} flex flex-col gap-4 transition-all hover:translate-y-[-2px] ${isResolved ? "opacity-70 grayscale-[0.3]" : ""}`}>
+                <Link key={c.id} href={`/cases/${c.id}`} className="block">
+                  <div
+                    className={`bg-white p-5 rounded-xl border-l-[3px] ${
+                      isResolved
+                        ? "border-slate-300 opacity-70"
+                        : URGENCY_BORDER[c.urgency ?? "low"]
+                    } flex flex-col gap-4 transition-all hover:translate-y-[-2px]`}
+                  >
+                    {/* Top row: priority dot + confidence */}
                     <div className="flex justify-between items-start">
-                      <div className={`w-3 h-3 rounded-full ${urgencyDot}`} title={c.urgency ? formatEnum(c.urgency) : ""}></div>
-                      {confidence != null && (
-                        <span className="text-[10px] font-bold bg-[#c5e9ee] text-[#2a4c50] px-2 py-0.5 rounded-full">{confidence}% Confidence</span>
+                      {isResolved ? (
+                        <>
+                          <div className={`w-3 h-3 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`}></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                          </svg>
+                        </>
+                      ) : (
+                        <>
+                          <div className={`w-3 h-3 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`} title={`${formatEnum(c.urgency ?? "low")} Priority`}></div>
+                          {c.confidenceScore != null && (
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                              (c.urgency === "critical" || c.urgency === "high")
+                                ? "bg-red-50 text-red-700"
+                                : "bg-slate-100 text-slate-600"
+                            }`}>
+                              {Math.round(c.confidenceScore * 100)}% Confidence
+                            </span>
+                          )}
+                        </>
                       )}
                     </div>
+
+                    {/* Title & location */}
                     <div>
                       <h4 className="font-bold text-slate-900 leading-snug mb-1 line-clamp-2">{c.rawMessage}</h4>
-                      {c.category && (
-                        <p className="text-xs text-slate-500 font-medium">{formatEnum(c.category)}</p>
-                      )}
+                      <p className="text-xs text-slate-500 font-medium">
+                        {tenant?.unitNumber ? `Unit ${tenant.unitNumber}` : ""}
+                        {tenant?.unitNumber && property ? " \u2022 " : ""}
+                        {property?.address ?? ""}
+                      </p>
                     </div>
+
+                    {/* Footer */}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-50">
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                        <span className="material-symbols-outlined text-sm">{c.source === "email" ? "mail" : "sms"}</span>
-                        <span>{c.source === "email" ? "Email" : "SMS"}</span>
-                      </div>
-                      <span className="text-[10px] text-slate-400 font-medium italic">{timeAgo(c.createdAt)}</span>
+                      {tenant ? (
+                        <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600 border-2 border-white">
+                          {tenant.name.charAt(0).toUpperCase()}
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+                      <span className="text-[10px] text-slate-400 font-medium italic">
+                        {isResolved && c.resolvedAt
+                          ? `Closed ${timeAgo(c.resolvedAt)}`
+                          : timeAgo(c.createdAt)}
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -79,8 +155,8 @@ export function CaseKanban({ cases }: CaseKanbanProps) {
             })}
 
             {colCases.length === 0 && (
-              <div className="bg-slate-50 p-5 rounded-xl border-2 border-dashed border-slate-200 text-center">
-                <p className="text-xs text-slate-400 font-medium">No cases</p>
+              <div className="bg-white/50 p-5 rounded-xl border border-dashed border-slate-200 text-center">
+                <p className="text-xs text-slate-400">No cases</p>
               </div>
             )}
           </div>

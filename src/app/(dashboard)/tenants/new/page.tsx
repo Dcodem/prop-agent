@@ -4,12 +4,11 @@ import { TenantAddForm } from "@/components/tenants/tenant-add-form";
 
 export default async function AddTenantPage() {
   const orgId = await getOrgId();
-  const allProperties = await listProperties(orgId);
+  const properties = await listProperties(orgId);
 
-  const properties = allProperties.map((p) => ({
-    id: p.id,
-    address: p.address,
-  }));
-
-  return <TenantAddForm properties={properties} />;
+  return (
+    <TenantAddForm
+      properties={properties.map((p) => ({ id: p.id, address: p.address }))}
+    />
+  );
 }

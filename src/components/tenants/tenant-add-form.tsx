@@ -5,225 +5,188 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createTenantAction } from "@/app/(dashboard)/tenants/actions";
 
-interface TenantAddFormProps {
-  properties: { id: string; address: string }[];
-}
+type Property = { id: string; address: string };
+type FormState = { success?: boolean; error?: Record<string, string[]> | null };
 
-export function TenantAddForm({ properties }: TenantAddFormProps) {
+export function TenantAddForm({ properties }: { properties: Property[] }) {
   const router = useRouter();
-
-  async function handleSubmit(
-    _prev: { error?: Record<string, string[]>; success?: boolean } | null,
-    formData: FormData,
-  ): Promise<{ error?: Record<string, string[]>; success?: boolean }> {
-    return await createTenantAction(formData);
-  }
-
-  const [state, formAction, isPending] = useActionState(handleSubmit, null);
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: FormState, formData: FormData): Promise<FormState> => {
+      const result = await createTenantAction(formData);
+      if ("success" in result && result.success) {
+        return { success: true };
+      }
+      return result as FormState;
+    },
+    { error: null }
+  );
 
   useEffect(() => {
-    if (state && state.success) {
+    if (state?.success) {
       router.push("/tenants");
     }
-  }, [state, router]);
+  }, [state?.success, router]);
+
+  const errors = state?.error;
 
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-12">
-        <div className="flex items-center gap-2 text-[#006872] font-semibold text-xs uppercase tracking-widest mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-          <span>Tenants</span>
-          <span className="material-symbols-outlined text-xs">chevron_right</span>
-          <span>Registration</span>
+    <div className="flex-1 overflow-y-auto p-8 lg:p-12">
+      <div className="max-w-5xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 text-[#006872] font-semibold text-xs uppercase tracking-widest mb-2 font-['Plus_Jakarta_Sans']">
+            <span>Tenants</span>
+            <span className="material-symbols-outlined text-xs">chevron_right</span>
+            <span>Registration</span>
+          </div>
+          <h1 className="text-4xl font-extrabold text-[#191c1e] font-['Plus_Jakarta_Sans'] tracking-tight mb-4">Add New Tenant</h1>
+          <p className="text-[#3e494a] max-w-2xl leading-relaxed">Register a new tenant into the PropAgent ecosystem. Assign them to a property and unit for streamlined communication and case management.</p>
         </div>
-        <h1 className="text-4xl font-extrabold text-[#191c1e] tracking-tight mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Add New Tenant</h1>
-        <p className="text-[#3e494a] max-w-2xl leading-relaxed">Register a new resident into the PropAgent management system.</p>
+        {/* Form Canvas */}
+        <form action={formAction} className="space-y-12">
+          {/* Primary Upload Action Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="lg:sticky lg:top-24">
+              <h2 className="text-xl font-bold text-[#191c1e] font-['Plus_Jakarta_Sans'] mb-1">Quick Registration</h2>
+              <p className="text-sm text-[#3e494a]">Fast-track onboarding by uploading existing lease documentation.</p>
+            </div>
+            <div className="lg:col-span-2">
+              <div className="border-2 border-dashed border-[#006872]/30 rounded-xl p-10 text-center bg-[#006872]/5 hover:bg-[#006872]/10 transition-colors cursor-pointer group">
+                <span className="material-symbols-outlined text-5xl text-[#006872] mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
+                <h3 className="text-lg font-bold text-[#191c1e] mb-2">Create Tenant by Uploading Lease or Document</h3>
+                <p className="text-sm text-[#3e494a] mb-6">Our AI will automatically extract tenant details, lease dates, and contact information for you.</p>
+                <button className="bg-[#006872] text-white px-8 py-2.5 rounded-lg font-bold text-sm shadow-lg shadow-[#006872]/20 hover:shadow-xl transition-all" type="button">Browse Local Files</button>
+                <p className="text-[10px] text-slate-400 mt-4 uppercase tracking-widest font-semibold">Supported: PDF, JPG, PNG (Max 20MB)</p>
+              </div>
+            </div>
+          </div>
+          {/* Section 1: Personal Information */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start pt-8 border-t border-slate-100 dark:border-slate-800">
+            <div className="lg:sticky lg:top-24">
+              <h2 className="text-xl font-bold text-[#191c1e] font-['Plus_Jakarta_Sans'] mb-1">Personal Information</h2>
+              <p className="text-sm text-[#3e494a]">Core identification and contact details for the tenant.</p>
+            </div>
+            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Tenant Name</label>
+                  <input name="name" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" placeholder="e.g. John Smith" type="text" />
+                  {errors?.name && <p className="text-xs text-[#ba1a1a] mt-1">{errors.name[0]}</p>}
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Phone Number</label>
+                  <input name="phone" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" placeholder="+1 (555) 000-0000" type="tel" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Email Address</label>
+                  <input name="email" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" placeholder="tenant@email.com" type="email" />
+                  {errors?.email && <p className="text-xs text-[#ba1a1a] mt-1">{errors.email[0]}</p>}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Section 2: Property Assignment */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div>
+              <h2 className="text-xl font-bold text-[#191c1e] font-['Plus_Jakarta_Sans'] mb-1">Property Assignment</h2>
+              <p className="text-sm text-[#3e494a]">Assign the tenant to a property and specific unit.</p>
+            </div>
+            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Property</label>
+                  <select name="propertyId" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all">
+                    <option value="">Select Property</option>
+                    {properties.map((p) => (
+                      <option key={p.id} value={p.id}>{p.address}</option>
+                    ))}
+                  </select>
+                  {errors?.propertyId && <p className="text-xs text-[#ba1a1a] mt-1">{errors.propertyId[0]}</p>}
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Unit Number</label>
+                  <input name="unitNumber" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" placeholder="e.g. 12B" type="text" />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Section 3: Lease Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div>
+              <h2 className="text-xl font-bold text-[#191c1e] font-['Plus_Jakarta_Sans'] mb-1">Lease Details</h2>
+              <p className="text-sm text-[#3e494a]">Lease term and rental agreement dates.</p>
+            </div>
+            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Lease Start Date</label>
+                  <input name="leaseStart" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" type="date" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">Lease End Date</label>
+                  <input name="leaseEnd" className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all" type="date" />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Section 4: Compliance & Documents */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div>
+              <h2 className="text-xl font-bold text-[#191c1e] font-['Plus_Jakarta_Sans'] mb-1">Compliance &amp; Documents</h2>
+              <p className="text-sm text-[#3e494a]">Legal validation and documentation records.</p>
+            </div>
+            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#f2f4f6] rounded-lg">
+                  <div className="col-span-2 flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold uppercase text-[#006872]">Lease Agreement</span>
+                    <span className="material-symbols-outlined text-green-600">verified_user</span>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-[#3e494a] mb-1">Document Reference</label>
+                    <input className="w-full bg-white border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-2 text-sm" placeholder="LS-0012345" type="text" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-[#3e494a] mb-1">Upload Date</label>
+                    <input className="w-full bg-white border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#f2f4f6] rounded-lg">
+                  <div className="col-span-2 flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold uppercase text-[#006872]">Renter&apos;s Insurance</span>
+                    <span className="material-symbols-outlined text-slate-400">upload_file</span>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-[#3e494a] mb-1">Policy Number</label>
+                    <input className="w-full bg-white border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-2 text-sm" placeholder="RI-998877" type="text" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-[#3e494a] mb-1">Expiration Date</label>
+                    <input className="w-full bg-white border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Error Banner */}
+          {errors && (
+            <div className="bg-[#ffdad6] text-[#93000a] rounded-lg px-4 py-3 text-sm font-medium">
+              Please fix the errors above and try again.
+            </div>
+          )}
+
+          {/* Form Actions */}
+          <div className="flex items-center justify-end gap-4 pt-8 mt-12 border-t border-slate-200 dark:border-slate-800">
+            <Link href="/tenants" className="px-8 py-3 bg-[#e6e8ea] text-[#191c1e] font-semibold rounded-lg hover:bg-[#e0e3e5] transition-colors active:scale-95">
+              Cancel
+            </Link>
+            <button disabled={isPending} className="px-10 py-3 bg-gradient-to-br from-[#006872] to-[#00838f] text-white font-bold rounded-lg shadow-xl shadow-cyan-900/10 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none" type="submit">
+              {isPending ? "Saving..." : "Save Tenant"}
+            </button>
+          </div>
+        </form>
       </div>
-
-      <form action={formAction}>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Tenant Information */}
-          <div className="bg-white rounded-2xl border border-[#e6e8ea] p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#006872] bg-opacity-10 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#006872] text-xl">person</span>
-              </div>
-              <h2 className="text-lg font-bold text-[#191c1e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Tenant Information</h2>
-            </div>
-            <div className="space-y-6">
-              <div className="col-span-2">
-                <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                  placeholder="Enter tenant's full name"
-                />
-                {state?.error?.name && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.name[0]}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                  placeholder="tenant@email.com"
-                />
-                {state?.error?.email && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.email[0]}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Phone Number
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                  placeholder="(555) 123-4567"
-                />
-                {state?.error?.phone && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.phone[0]}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Property Assignment */}
-          <div className="bg-white rounded-2xl border border-[#e6e8ea] p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#006872] bg-opacity-10 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#006872] text-xl">apartment</span>
-              </div>
-              <h2 className="text-lg font-bold text-[#191c1e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Property Assignment</h2>
-            </div>
-            <div className="space-y-6">
-              <div>
-                <label htmlFor="propertyId" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Property <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="propertyId"
-                  name="propertyId"
-                  required
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Select a property</option>
-                  {properties.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.address}
-                    </option>
-                  ))}
-                </select>
-                {state?.error?.propertyId && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.propertyId[0]}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="unitNumber" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Unit Number
-                </label>
-                <input
-                  id="unitNumber"
-                  name="unitNumber"
-                  type="text"
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                  placeholder="e.g. 4B, Suite 200"
-                />
-                {state?.error?.unitNumber && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.unitNumber[0]}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Lease Details */}
-          <div className="bg-white rounded-2xl border border-[#e6e8ea] p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#006872] bg-opacity-10 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#006872] text-xl">description</span>
-              </div>
-              <h2 className="text-lg font-bold text-[#191c1e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Lease Details</h2>
-            </div>
-            <div className="space-y-6">
-              <div>
-                <label htmlFor="leaseStart" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Lease Start
-                </label>
-                <input
-                  id="leaseStart"
-                  name="leaseStart"
-                  type="date"
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                />
-                {state?.error?.leaseStart && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.leaseStart[0]}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="leaseEnd" className="block text-xs font-bold uppercase tracking-wider text-[#3e494a] mb-2">
-                  Lease End
-                </label>
-                <input
-                  id="leaseEnd"
-                  name="leaseEnd"
-                  type="date"
-                  className="w-full bg-[#f2f4f6] border-0 border-l-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-lg p-3 text-[#191c1e] transition-all"
-                />
-                {state?.error?.leaseEnd && (
-                  <p className="mt-1 text-xs text-red-600">{state.error.leaseEnd[0]}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Form Actions */}
-        <div className="flex items-center justify-end gap-4 mt-10 pt-8 border-t border-[#e6e8ea]">
-          <Link
-            href="/tenants"
-            className="px-6 py-3 rounded-xl text-[#3e494a] font-semibold hover:bg-[#f2f4f6] transition-all"
-          >
-            Cancel
-          </Link>
-          <button
-            type="submit"
-            disabled={isPending}
-            className="px-8 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
-            style={{
-              background: "linear-gradient(135deg, #006872 0%, #00838f 100%)",
-            }}
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-lg animate-spin">progress_activity</span>
-                Saving...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-lg">person_add</span>
-                Register Tenant
-              </span>
-            )}
-          </button>
-        </div>
-      </form>
     </div>
   );
 }

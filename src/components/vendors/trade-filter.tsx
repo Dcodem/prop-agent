@@ -1,43 +1,53 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown } from "lucide-react";
 import { VENDOR_TRADES } from "@/lib/constants";
 import { formatEnum } from "@/lib/utils";
 
 interface TradeFilterProps {
-  currentTrade?: string;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-export function TradeFilter({ currentTrade }: TradeFilterProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (e.target.value) {
-      params.set("trade", e.target.value);
-    } else {
-      params.delete("trade");
-    }
-    router.push(`/vendors?${params.toString()}`);
-  }
-
+export function TradeFilter({ value, onChange }: TradeFilterProps) {
   return (
     <div className="relative">
-      <select
-        className="appearance-none bg-white border border-black/10 rounded-lg px-4 py-2 pr-10 text-[14px] font-medium text-slate-600 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer hover:bg-slate-50 transition-colors"
-        value={currentTrade ?? ""}
-        onChange={handleChange}
+      <button
+        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#426469] hover:bg-[#e6eeff] transition-colors rounded-[0.5rem] cursor-pointer"
+        onClick={(e) => {
+          const menu = (e.currentTarget.nextElementSibling as HTMLElement);
+          menu.classList.toggle("hidden");
+        }}
       >
-        <option value="">All Trades</option>
-        {VENDOR_TRADES.map((t) => (
-          <option key={t} value={t}>
-            {formatEnum(t)}
-          </option>
+        <span className="material-symbols-outlined text-lg">filter_list</span>
+        {value === "all" ? "Filter" : formatEnum(value)}
+      </button>
+      <div className="hidden absolute top-full left-0 mt-1 z-20 bg-white rounded-lg shadow-lg border border-[#bdc9ca]/30 py-1 min-w-[200px]">
+        <button
+          className={`w-full text-left px-4 py-2 text-sm hover:bg-[#eff4ff] transition-colors cursor-pointer ${
+            value === "all" ? "font-bold text-[#006872]" : "text-[#0d1c2e]"
+          }`}
+          onClick={(e) => {
+            onChange("all");
+            (e.currentTarget.parentElement as HTMLElement).classList.add("hidden");
+          }}
+        >
+          All Trades
+        </button>
+        {VENDOR_TRADES.map((trade) => (
+          <button
+            key={trade}
+            className={`w-full text-left px-4 py-2 text-sm hover:bg-[#eff4ff] transition-colors cursor-pointer ${
+              value === trade ? "font-bold text-[#006872]" : "text-[#0d1c2e]"
+            }`}
+            onClick={(e) => {
+              onChange(trade);
+              (e.currentTarget.parentElement as HTMLElement).classList.add("hidden");
+            }}
+          >
+            {formatEnum(trade)}
+          </button>
         ))}
-      </select>
-      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-4 h-4" />
+      </div>
     </div>
   );
 }

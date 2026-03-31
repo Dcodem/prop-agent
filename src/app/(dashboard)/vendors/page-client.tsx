@@ -1,41 +1,144 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { Plus } from "lucide-react";
+import { useState } from "react";
+import type { vendors } from "@/lib/db/schema";
+import { VendorTable } from "@/components/vendors/vendor-table";
 import { VendorForm } from "@/components/vendors/vendor-form";
+import { Modal } from "@/components/ui/modal";
 
-interface VendorsPageClientProps {
-  vendors: {
-    id: string;
-    name: string;
-    trade: string;
-    email: string | null;
-    phone: string | null;
-    rateNotes: string | null;
-    availabilityNotes: string | null;
-    preferenceScore: number | null;
-  }[];
-  children: ReactNode;
-}
+type Vendor = typeof vendors.$inferSelect;
 
-export function VendorsPageClient({ children }: VendorsPageClientProps) {
-  const [showForm, setShowForm] = useState(false);
+export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
+  const [showAddModal, setShowAddModal] = useState(false);
 
   return (
-    <>
-      <div className="flex justify-between items-end">
-        {children}
+    <div className="max-w-7xl mx-auto px-8 py-12">
+      {/* Header Section */}
+      <div className="flex justify-between items-end mb-12">
+        <div className="text-left">
+          <div className="inline-block px-3 py-1 rounded-full bg-[#c5e9ee] text-[#486a6f] text-xs font-bold mb-3 tracking-wide uppercase">
+            Partnership Network
+          </div>
+          <h1 className="text-4xl font-extrabold text-[#0d1c2e] tracking-tight mb-2">
+            Vendors Roster
+          </h1>
+          <p className="text-[#3e494a] max-w-lg leading-relaxed">
+            Centralized management for your preferred trade professionals and
+            service providers across all property portfolios.
+          </p>
+        </div>
         <button
-          onClick={() => setShowForm(true)}
-          className="bg-[#00838f] text-white px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-[#00838f]/20 hover:scale-[1.02] active:scale-95 transition-all"
+          onClick={() => setShowAddModal(true)}
+          className="bg-[#00838f] text-white px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-[#00838f]/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
         >
-          <Plus className="w-4 h-4" />
+          <span className="material-symbols-outlined">add_circle</span>
           Add Vendor
         </button>
       </div>
-      {showForm && (
-        <VendorForm onClose={() => setShowForm(false)} />
-      )}
-    </>
+
+      {/* Vendor Table */}
+      <VendorTable vendors={vendors} />
+
+      {/* Metrics Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Card 1 */}
+        <div className="bg-white p-8 rounded-lg border border-[#bdc9ca]/10 flex flex-col justify-between group hover:border-[#00838f]/30 transition-all">
+          <div className="flex justify-between items-start mb-6">
+            <div className="w-12 h-12 rounded-lg bg-cyan-50 flex items-center justify-center text-cyan-600 group-hover:scale-110 transition-transform">
+              <span className="material-symbols-outlined">engineering</span>
+            </div>
+            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-[0.5rem]">
+              +{vendors.length} total
+            </span>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-[#0d1c2e] mb-1">
+              {vendors.length}
+            </div>
+            <div className="text-sm font-bold text-[#3e494a] uppercase tracking-widest">
+              Total Vendors
+            </div>
+          </div>
+        </div>
+        {/* Card 2 */}
+        <div className="bg-white p-8 rounded-lg border border-[#bdc9ca]/10 flex flex-col justify-between group hover:border-[#00838f]/30 transition-all">
+          <div className="flex justify-between items-start mb-6">
+            <div className="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
+              <span className="material-symbols-outlined">verified</span>
+            </div>
+            <span className="text-xs font-bold text-[#3e494a] bg-[#e6eeff] px-2 py-1 rounded-[0.5rem]">
+              Target 98%
+            </span>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-[#0d1c2e] mb-1">
+              {vendors.length > 0
+                ? (
+                    (vendors.filter((v) => (v.preferenceScore ?? 0) >= 0.5)
+                      .length /
+                      vendors.length) *
+                    100
+                  ).toFixed(1)
+                : "0.0"}
+              %
+            </div>
+            <div className="text-sm font-bold text-[#3e494a] uppercase tracking-widest">
+              Compliance Rate
+            </div>
+          </div>
+        </div>
+        {/* Card 3 */}
+        <div className="bg-white p-8 rounded-lg border border-[#bdc9ca]/10 flex flex-col justify-between group hover:border-[#00838f]/30 transition-all">
+          <div className="flex justify-between items-start mb-6">
+            <div className="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+              <span className="material-symbols-outlined">
+                pending_actions
+              </span>
+            </div>
+            <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-[0.5rem]">
+              {new Set(vendors.map((v) => v.trade)).size} Trades
+            </span>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-[#0d1c2e] mb-1">
+              {new Set(vendors.map((v) => v.trade)).size}
+            </div>
+            <div className="text-sm font-bold text-[#3e494a] uppercase tracking-widest">
+              Trade Categories
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Promotion / Action Section */}
+      <div className="mt-12 bg-[#00838f] rounded-lg p-10 flex items-center justify-between overflow-hidden relative">
+        {/* Background decorative element */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-white/10 skew-x-[-15deg] translate-x-20" />
+        <div className="relative z-10 max-w-2xl">
+          <h3 className="text-white text-2xl font-extrabold mb-4">
+            Optimizing your vendor relationships?
+          </h3>
+          <p className="text-cyan-50 text-base opacity-90 leading-relaxed">
+            Unlock advanced analytics, automated insurance tracking, and tiered
+            performance scoring for your entire network with our Premium Vendor
+            Management module.
+          </p>
+        </div>
+        <div className="relative z-10">
+          <button className="bg-white text-[#00838f] px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-cyan-50 transition-colors cursor-pointer">
+            Learn More
+          </button>
+        </div>
+      </div>
+
+      {/* Add Vendor Modal */}
+      <Modal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        title="Add Vendor"
+      >
+        <VendorForm onSuccess={() => setShowAddModal(false)} />
+      </Modal>
+    </div>
   );
 }

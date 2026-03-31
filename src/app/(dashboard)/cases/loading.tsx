@@ -1,38 +1,49 @@
 export default function CasesLoading() {
   return (
-    <div className="animate-pulse">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <div className="h-8 w-32 bg-border rounded-lg" />
-          <div className="h-4 w-64 bg-border rounded mt-2" />
+    <div className="p-8 max-w-7xl mx-auto space-y-6">
+      {/* Page Header skeleton */}
+      <div className="flex flex-col gap-1">
+        <div className="h-8 w-32 bg-slate-200 rounded animate-pulse"></div>
+        <div className="h-4 w-80 bg-slate-100 rounded animate-pulse"></div>
+      </div>
+
+      {/* KPI Cards skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div className="h-3 w-24 bg-slate-100 rounded animate-pulse mb-3"></div>
+            <div className="h-8 w-12 bg-slate-200 rounded animate-pulse"></div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filter bar skeleton */}
+      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-20 bg-slate-100 rounded animate-pulse"></div>
+          <div className="h-8 w-28 bg-slate-100 rounded animate-pulse"></div>
+          <div className="h-8 w-28 bg-slate-100 rounded animate-pulse"></div>
+          <div className="h-8 w-32 bg-slate-100 rounded animate-pulse"></div>
         </div>
       </div>
-      {/* Filters */}
-      <div className="flex gap-3 mb-4">
-        <div className="h-10 w-36 bg-border rounded-lg" />
-        <div className="h-10 w-36 bg-border rounded-lg" />
-        <div className="h-10 w-36 bg-border rounded-lg" />
-      </div>
-      {/* Table */}
-      <div className="bg-white border border-border rounded-xl overflow-hidden">
-        <div className="border-b border-border px-4 py-3 flex gap-4">
-          <div className="h-4 w-16 bg-border rounded" />
-          <div className="h-4 w-48 bg-border rounded" />
-          <div className="h-4 w-24 bg-border rounded" />
-          <div className="h-4 w-20 bg-border rounded" />
-          <div className="h-4 w-20 bg-border rounded" />
+
+      {/* Table skeleton */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-slate-50 border-b border-slate-200 px-6 py-4">
+          <div className="flex gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="h-3 w-16 bg-slate-200 rounded animate-pulse"></div>
+            ))}
+          </div>
         </div>
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className="border-b border-border px-4 py-4 flex gap-4 items-center"
-          >
-            <div className="h-5 w-14 bg-border rounded-full" />
-            <div className="h-4 w-56 bg-border rounded" />
-            <div className="h-4 w-28 bg-border rounded" />
-            <div className="h-5 w-20 bg-border rounded-full" />
-            <div className="h-4 w-16 bg-border rounded" />
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="px-6 py-4 border-b border-slate-100 flex gap-8 items-center">
+            <div className="h-4 w-16 bg-slate-100 rounded animate-pulse"></div>
+            <div className="h-4 w-48 bg-slate-100 rounded animate-pulse"></div>
+            <div className="h-5 w-20 bg-slate-100 rounded-full animate-pulse"></div>
+            <div className="h-4 w-12 bg-slate-100 rounded animate-pulse"></div>
+            <div className="h-4 w-24 bg-slate-100 rounded animate-pulse"></div>
+            <div className="h-3 w-10 bg-slate-100 rounded animate-pulse"></div>
           </div>
         ))}
       </div>

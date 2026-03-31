@@ -1,28 +1,60 @@
 export default function PropertiesLoading() {
   return (
-    <div className="animate-pulse">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <div className="h-8 w-40 bg-border rounded-lg" />
-          <div className="h-4 w-72 bg-border rounded mt-2" />
+    <div className="pt-8 pb-12 px-12 min-h-screen">
+      {/* Header skeleton */}
+      <header className="mb-12 flex justify-between items-end">
+        <div className="max-w-2xl">
+          <div className="h-10 w-72 bg-slate-200 rounded animate-pulse mb-2" />
+          <div className="h-5 w-96 bg-slate-100 rounded animate-pulse" />
         </div>
-        <div className="h-10 w-36 bg-border rounded-lg" />
-      </div>
-      {/* Card Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, i) => (
+      </header>
+
+      {/* Metrics skeleton */}
+      <section className="grid grid-cols-1 gap-6 mb-16 md:grid-cols-3">
+        {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white border border-border rounded-xl p-5"
+            className="bg-white border border-slate-100 flex flex-col items-start gap-4 rounded-[3rem] p-10"
           >
-            <div className="h-5 w-40 bg-border rounded-lg mb-3" />
-            <div className="h-4 w-32 bg-border rounded mb-2" />
-            <div className="h-4 w-24 bg-border rounded mb-4" />
-            <div className="h-6 w-16 bg-border rounded-full" />
+            <div className="w-12 h-12 rounded-full bg-slate-100 animate-pulse" />
+            <div>
+              <div className="h-3 w-24 bg-slate-100 rounded animate-pulse mb-3" />
+              <div className="h-8 w-12 bg-slate-200 rounded animate-pulse" />
+            </div>
           </div>
         ))}
-      </div>
+      </section>
+
+      {/* Section title skeleton */}
+      <div className="h-7 w-48 bg-slate-200 rounded animate-pulse mb-8" />
+
+      {/* Property cards skeleton */}
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {[1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="bg-white rounded-[2rem] overflow-hidden border border-slate-100"
+          >
+            <div className="h-64 bg-slate-100 animate-pulse" />
+            <div className="p-8 space-y-4">
+              <div>
+                <div className="h-6 w-48 bg-slate-200 rounded animate-pulse" />
+                <div className="h-4 w-32 bg-slate-100 rounded animate-pulse mt-2" />
+              </div>
+              <div className="flex justify-between items-end pt-2">
+                <div className="space-y-1">
+                  <div className="h-2 w-16 bg-slate-100 rounded animate-pulse" />
+                  <div className="h-5 w-20 bg-slate-200 rounded animate-pulse" />
+                </div>
+                <div className="text-right space-y-1">
+                  <div className="h-2 w-16 bg-slate-100 rounded animate-pulse" />
+                  <div className="h-5 w-12 bg-slate-200 rounded animate-pulse" />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }

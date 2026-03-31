@@ -1,100 +1,86 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useActionState, useState } from "react";
 import { updateConfidenceThresholdsAction } from "@/app/(dashboard)/settings/actions";
 
-interface ConfidenceThresholdsFormProps {
-  currentHigh: number;
-  currentMedium: number;
-}
+type ActionState = { success: boolean; error?: string } | null;
 
 export function ConfidenceThresholdsForm({
-  currentHigh,
-  currentMedium,
-}: ConfidenceThresholdsFormProps) {
-  const [high, setHigh] = useState(currentHigh);
-  const [medium, setMedium] = useState(currentMedium);
+  defaults,
+}: {
+  defaults: { high: number; medium: number };
+}) {
+  const [high, setHigh] = useState(defaults.high);
+  const [medium, setMedium] = useState(defaults.medium);
 
-  const [state, formAction, isPending] = useActionState(
-    async (_prev: { success?: boolean; error?: string } | null, formData: FormData) => {
-      const result = await updateConfidenceThresholdsAction(formData);
-      return result;
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(
+    async (_prev, formData) => {
+      return await updateConfidenceThresholdsAction(formData);
     },
     null,
   );
 
   return (
-    <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <section className="bg-white border border-slate-200 shadow-sm">
       <form action={formAction}>
-        <input type="hidden" name="high" value={high} />
-        <input type="hidden" name="medium" value={medium} />
-
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="material-symbols-outlined text-blue-600 text-xl">psychology</span>
-            <h2 className="text-lg font-bold text-slate-800">Confidence Thresholds</h2>
+        <div className="p-8">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="material-symbols-outlined text-cyan-700 text-2xl">psychology</span>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Confidence Thresholds</h2>
           </div>
-          <p className="text-sm text-slate-400 mb-8">Set the confidence score requirements for AI-driven case resolutions.</p>
-
-          <div className="space-y-8">
-            {/* High confidence slider */}
+          <p className="text-sm text-slate-500 mb-10 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions. Higher scores increase accuracy but may require more manual intervention.</p>
+          <div className="space-y-10">
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <label className="text-sm font-semibold text-slate-700">High Confidence</label>
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-bold">
-                  {high.toFixed(2)}
-                </span>
+              <div className="flex justify-between items-center mb-6">
+                <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">High Confidence</label>
+                <span className="px-4 py-1.5 bg-cyan-50 text-cyan-800 border border-cyan-100 rounded text-sm font-bold">{high.toFixed(2)}</span>
               </div>
               <input
+                className="w-full h-1.5 bg-slate-100 rounded-full appearance-none cursor-pointer accent-cyan-700"
+                max="1"
+                min="0"
+                step="0.05"
                 type="range"
-                min={0}
-                max={1}
-                step={0.05}
+                name="high"
                 value={high}
                 onChange={(e) => setHigh(Number(e.target.value))}
-                className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
               />
-              <div className="flex justify-between mt-2 text-[10px] text-slate-400 font-medium uppercase tracking-widest">
+              <div className="flex justify-between mt-3 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                 <span>Conservative</span>
                 <span>Aggressive</span>
               </div>
             </div>
-
-            {/* Medium confidence slider */}
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <label className="text-sm font-semibold text-slate-700">Medium Confidence</label>
-                <span className="px-3 py-1 bg-slate-50 text-slate-700 rounded-full text-sm font-bold">
-                  {medium.toFixed(2)}
-                </span>
+              <div className="flex justify-between items-center mb-6">
+                <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Medium Confidence</label>
+                <span className="px-4 py-1.5 bg-slate-50 text-slate-700 border border-slate-100 rounded text-sm font-bold">{medium.toFixed(2)}</span>
               </div>
               <input
+                className="w-full h-1.5 bg-slate-100 rounded-full appearance-none cursor-pointer accent-cyan-700"
+                max="1"
+                min="0"
+                step="0.05"
                 type="range"
-                min={0}
-                max={1}
-                step={0.05}
+                name="medium"
                 value={medium}
                 onChange={(e) => setMedium(Number(e.target.value))}
-                className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
               />
             </div>
           </div>
-
-          {state && !state.success && state.error && (
-            <p className="text-red-500 text-sm mt-4">{state.error}</p>
+          {state?.error && (
+            <p className="mt-4 text-sm text-red-600 font-medium">{state.error}</p>
           )}
           {state?.success && (
-            <p className="text-green-600 text-sm mt-4">Thresholds updated.</p>
+            <p className="mt-4 text-sm text-emerald-600 font-medium">Saved successfully.</p>
           )}
         </div>
-
-        <div className="bg-slate-50 px-6 py-4 flex justify-end">
+        <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex justify-end">
           <button
             type="submit"
             disabled={isPending}
-            className="bg-orange-500 hover:opacity-90 text-white px-6 py-2 rounded-lg font-bold text-sm transition-opacity shadow-sm disabled:opacity-50"
+            className="bg-cyan-800 hover:bg-cyan-900 text-white px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
-            {isPending ? "Saving..." : "Save"}
+            {isPending ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>

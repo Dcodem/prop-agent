@@ -3,6 +3,8 @@ import { listProperties } from "@/lib/db/queries/properties";
 import { listVendors } from "@/lib/db/queries/vendors";
 import { CaseCreateForm } from "@/components/cases/case-create-form";
 
+export const metadata = { title: "Log Maintenance Entry | PropAgent" };
+
 export default async function NewCasePage() {
   const orgId = await getOrgId();
 
@@ -12,11 +14,9 @@ export default async function NewCasePage() {
   ]);
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <CaseCreateForm
-        properties={properties.map((p) => ({ id: p.id, address: p.address }))}
-        vendors={vendors.map((v) => ({ id: v.id, name: v.name, trade: v.trade }))}
-      />
-    </div>
+    <CaseCreateForm
+      properties={properties}
+      vendors={vendors}
+    />
   );
 }

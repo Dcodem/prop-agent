@@ -1,90 +1,139 @@
-import { cn, timeAgo, formatEnum } from "@/lib/utils";
+"use client";
+
 import type { CaseTimelineEntry } from "@/lib/db/schema";
+import { AddNoteForm } from "./add-note-form";
 
-interface CaseTimelineProps {
+const ICON_MAP: Record<string, string> = {
+  case_created: "flag",
+  status_change: "sync",
+  vendor_assigned: "engineering",
+  note: "description",
+  sms_sent: "sms",
+  email_sent: "mail",
+  ai_triage: "psychology",
+  inspection_scheduled: "event_available",
+  default: "pending",
+};
+
+function getIcon(type: string) {
+  return ICON_MAP[type] ?? ICON_MAP.default;
+}
+
+function formatTime(date: Date) {
+  return new Date(date).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+function formatType(type: string) {
+  return type
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export function CaseTimeline({
+  timeline,
+  caseId,
+  caseStatus,
+}: {
   timeline: CaseTimelineEntry[];
-  className?: string;
-}
-
-function getEventColor(type: string): string {
-  const map: Record<string, string> = {
-    case_created: "border-slate-200",
-    classified: "border-slate-300",
-    status_change: "border-purple-500",
-    vendor_assigned: "border-orange-500",
-    vendor_dispatched: "border-orange-500",
-    vendor_accepted: "border-green-500",
-    replied_to_tenant: "border-blue-500",
-    pm_notified: "border-slate-300",
-    note: "border-blue-400",
-  };
-  return map[type] ?? "border-slate-300";
-}
-
-function getDotColor(type: string): string {
-  const map: Record<string, string> = {
-    case_created: "bg-slate-200",
-    classified: "bg-slate-300",
-    status_change: "bg-purple-500",
-    vendor_assigned: "bg-orange-500",
-    vendor_dispatched: "bg-orange-500",
-    vendor_accepted: "bg-green-500",
-    replied_to_tenant: "bg-blue-500",
-    pm_notified: "bg-slate-300",
-    note: "bg-blue-400",
-  };
-  return map[type] ?? "bg-slate-300";
-}
-
-export function CaseTimeline({ timeline, className }: CaseTimelineProps) {
-  if (timeline.length === 0) {
-    return (
-      <div className={cn("py-8 text-center", className)}>
-        <p className="text-sm text-slate-400">No timeline events yet</p>
-      </div>
-    );
-  }
-
+  caseId: string;
+  caseStatus: string;
+}) {
   return (
-    <div
-      className={cn(
-        "relative space-y-6 before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-blue-500 before:via-slate-200 before:to-slate-100",
-        className
-      )}
-    >
-      {timeline.map((entry) => (
-        <div key={entry.id} className="relative flex items-center gap-4 group">
-          {/* Circle */}
-          <div
-            className={cn(
-              "absolute left-0 w-10 h-10 flex items-center justify-center bg-white border-2 rounded-full z-10",
-              getEventColor(entry.type)
-            )}
-          >
-            <div
-              className={cn(
-                "w-2.5 h-2.5 rounded-full",
-                getDotColor(entry.type)
-              )}
-            />
-          </div>
+    <section className="bg-white rounded-2xl p-10 shadow-sm border border-[#bdc9ca]/10">
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h2 className="text-2xl font-extrabold text-[#0d1c2e] tracking-tight">
+            System of Record
+          </h2>
+          <p className="text-sm text-[#3e494a] font-medium mt-1">
+            At-a-glance roll call of case interactions
+          </p>
+        </div>
+        <span className="text-xs font-black text-[#006872] uppercase tracking-widest bg-[#006872]/5 px-4 py-2 rounded-full border border-[#006872]/10">
+          Audit Ready
+        </span>
+      </div>
+      <div className="relative space-y-0 pl-4">
+        {/* Vertical Line Connector */}
+        <div className="absolute left-[31px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#006872] via-[#006872]/30 to-[#d0daf0]"></div>
 
-          {/* Content */}
-          <div className="ml-12">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-slate-800">
-                {formatEnum(entry.type)}
-              </span>
-              <span className="text-xs text-slate-400">
-                {timeAgo(entry.createdAt)}
+        {timeline.map((entry, idx) => {
+          const isFirst = idx === 0;
+          const isLast = idx === timeline.length - 1;
+
+          return (
+            <div
+              key={entry.id}
+              className={`relative flex gap-8 ${!isLast ? "pb-10" : ""}`}
+            >
+              <div
+                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-sm ring-4 ring-white ${
+                  isFirst
+                    ? "bg-[#006872] text-white shadow-lg"
+                    : isLast
+                      ? "bg-[#00838f] text-white shadow-md animate-pulse"
+                      : "bg-[#d0daf0] text-[#006872]"
+                }`}
+              >
+                <span className="material-symbols-outlined text-lg">
+                  {getIcon(entry.type)}
+                </span>
+              </div>
+              <div className="flex-grow pt-1">
+                <div className="flex justify-between items-start mb-1">
+                  <h4
+                    className={`font-bold ${isLast ? "text-[#006872]" : "text-[#0d1c2e]"}`}
+                  >
+                    {isLast
+                      ? `Current Stage: ${formatType(caseStatus)}`
+                      : formatType(entry.type)}
+                  </h4>
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-wider ${
+                      isLast ? "text-[#006872]" : "text-[#3e494a]"
+                    }`}
+                  >
+                    {isLast ? "Now" : formatTime(entry.createdAt)}
+                  </span>
+                </div>
+                <p className="text-sm text-[#3e494a]">
+                  {entry.details ?? "No details provided."}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+
+        {timeline.length === 0 && (
+          <div className="relative flex gap-8">
+            <div className="relative z-10 w-9 h-9 rounded-full bg-[#00838f] flex items-center justify-center text-white shadow-md ring-4 ring-white animate-pulse">
+              <span className="material-symbols-outlined text-lg">
+                pending
               </span>
             </div>
-            {entry.details && (
-              <p className="text-xs text-slate-500">{entry.details}</p>
-            )}
+            <div className="flex-grow pt-1">
+              <div className="flex justify-between items-start mb-1">
+                <h4 className="font-bold text-[#006872]">No activity yet</h4>
+                <span className="text-[10px] font-black text-[#006872] uppercase tracking-wider">
+                  Now
+                </span>
+              </div>
+              <p className="text-sm text-[#3e494a]">
+                This case has no timeline entries yet.
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        )}
+      </div>
+
+      {/* Add Note Form */}
+      <div className="mt-10 pt-8 border-t border-[#bdc9ca]/20">
+        <AddNoteForm caseId={caseId} />
+      </div>
+    </section>
   );
 }
