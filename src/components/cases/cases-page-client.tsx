@@ -35,11 +35,11 @@ export function CasesPageClient({ cases, properties, tenants }: CasesPageClientP
   const uniquePropertyIds = new Set(cases.map((c) => c.propertyId).filter(Boolean));
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
       {/* Page Header */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold text-slate-900">Cases</h1>
-        <p className="text-slate-500 text-sm">Monitor and manage maintenance cases across your property portfolio.</p>
+        <h1 className="text-2xl font-extrabold tracking-tight text-on-surface">Cases</h1>
+        <p className="text-on-surface-variant text-sm">Monitor and manage maintenance cases across your property portfolio.</p>
       </div>
 
       {/* KPI Cards */}

@@ -33,11 +33,9 @@ export default function LoginPage() {
 
   return (
     <main className="w-full max-w-[480px]">
-      {/* Architectural Ledger: Tonal Layering instead of borders */}
-      <div className="bg-white rounded-[2rem] shadow-[0_24px_48px_-12px_rgba(13,28,46,0.08)] p-8 md:p-12 flex flex-col items-center">
-        {/* Brand Identity */}
+      <div className="bg-surface-container-lowest rounded-2xl card-shadow p-8 md:p-12 flex flex-col items-center">
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-[#00838f] mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary mb-4">
             <span
               className="material-symbols-outlined text-white text-3xl"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -45,45 +43,34 @@ export default function LoginPage() {
               domain
             </span>
           </div>
-          <h1
-            className="text-3xl font-extrabold tracking-tight text-[#0d1c2e] mb-2"
-            style={{ fontFamily: "'Manrope', sans-serif" }}
-          >
+          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2">
             PropAgent
           </h1>
-          <p className="text-[#3e494a] font-medium">
+          <p className="text-on-surface-variant font-medium">
             Portfolio Management Excellence
           </p>
         </div>
 
-        {/* Login Form */}
         <form className="w-full space-y-6" onSubmit={handleLogin}>
-          {/* Error Message */}
           {error && (
-            <div className="bg-[#ffdad6] text-[#93000a] text-sm font-medium px-4 py-3 rounded-[1rem]">
+            <div className="bg-error-container text-error text-sm font-medium px-4 py-3 rounded-xl">
               {error}
             </div>
           )}
 
-          {/* Email Field */}
           <div className="space-y-2">
-            <label
-              className="block text-sm font-semibold text-[#0d1c2e] ml-1"
-              htmlFor="email"
-            >
+            <label className="block text-sm font-semibold text-on-surface ml-1" htmlFor="email">
               Email Address
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <span className="material-symbols-outlined text-[#6e797b] text-xl group-focus-within:text-[#006872] transition-colors">
-                  mail
-                </span>
+                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-primary transition-colors">mail</span>
               </div>
               <input
-                className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-[1rem] transition-all text-[#0d1c2e] placeholder:text-[#6e797b]/60"
+                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
                 id="email"
                 name="email"
-                placeholder="agent@aerosuite.com"
+                placeholder="agent@propagent.com"
                 required
                 type="email"
                 value={email}
@@ -92,30 +79,21 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Password Field */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <label
-                className="block text-sm font-semibold text-[#0d1c2e]"
-                htmlFor="password"
-              >
+              <label className="block text-sm font-semibold text-on-surface" htmlFor="password">
                 Password
               </label>
-              <a
-                className="text-xs font-bold text-[#006872] hover:text-[#004f56] transition-colors"
-                href="#"
-              >
+              <a className="text-xs font-bold text-primary hover:text-primary/80 transition-colors" href="#">
                 Forgot Password?
               </a>
             </div>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <span className="material-symbols-outlined text-[#6e797b] text-xl group-focus-within:text-[#006872] transition-colors">
-                  lock
-                </span>
+                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-primary transition-colors">lock</span>
               </div>
               <input
-                className="w-full pl-12 pr-4 py-4 bg-[#eff4ff] border-2 border-transparent focus:border-[#006872] focus:ring-0 rounded-[1rem] transition-all text-[#0d1c2e] placeholder:text-[#6e797b]/60"
+                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
                 id="password"
                 name="password"
                 placeholder="••••••••"
@@ -127,71 +105,54 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* CTA Button */}
           <button
-            className="w-full bg-[#00838f] text-white py-4 rounded-[2rem] font-bold text-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-[#00838f]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
             type="submit"
             disabled={loading}
           >
             {loading ? "Signing In..." : "Sign In to Dashboard"}
             {!loading && (
-              <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
-                arrow_forward
-              </span>
+              <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
             )}
           </button>
         </form>
 
-        {/* Secondary Actions */}
         <div className="mt-10 w-full">
           <div className="relative flex items-center justify-center mb-8">
-            <div className="flex-grow border-t border-[#bdc9ca]/30"></div>
-            <span className="flex-shrink mx-4 text-xs font-bold tracking-widest text-[#6e797b] uppercase">
+            <div className="flex-grow border-t border-outline-variant/30" />
+            <span className="flex-shrink mx-4 text-xs font-bold tracking-widest text-outline uppercase">
               Or Secure Access
             </span>
-            <div className="flex-grow border-t border-[#bdc9ca]/30"></div>
+            <div className="flex-grow border-t border-outline-variant/30" />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-3 px-4 bg-[#eff4ff] rounded-[1rem] border border-[#bdc9ca]/20 hover:bg-[#e6eeff] transition-colors font-semibold text-sm text-[#3e494a]">
+            <button className="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-high rounded-xl border border-outline-variant/20 hover:bg-surface-container-highest transition-colors font-semibold text-sm text-on-surface-variant">
               <span className="material-symbols-outlined text-xl">key</span>
               SSO
             </button>
-            <button className="flex items-center justify-center gap-2 py-3 px-4 bg-[#eff4ff] rounded-[1rem] border border-[#bdc9ca]/20 hover:bg-[#e6eeff] transition-colors font-semibold text-sm text-[#3e494a]">
-              <span className="material-symbols-outlined text-xl">
-                qr_code_2
-              </span>
+            <button className="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-high rounded-xl border border-outline-variant/20 hover:bg-surface-container-highest transition-colors font-semibold text-sm text-on-surface-variant">
+              <span className="material-symbols-outlined text-xl">qr_code_2</span>
               QR Code
             </button>
           </div>
         </div>
 
-        {/* Footer Link */}
-        <p className="mt-12 text-sm text-[#3e494a]">
+        <p className="mt-12 text-sm text-on-surface-variant">
           New to the platform?{" "}
-          <a
-            className="text-[#006872] font-bold hover:underline decoration-2 underline-offset-4"
-            href="#"
-          >
+          <a className="text-primary font-bold hover:underline decoration-2 underline-offset-4" href="/signup">
             Create an account
           </a>
         </p>
       </div>
 
-      {/* System Status / Trust Signals */}
-      <div className="mt-8 flex items-center justify-center gap-6 opacity-60">
+      <div className="mt-8 flex items-center justify-center gap-6 opacity-60 text-on-surface-variant">
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-sm">
-            verified_user
-          </span>
-          <span className="text-[10px] font-bold tracking-widest uppercase">
-            256-bit AES
-          </span>
+          <span className="material-symbols-outlined text-sm">verified_user</span>
+          <span className="text-[10px] font-bold tracking-widest uppercase">256-bit AES</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-sm">cloud_done</span>
-          <span className="text-[10px] font-bold tracking-widest uppercase">
-            Systems Online
-          </span>
+          <span className="text-[10px] font-bold tracking-widest uppercase">Systems Online</span>
         </div>
       </div>
     </main>

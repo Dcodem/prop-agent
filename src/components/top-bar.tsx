@@ -1,51 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-const topNavItems = [
-  { href: "/cases", label: "Cases" },
-  { href: "/properties", label: "Properties" },
-  { href: "/vendors", label: "Vendors" },
-];
+interface TopBarProps {
+  onMenuToggle?: () => void;
+}
 
-export function TopBar() {
-  const pathname = usePathname();
-
+export function TopBar({ onMenuToggle }: TopBarProps) {
   return (
-    <header className="fixed top-0 w-full z-40 bg-white/70 backdrop-blur-xl flex justify-between items-center px-8 h-16 antialiased tracking-tight ml-64" style={{ width: "calc(100% - 16rem)" }}>
-      <div className="flex items-center gap-4">
-        <span className="text-xl font-bold tracking-tighter text-cyan-900">PropAgent</span>
-        <div className="hidden md:flex gap-6 ml-10">
-          {topNavItems.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={
-                  isActive
-                    ? "text-cyan-700 font-semibold"
-                    : "text-slate-500 hover:bg-slate-50 transition-colors px-3 py-1 rounded-md"
-                }
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+    <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-220px)] h-16 z-30 bg-surface-container-lowest/80 backdrop-blur-xl flex items-center justify-between px-4 lg:px-8 shadow-sm">
+      <div className="flex items-center gap-3">
+        {onMenuToggle && (
+          <button
+            onClick={onMenuToggle}
+            className="lg:hidden p-2 -ml-1 rounded-lg hover:bg-surface-container-low text-on-surface-variant"
+            aria-label="Open navigation"
+          >
+            <span aria-hidden="true" className="material-symbols-outlined">menu</span>
+          </button>
+        )}
+        <div className="flex items-center gap-2 bg-surface-container-high rounded-lg pl-3 pr-2 py-1.5 text-sm w-48 sm:w-64">
+          <span aria-hidden="true" className="material-symbols-outlined text-lg text-on-surface-variant">search</span>
+          <span className="text-on-surface-variant text-sm flex-1 text-left">Search...</span>
         </div>
       </div>
-      <div className="flex items-center gap-4">
-        <div className="relative group">
-          <span className="material-symbols-outlined text-slate-500 p-2 rounded-full hover:bg-slate-50 cursor-pointer">notifications</span>
-          <span className="absolute top-2 right-2 w-2 h-2 bg-[#006872] rounded-full"></span>
+      <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-1 sm:gap-2 text-on-surface-variant">
+          <button className="p-2 hover:bg-surface-container-low rounded-lg transition-colors relative" aria-label="Notifications">
+            <span aria-hidden="true" className="material-symbols-outlined">notifications</span>
+            <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
+          </button>
+          <Link href="/settings" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+            <span aria-hidden="true" className="material-symbols-outlined">settings</span>
+          </Link>
+          <Link href="/profile" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+            <span aria-hidden="true" className="material-symbols-outlined">account_circle</span>
+          </Link>
         </div>
-        <Link href="/settings">
-          <span className="material-symbols-outlined text-slate-500 p-2 rounded-full hover:bg-slate-50 cursor-pointer">settings</span>
-        </Link>
-        <Link href="/profile" className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2 flex items-center justify-center text-slate-600 font-bold text-xs">
-          PM
-        </Link>
       </div>
     </header>
   );

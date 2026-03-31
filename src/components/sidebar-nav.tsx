@@ -2,81 +2,178 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { SignOutButton } from "@/components/sign-out-button";
 
-const navItems = [
-  { href: "/cases", label: "Cases", icon: "assignment" },
-  { href: "/properties", label: "Properties", icon: "domain" },
-  { href: "/tenants", label: "Tenants", icon: "groups" },
-  { href: "/vendors", label: "Vendors", icon: "engineering" },
-  { href: "/settings", label: "Settings", icon: "settings" },
+interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+  badge?: number;
+  badgeColor?: string;
+  exact?: boolean;
+}
+
+interface NavSection {
+  heading: string;
+  items: NavItem[];
+}
+
+const navSections: NavSection[] = [
+  {
+    heading: "Overview",
+    items: [
+      { label: "Cases", href: "/cases", icon: "assignment" },
+      { label: "Properties", href: "/properties", icon: "domain" },
+      { label: "Tenants", href: "/tenants", icon: "groups" },
+      { label: "Vendors", href: "/vendors", icon: "engineering" },
+    ],
+  },
+  {
+    heading: "System",
+    items: [
+      { label: "Settings", href: "/settings", icon: "settings" },
+    ],
+  },
 ];
 
-export function SidebarNav() {
+function isActiveRoute(pathname: string, href: string, exact?: boolean): boolean {
+  if (exact) return pathname === href;
+  return pathname === href || pathname.startsWith(href + "/");
+}
+
+interface SidebarNavProps {
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export function SidebarNav({ open = false, onClose }: SidebarNavProps) {
   const pathname = usePathname();
+  const asideRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (!open || !onClose) return;
+    const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+    if (!isMobile) return;
+
+    triggerRef.current = document.activeElement;
+    const aside = asideRef.current;
+    if (!aside) return;
+
+    const sel = 'a[href], button, [tabindex]:not([tabindex="-1"])';
+    const first = aside.querySelector<HTMLElement>(sel);
+    first?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key !== "Tab") return;
+      const all = aside.querySelectorAll<HTMLElement>(sel);
+      if (!all.length) return;
+      if (e.shiftKey && document.activeElement === all[0]) {
+        e.preventDefault();
+        all[all.length - 1].focus();
+      } else if (!e.shiftKey && document.activeElement === all[all.length - 1]) {
+        e.preventDefault();
+        all[0].focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      if (triggerRef.current instanceof HTMLElement) triggerRef.current.focus();
+    };
+  }, [open, onClose]);
 
   return (
-    <aside className="flex flex-col fixed left-0 top-0 h-full py-6 h-screen w-64 bg-slate-50 border-r-0 text-sm font-medium z-30">
-      <div className="px-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#00838f] rounded-lg flex items-center justify-center text-white">
-            <span className="material-symbols-outlined">domain</span>
-          </div>
-          <div>
-            <div className="font-extrabold text-cyan-900 leading-tight">PropAgent</div>
-            <div className="text-[10px] uppercase tracking-wider text-slate-400">Property Management</div>
-          </div>
+    <>
+      {open && <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={onClose} />}
+      <aside
+        ref={asideRef}
+        role={open ? "dialog" : undefined}
+        aria-modal={open ? true : undefined}
+        aria-label={open ? "Navigation menu" : undefined}
+        className={`w-[220px] h-screen fixed left-0 top-0 overflow-y-auto bg-surface-container-low flex flex-col py-8 px-4 z-50 transition-transform duration-200 ease-out ${
+          open ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden absolute top-4 right-4 p-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant"
+            aria-label="Close sidebar"
+          >
+            <span aria-hidden="true" className="material-symbols-outlined text-xl">close</span>
+          </button>
+        )}
+
+        <div className="mb-10 px-2">
+          <h1 className="text-xl font-bold tracking-tight text-on-surface">PropAgent</h1>
+          <p className="text-[11px] text-on-surface-variant uppercase tracking-widest mt-1">Property Management</p>
         </div>
-      </div>
-      <nav className="flex-1 space-y-1">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-          return isActive ? (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 text-cyan-900 border-l-4 border-cyan-600 bg-white pl-4 py-3 ml-2 rounded-l-lg cursor-pointer"
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                {item.icon}
-              </span>
-              <span>{item.label}</span>
-            </Link>
-          ) : (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 text-slate-500 hover:text-cyan-700 hover:bg-cyan-50/50 transition-all pl-6 py-3 cursor-pointer"
-            >
-              <span className="material-symbols-outlined">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-      <div className="px-6 mt-auto space-y-1">
-        <Link
-          href="/profile"
-          className="flex items-center gap-3 text-slate-500 hover:text-cyan-700 hover:bg-cyan-50/50 transition-all py-3 cursor-pointer"
-        >
-          <span className="material-symbols-outlined">person</span>
-          <span>Profile</span>
-        </Link>
-        <a
-          href="mailto:support@propagent.com"
-          className="flex items-center gap-3 text-slate-500 hover:text-cyan-700 hover:bg-cyan-50/50 transition-all py-3 cursor-pointer"
-        >
-          <span className="material-symbols-outlined">help</span>
-          <span>Support</span>
-        </a>
-        <SignOutButton className="flex items-center gap-3 text-slate-500 hover:text-cyan-700 hover:bg-cyan-50/50 transition-all py-3 cursor-pointer w-full">
-          <span className="material-symbols-outlined">logout</span>
-          <span>Logout</span>
-        </SignOutButton>
-      </div>
-    </aside>
+
+        <nav className="flex-1 space-y-1">
+          {navSections.map((section) => (
+            <div key={section.heading}>
+              <div className="pt-4 pb-2 px-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
+                {section.heading}
+              </div>
+              {section.items.map((item) => {
+                const active = isActiveRoute(pathname, item.href, item.exact);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onClose}
+                    className={`flex items-center gap-3 px-3 py-2 transition-colors ${
+                      active
+                        ? "text-teal-700 font-bold border-r-2 border-teal-700 hover:bg-surface-container-high/50"
+                        : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50"
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="material-symbols-outlined text-[20px]"
+                      style={active ? { fontVariationSettings: "'FILL' 1" } : undefined}
+                    >
+                      {item.icon}
+                    </span>
+                    <span className="text-sm font-medium flex-1">{item.label}</span>
+                    {item.badge != null && item.badge > 0 && (
+                      <span className={`min-w-[20px] h-5 flex items-center justify-center ${item.badgeColor || "bg-primary"} text-white text-[11px] font-bold rounded-full px-1.5`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
+        </nav>
+
+        <div className="mt-auto space-y-1 pt-6 border-t border-outline-variant">
+          <Link
+            href="/profile"
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors"
+          >
+            <span aria-hidden="true" className="material-symbols-outlined text-[20px]">person</span>
+            <span className="text-sm font-medium">Profile</span>
+          </Link>
+          <a
+            href="mailto:support@propagent.com"
+            className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors"
+          >
+            <span aria-hidden="true" className="material-symbols-outlined text-[20px]">help</span>
+            <span className="text-sm font-medium">Support</span>
+          </a>
+          <SignOutButton className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors w-full">
+            <span aria-hidden="true" className="material-symbols-outlined text-[20px]">logout</span>
+            <span className="text-sm font-medium">Logout</span>
+          </SignOutButton>
+        </div>
+      </aside>
+    </>
   );
 }
