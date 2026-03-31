@@ -27,7 +27,7 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <Modal open={open} onClose={onClose} title={title} className={className}>
-      <p className="text-sm text-muted">{description}</p>
+      <p className="text-sm text-on-surface-variant">{description}</p>
       <div className="flex items-center justify-end gap-3 mt-6">
         <Button variant="ghost" onClick={onClose} disabled={loading}>
           Cancel

@@ -60,7 +60,7 @@ export function Badge({ variant, value, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[#BFDBFE] bg-trust-light px-2.5 py-0.5 text-xs font-medium text-trust",
+        "inline-flex items-center rounded-full border border-[#BFDBFE] bg-primary-fixed px-2.5 py-0.5 text-xs font-medium text-primary",
         className
       )}
     >

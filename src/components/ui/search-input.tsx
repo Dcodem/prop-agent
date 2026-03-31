@@ -34,7 +34,7 @@ export function SearchInput({
 
   return (
     <div role="search" className={cn("relative", className)}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-tertiary pointer-events-none" />
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-outline pointer-events-none" />
       <input
         ref={inputRef}
         type="text"
@@ -44,17 +44,17 @@ export function SearchInput({
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
         aria-label="Search"
-        className="w-full pl-10 pr-9 py-2 rounded-lg border border-edge bg-canvas text-sm text-ink focus:border-trust focus:ring-2 focus:ring-trust/20 outline-none transition-colors"
+        className="w-full pl-10 pr-9 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
       />
       {!focused && !value && (
-        <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-tertiary text-xs pointer-events-none select-none">
+        <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-outline text-xs pointer-events-none select-none">
           ⌘K
         </kbd>
       )}
       {value && (
         <button
           onClick={() => onChange("")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-tertiary hover:text-ink transition-colors cursor-pointer"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors cursor-pointer"
           aria-label="Clear search"
         >
           <X className="w-4 h-4" />

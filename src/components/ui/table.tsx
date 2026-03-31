@@ -15,7 +15,7 @@ export function Table({ children, className }: TableProps) {
 
 export function TableHeader({ children, className }: TableProps) {
   return (
-    <thead className={cn("bg-canvas", className)}>
+    <thead className={cn("bg-surface-container-lowest", className)}>
       {children}
     </thead>
   );
@@ -23,7 +23,7 @@ export function TableHeader({ children, className }: TableProps) {
 
 export function TableBody({ children, className }: TableProps) {
   return (
-    <tbody className={cn("divide-y divide-edge/50", className)}>
+    <tbody className={cn("divide-y divide-outline-variant/50", className)}>
       {children}
     </tbody>
   );
@@ -33,7 +33,7 @@ export function TableRow({ children, className }: TableProps) {
   return (
     <tr
       className={cn(
-        "transition-colors duration-150 hover:bg-trust-light/30",
+        "transition-colors duration-150 hover:bg-primary-fixed/30",
         className
       )}
     >
@@ -44,7 +44,7 @@ export function TableRow({ children, className }: TableProps) {
 
 export function TableCell({ children, className }: TableProps) {
   return (
-    <td className={cn("px-4 py-3 text-[14px] text-ink", className)}>
+    <td className={cn("px-4 py-3 text-[14px] text-on-surface", className)}>
       {children}
     </td>
   );
@@ -55,7 +55,7 @@ export function TableHeaderCell({ children, className }: TableProps) {
     <th
       scope="col"
       className={cn(
-        "px-4 py-3 text-left text-[13px] font-medium text-ink-tertiary",
+        "px-4 py-3 text-left text-[13px] font-medium text-outline",
         className
       )}
     >

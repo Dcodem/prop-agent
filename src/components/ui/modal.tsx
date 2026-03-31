@@ -75,7 +75,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
       aria-labelledby={titleId}
       onClick={handleBackdropClick}
       className={cn(
-        "fixed inset-0 z-50 m-auto max-h-[calc(100vh-4rem)] w-full max-w-lg rounded-2xl bg-surface-raised p-0 shadow-lg border-none",
+        "fixed inset-0 z-50 m-auto max-h-[calc(100vh-4rem)] w-full max-w-lg rounded-2xl bg-surface-container-lowest p-0 shadow-lg border-none",
         "backdrop:bg-black/40 backdrop:backdrop-blur-sm",
         className
       )}
@@ -85,18 +85,18 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
         <div className="flex items-start justify-between gap-4">
           <h2
             id={titleId}
-            className="text-lg font-semibold leading-none tracking-tight text-ink"
+            className="text-lg font-semibold leading-none tracking-tight text-on-surface"
           >
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="group -mr-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-canvas cursor-pointer"
+            className="group -mr-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-surface-container-low cursor-pointer"
             aria-label="Close dialog"
           >
             <X
-              className="h-4 w-4 text-ink-tertiary transition-colors group-hover:text-ink"
+              className="h-4 w-4 text-outline transition-colors group-hover:text-on-surface"
               strokeWidth={2}
             />
           </button>

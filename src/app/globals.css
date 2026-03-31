@@ -38,20 +38,6 @@
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-gold: #A16207;
-
-  /* Compatibility aliases for existing component code */
-  --color-ink: #0C0A09;
-  --color-ink-secondary: #57534E;
-  --color-ink-tertiary: #78716C;
-  --color-canvas: #ffffff;
-  --color-action: #0F766E;
-  --color-action-hover: #0D6D66;
-  --color-trust: #0F766E;
-  --color-trust-light: #CCFBF1;
-  --color-danger: #DC2626;
-  --color-edge: #D6D3D1;
-  --color-muted: #57534E;
-  --color-border: #D6D3D1;
 }
 
 body {

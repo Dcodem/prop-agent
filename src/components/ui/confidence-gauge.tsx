@@ -22,7 +22,7 @@ export function ConfidenceGauge({ score, className }: ConfidenceGaugeProps) {
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className="text-xs tabular-nums text-ink-tertiary font-medium">
+      <span className="text-xs tabular-nums text-outline font-medium">
         {percentage}%
       </span>
     </div>

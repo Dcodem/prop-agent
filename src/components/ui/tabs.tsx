@@ -39,7 +39,7 @@ export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
   return (
     <div
       role="tablist"
-      className={cn("flex border-b border-border", className)}
+      className={cn("flex border-b border-outline-variant", className)}
       onKeyDown={handleKeyDown}
     >
       {tabs.map((tab) => (
@@ -58,7 +58,7 @@ export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
             "px-4 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer",
             tab.id === activeTab
               ? "text-primary border-b-2 border-primary"
-              : "text-muted hover:text-text",
+              : "text-on-surface-variant hover:text-on-surface",
           )}
         >
           {tab.label}
