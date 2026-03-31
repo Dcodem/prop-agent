@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { vendors } from "@/lib/db/schema";
 import { formatEnum } from "@/lib/utils";
 import { TradeFilter } from "./trade-filter";
@@ -44,7 +44,7 @@ function renderStars(score: number) {
         <span
           key={i}
           className={`material-symbols-outlined text-sm ${
-            i < filled ? "text-[#00838f]" : "text-[#bdc9ca]"
+            i < filled ? "text-primary" : "text-outline-variant"
           }`}
           style={
             i < filled
@@ -55,7 +55,7 @@ function renderStars(score: number) {
           star
         </span>
       ))}
-      <span className="ml-2 text-sm font-bold text-[#0d1c2e]">
+      <span className="ml-2 text-sm font-bold text-on-surface">
         {(score * 5).toFixed(1)}
       </span>
     </div>
@@ -63,6 +63,7 @@ function renderStars(score: number) {
 }
 
 export function VendorTable({ vendors }: { vendors: Vendor[] }) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [tradeFilter, setTradeFilter] = useState<string>("all");
 
@@ -78,16 +79,16 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
   }, [vendors, search, tradeFilter]);
 
   return (
-    <section className="bg-white rounded-[1rem] border border-[#bdc9ca]/20 overflow-hidden mb-12">
+    <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 overflow-hidden mb-12">
       {/* Table Controls/Filters */}
-      <div className="px-8 py-6 border-b border-[#bdc9ca]/10 flex justify-between items-center bg-[#eff4ff]">
+      <div className="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-primary-fixed">
         <div className="flex items-center gap-4">
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6e797b]">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
               search
             </span>
             <input
-              className="bg-white border-0 ring-1 ring-[#bdc9ca]/30 rounded-[0.5rem] pl-12 pr-4 py-2 w-80 text-sm focus:ring-2 focus:ring-[#006872] transition-all"
+              className="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-lg pl-12 pr-4 py-2 w-80 text-sm focus:ring-2 focus:ring-primary transition-all"
               placeholder="Search by name or trade..."
               type="text"
               value={search}
@@ -96,7 +97,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
           </div>
           <TradeFilter value={tradeFilter} onChange={setTradeFilter} />
         </div>
-        <div className="text-xs font-bold text-[#6e797b] uppercase tracking-widest">
+        <div className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
           Total {filtered.length} Vendor{filtered.length !== 1 ? "s" : ""}
         </div>
       </div>
@@ -105,7 +106,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
       <div className="w-full overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#eff4ff] text-[#3e494a] uppercase text-[11px] font-bold tracking-[0.15em]">
+            <tr className="bg-primary-fixed text-outline uppercase text-[11px] font-bold tracking-[0.15em]">
               <th className="px-8 py-4">Vendor &amp; Trade</th>
               <th className="px-8 py-4">Contact Information</th>
               <th className="px-8 py-4">Rate Notes</th>
@@ -113,12 +114,12 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
               <th className="px-8 py-4 text-right">Availability</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#bdc9ca]/10">
+          <tbody className="divide-y divide-outline-variant/10">
             {filtered.length === 0 && (
               <tr>
                 <td
                   colSpan={5}
-                  className="px-8 py-12 text-center text-[#3e494a]"
+                  className="px-8 py-12 text-center text-on-surface-variant"
                 >
                   No vendors found.
                 </td>
@@ -127,62 +128,58 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
             {filtered.map((vendor, idx) => {
               const color = getAvatarColor(vendor.name);
               return (
-                <Link
+                <tr
                   key={vendor.id}
-                  href={`/vendors/${vendor.id}`}
-                  className="contents"
+                  onClick={() => router.push(`/vendors/${vendor.id}`)}
+                  className={`${
+                    idx % 2 === 1 ? "bg-primary-fixed/30" : ""
+                  } hover:bg-primary-fixed transition-colors group cursor-pointer`}
                 >
-                  <tr
-                    className={`${
-                      idx % 2 === 1 ? "bg-[#eff4ff]/30" : ""
-                    } hover:bg-[#eff4ff] transition-colors group cursor-pointer`}
-                  >
-                    <td className="px-8 py-6">
-                      <div className="flex items-center gap-4">
-                        <div
-                          className={`w-10 h-10 rounded-full ${color.bg} flex items-center justify-center ${color.text} font-bold`}
-                        >
-                          {getInitials(vendor.name)}
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-10 h-10 rounded-full ${color.bg} flex items-center justify-center ${color.text} font-bold`}
+                      >
+                        {getInitials(vendor.name)}
+                      </div>
+                      <div>
+                        <div className="text-base font-bold text-on-surface">
+                          {vendor.name}
                         </div>
-                        <div>
-                          <div className="text-base font-bold text-[#0d1c2e]">
-                            {vendor.name}
-                          </div>
-                          <div className="text-xs text-[#3e494a] font-medium">
-                            {formatEnum(vendor.trade)}
-                          </div>
+                        <div className="text-xs text-on-surface-variant font-medium">
+                          {formatEnum(vendor.trade)}
                         </div>
                       </div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="text-sm text-[#0d1c2e]">
-                        {vendor.email || "--"}
-                      </div>
-                      <div className="text-xs text-[#3e494a]">
-                        {vendor.phone || "--"}
-                      </div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="text-sm font-bold text-[#0d1c2e]">
-                        {vendor.rateNotes || "--"}
-                      </div>
-                    </td>
-                    <td className="px-8 py-6">
-                      {renderStars(vendor.preferenceScore ?? 0.5)}
-                    </td>
-                    <td className="px-8 py-6 text-right">
-                      {vendor.availabilityNotes ? (
-                        <span className="px-3 py-1 bg-[#c5e9ee] text-[#2a4c50] rounded-full text-[10px] font-bold uppercase tracking-wider">
-                          {vendor.availabilityNotes}
-                        </span>
-                      ) : (
-                        <span className="px-3 py-1 bg-[#c5e9ee] text-[#2a4c50] rounded-full text-[10px] font-bold uppercase tracking-wider">
-                          Active
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                </Link>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    <div className="text-sm text-on-surface">
+                      {vendor.email || "--"}
+                    </div>
+                    <div className="text-xs text-on-surface-variant">
+                      {vendor.phone || "--"}
+                    </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    <div className="text-sm font-bold text-on-surface">
+                      {vendor.rateNotes || "--"}
+                    </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    {renderStars(vendor.preferenceScore ?? 0.5)}
+                  </td>
+                  <td className="px-8 py-6 text-right">
+                    {vendor.availabilityNotes ? (
+                      <span className="px-3 py-1 bg-primary-fixed text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">
+                        {vendor.availabilityNotes}
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 bg-primary-fixed text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">
+                        Active
+                      </span>
+                    )}
+                  </td>
+                </tr>
               );
             })}
           </tbody>
@@ -190,7 +187,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
       </div>
 
       {/* Pagination info */}
-      <div className="px-8 py-4 bg-[#eff4ff] flex justify-between items-center text-xs font-semibold text-[#3e494a]">
+      <div className="px-8 py-4 bg-primary-fixed flex justify-between items-center text-xs font-semibold text-on-surface-variant">
         <div>
           Showing {filtered.length} of {vendors.length}
         </div>

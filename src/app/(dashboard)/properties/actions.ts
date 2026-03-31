@@ -18,6 +18,10 @@ export async function createPropertyAction(formData: FormData) {
     address: formData.get("address"),
     unitCount: formData.get("unitCount"),
     type: formData.get("type"),
+    accessInstructions: formData.get("accessInstructions"),
+    parkingInstructions: formData.get("parkingInstructions"),
+    unitAccessNotes: formData.get("unitAccessNotes"),
+    specialInstructions: formData.get("specialInstructions"),
     notes: formData.get("notes"),
   };
 
@@ -31,7 +35,7 @@ export async function createPropertyAction(formData: FormData) {
 
   await createProperty(orgId, parsed.data);
   revalidatePath("/properties");
-  return { success: true as const };
+  redirect("/properties");
 }
 
 export async function updatePropertyAction(id: string, formData: FormData) {
