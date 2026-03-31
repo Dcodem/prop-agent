@@ -36,7 +36,34 @@
   --color-background: #FAFAF9;
   --color-on-background: #0C0A09;
   --color-success: #10B981;
+  --color-success-container: #F0FDF4;
+  --color-on-success-container: #166534;
+  --color-success-dim: #16A34A;
+  --color-success-border: #BBF7D0;
   --color-warning: #F59E0B;
+  --color-warning-container: #FFFBEB;
+  --color-on-warning-container: #92400E;
+  --color-warning-dim: #D97706;
+  --color-warning-border: #FDE68A;
+  --color-caution: #EA580C;
+  --color-caution-container: #FFF7ED;
+  --color-on-caution-container: #9A3412;
+  --color-caution-border: #FED7AA;
+  --color-on-error-container: #991B1B;
+  --color-error-border: #FECACA;
+  --color-info: #1E40AF;
+  --color-info-container: #EFF6FF;
+  --color-on-info-container: #1E40AF;
+  --color-info-dot: #006872;
+  --color-info-border: #BFDBFE;
+  --color-purple: #7C3AED;
+  --color-purple-container: #F5F3FF;
+  --color-on-purple-container: #5B21B6;
+  --color-purple-border: #DDD6FE;
+  --color-neutral: #9CA3AF;
+  --color-neutral-container: #F9FAFB;
+  --color-on-neutral-container: #4B5563;
+  --color-neutral-border: #E5E7EB;
   --color-gold: #A16207;
 }
 

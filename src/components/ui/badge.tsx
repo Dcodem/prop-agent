@@ -1,19 +1,19 @@
 import { cn, formatEnum } from "@/lib/utils";
 
 const URGENCY_STYLES = {
-  critical: { bg: "bg-[#FEF2F2]", text: "text-[#991B1B]", dot: "bg-[#DC2626]", border: "border-[#FECACA]" },
-  high: { bg: "bg-[#FFF7ED]", text: "text-[#9A3412]", dot: "bg-[#EA580C]", border: "border-[#FED7AA]" },
-  medium: { bg: "bg-[#FFFBEB]", text: "text-[#92400E]", dot: "bg-[#D97706]", border: "border-[#FDE68A]" },
-  low: { bg: "bg-[#F0FDF4]", text: "text-[#166534]", dot: "bg-[#16A34A]", border: "border-[#BBF7D0]" },
+  critical: { bg: "bg-error-container", text: "text-on-error-container", dot: "bg-error", border: "border-error-border" },
+  high: { bg: "bg-caution-container", text: "text-on-caution-container", dot: "bg-caution", border: "border-caution-border" },
+  medium: { bg: "bg-warning-container", text: "text-on-warning-container", dot: "bg-warning-dim", border: "border-warning-border" },
+  low: { bg: "bg-success-container", text: "text-on-success-container", dot: "bg-success-dim", border: "border-success-border" },
 } as const;
 
 const STATUS_STYLES = {
-  open: { bg: "bg-[#EFF6FF]", text: "text-[#1E40AF]", dot: "bg-[#006872]", border: "border-[#BFDBFE]" },
-  in_progress: { bg: "bg-[#F5F3FF]", text: "text-[#5B21B6]", dot: "bg-[#7C3AED]", border: "border-[#DDD6FE]" },
-  waiting_on_vendor: { bg: "bg-[#FFF7ED]", text: "text-[#9A3412]", dot: "bg-[#EA580C]", border: "border-[#FED7AA]" },
-  waiting_on_tenant: { bg: "bg-[#FFFBEB]", text: "text-[#92400E]", dot: "bg-[#D97706]", border: "border-[#FDE68A]" },
-  resolved: { bg: "bg-[#F0FDF4]", text: "text-[#166534]", dot: "bg-[#16A34A]", border: "border-[#BBF7D0]" },
-  closed: { bg: "bg-[#F9FAFB]", text: "text-[#4B5563]", dot: "bg-[#9CA3AF]", border: "border-[#E5E7EB]" },
+  open: { bg: "bg-info-container", text: "text-on-info-container", dot: "bg-info-dot", border: "border-info-border" },
+  in_progress: { bg: "bg-purple-container", text: "text-on-purple-container", dot: "bg-purple", border: "border-purple-border" },
+  waiting_on_vendor: { bg: "bg-caution-container", text: "text-on-caution-container", dot: "bg-caution", border: "border-caution-border" },
+  waiting_on_tenant: { bg: "bg-warning-container", text: "text-on-warning-container", dot: "bg-warning-dim", border: "border-warning-border" },
+  resolved: { bg: "bg-success-container", text: "text-on-success-container", dot: "bg-success-dim", border: "border-success-border" },
+  closed: { bg: "bg-neutral-container", text: "text-on-neutral-container", dot: "bg-neutral", border: "border-neutral-border" },
 } as const;
 
 interface BadgeProps {
@@ -60,7 +60,7 @@ export function Badge({ variant, value, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[#BFDBFE] bg-primary-fixed px-2.5 py-0.5 text-xs font-medium text-primary",
+        "inline-flex items-center rounded-full border border-info-border bg-primary-fixed px-2.5 py-0.5 text-xs font-medium text-primary",
         className
       )}
     >
