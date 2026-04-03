@@ -9,6 +9,7 @@ import { CaseTimeline } from "@/components/cases/case-timeline";
 import { CaseMessages } from "@/components/cases/case-messages";
 import { CaseSidebar } from "@/components/cases/case-sidebar";
 import { CaseIssueDescription } from "@/components/cases/case-issue-description";
+import { AddNoteForm } from "@/components/cases/add-note-form";
 import { formatEnum, timeAgo } from "@/lib/utils";
 import Link from "next/link";
 
@@ -190,6 +191,15 @@ export default async function CaseDetailPage({
             caseId={caseData.id}
             caseStatus={caseData.status}
           />
+
+          {/* Property Manager Notes */}
+          <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
+            <div className="mb-8">
+              <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Property Manager Notes</h2>
+              <p className="text-sm text-on-surface-variant font-medium mt-1">Internal notes visible only to your team</p>
+            </div>
+            <AddNoteForm caseId={caseData.id} caseStatus={caseData.status} />
+          </section>
 
           {/* Communication Log */}
           <CaseMessages messages={messages} />

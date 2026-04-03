@@ -1,7 +1,6 @@
 "use client";
 
 import type { CaseTimelineEntry } from "@/lib/db/schema";
-import { AddNoteForm } from "./add-note-form";
 
 const ICON_MAP: Record<string, string> = {
   case_created: "flag",
@@ -149,10 +148,6 @@ export function CaseTimeline({
         </div>
       </div>
 
-      {/* Add Note Form */}
-      <div className="mt-10 pt-8 border-t border-outline-variant/20">
-        <AddNoteForm caseId={caseId} caseStatus={caseStatus} />
-      </div>
     </section>
   );
 }
