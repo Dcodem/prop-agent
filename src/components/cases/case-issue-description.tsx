@@ -248,14 +248,16 @@ export function CaseIssueDescription({
           {conversationMessages.length > 3 && (
             <button
               onClick={() => setShowAllUpdates(!showAllUpdates)}
-              className="mt-4 text-sm font-bold text-primary hover:underline underline-offset-4 decoration-2 flex items-center gap-1"
+              className="group mt-4 text-sm font-bold text-primary flex items-center gap-1"
             >
               <span className="material-symbols-outlined text-sm">
                 {showAllUpdates ? "expand_less" : "expand_more"}
               </span>
-              {showAllUpdates
-                ? "Show less"
-                : `Show ${conversationMessages.length - 3} more updates`}
+              <span className="group-hover:underline underline-offset-4 decoration-2">
+                {showAllUpdates
+                  ? "Show less"
+                  : `Show ${conversationMessages.length - 3} more updates`}
+              </span>
             </button>
           )}
         </div>

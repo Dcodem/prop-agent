@@ -147,12 +147,12 @@ export function TenantDetailClient({
         <div className="col-span-12 lg:col-span-8 space-y-4">
           <Link
             href="/tenants"
-            className="flex items-center gap-2 text-primary hover:text-primary/80 hover:underline underline-offset-4 decoration-2 font-bold text-sm mb-6 transition-colors group"
+            className="flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-sm mb-6 transition-colors group"
           >
             <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">
               arrow_back
             </span>
-            Back to Tenants
+            <span className="group-hover:underline underline-offset-4 decoration-2">Back to Tenants</span>
           </Link>
           <div className="flex items-center gap-4 mb-2">
             <span className="bg-surface-container text-on-surface-variant px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
@@ -245,17 +245,17 @@ export function TenantDetailClient({
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                  className="flex items-center gap-1.5 text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2"
+                  className="group flex items-center gap-1.5 text-primary font-semibold text-sm"
                 >
                   <span className="material-symbols-outlined text-base">description</span>
-                  View Lease
+                  <span className="group-hover:underline underline-offset-4 decoration-2">View Lease</span>
                 </button>
                 <button
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                  className="flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-primary hover:underline underline-offset-4 decoration-2 transition-colors"
+                  className="group flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-primary transition-colors"
                 >
                   <span className="material-symbols-outlined text-base">download</span>
-                  Download
+                  <span className="group-hover:underline underline-offset-4 decoration-2">Download</span>
                 </button>
               </div>
             </div>
@@ -345,9 +345,9 @@ export function TenantDetailClient({
           <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
             <div className="flex justify-between items-end">
               <h3 className="text-2xl font-bold tracking-tight">Documents</h3>
-              <label className="text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2 cursor-pointer flex items-center gap-1">
+              <label className="group text-primary font-semibold text-sm cursor-pointer flex items-center gap-1">
                 <span className="material-symbols-outlined text-sm">upload_file</span>
-                Upload
+                <span className="group-hover:underline underline-offset-4 decoration-2">Upload</span>
                 <input type="file" className="hidden" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) setUploadedDocs((prev) => [...prev, file.name]);
