@@ -62,6 +62,32 @@ export function SettingsTabsClient({
 }) {
   const [activeTab, setActiveTab] = useState<TabId>("ai");
   const [stages, setStages] = useState(STAGES);
+  const [labels, setLabels] = useState(LABELS);
+  const [team, setTeam] = useState(TEAM);
+
+  // Modal states
+  const [showAddStage, setShowAddStage] = useState(false);
+  const [showCreateLabel, setShowCreateLabel] = useState(false);
+  const [showInviteUser, setShowInviteUser] = useState(false);
+
+  // Form states
+  const [newStageName, setNewStageName] = useState("");
+  const [newStageColor, setNewStageColor] = useState("bg-blue-500");
+  const [newLabelName, setNewLabelName] = useState("");
+  const [newLabelColor, setNewLabelColor] = useState("bg-blue-500");
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState("Front Desk");
+
+  const COLOR_OPTIONS = [
+    { value: "bg-blue-500", label: "Blue" },
+    { value: "bg-amber-500", label: "Amber" },
+    { value: "bg-red-500", label: "Red" },
+    { value: "bg-emerald-500", label: "Green" },
+    { value: "bg-purple-500", label: "Purple" },
+    { value: "bg-orange-500", label: "Orange" },
+    { value: "bg-slate-500", label: "Slate" },
+    { value: "bg-pink-500", label: "Pink" },
+  ];
 
   function toggleStage(index: number) {
     setStages((prev) =>
@@ -69,6 +95,31 @@ export function SettingsTabsClient({
         i === index ? { ...s, enabled: !s.enabled } : s
       )
     );
+  }
+
+  function handleAddStage() {
+    if (!newStageName.trim()) return;
+    setStages((prev) => [...prev, { name: newStageName.trim(), color: newStageColor, enabled: true }]);
+    setNewStageName("");
+    setNewStageColor("bg-blue-500");
+    setShowAddStage(false);
+  }
+
+  function handleCreateLabel() {
+    if (!newLabelName.trim()) return;
+    setLabels((prev) => [...prev, { name: newLabelName.trim(), color: newLabelColor, count: 0 }]);
+    setNewLabelName("");
+    setNewLabelColor("bg-blue-500");
+    setShowCreateLabel(false);
+  }
+
+  function handleInviteUser() {
+    if (!inviteEmail.trim()) return;
+    const name = inviteEmail.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    setTeam((prev) => [...prev, { name, role: inviteRole, email: inviteEmail.trim(), status: "Invited", lastActive: "—" }]);
+    setInviteEmail("");
+    setInviteRole("Front Desk");
+    setShowInviteUser(false);
   }
 
   return (
@@ -110,7 +161,7 @@ export function SettingsTabsClient({
                 resolution.
               </p>
             </div>
-            <button className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <button onClick={() => setShowAddStage(true)} className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">add</span>
               Add Stage
             </button>
@@ -168,13 +219,13 @@ export function SettingsTabsClient({
                 Manage the labels used to categorize maintenance cases.
               </p>
             </div>
-            <button className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <button onClick={() => setShowCreateLabel(true)} className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">add</span>
               Create Label
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {LABELS.map((label) => (
+            {labels.map((label) => (
               <div
                 key={label.name}
                 className="bg-surface-container-lowest p-5 rounded-xl hover:shadow-md transition-all group cursor-pointer border border-transparent hover:border-primary/20"
@@ -215,7 +266,7 @@ export function SettingsTabsClient({
                 Manage user access and roles for your organization.
               </p>
             </div>
-            <button className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <button onClick={() => setShowInviteUser(true)} className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">
                 person_add
               </span>
@@ -234,7 +285,7 @@ export function SettingsTabsClient({
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/10">
-                {TEAM.map((member) => (
+                {team.map((member) => (
                   <tr
                     key={member.email}
                     className="hover:bg-surface-container-low/50 transition-colors"
@@ -308,6 +359,149 @@ export function SettingsTabsClient({
                 manage cases and vendors. Front Desk can view and create cases
                 only.
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Stage Modal */}
+      {showAddStage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setShowAddStage(false)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">Add Stage</h2>
+              <button onClick={() => setShowAddStage(false)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Stage Name</label>
+                <input
+                  type="text"
+                  value={newStageName}
+                  onChange={(e) => setNewStageName(e.target.value)}
+                  placeholder="e.g. Under Review"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Color</label>
+                <div className="flex gap-2">
+                  {COLOR_OPTIONS.map((c) => (
+                    <button
+                      key={c.value}
+                      onClick={() => setNewStageColor(c.value)}
+                      className={`w-8 h-8 rounded-full ${c.value} ${newStageColor === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      title={c.label}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-3">
+              <button onClick={() => setShowAddStage(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleAddStage} disabled={!newStageName.trim()} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+                Add Stage
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Label Modal */}
+      {showCreateLabel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setShowCreateLabel(false)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">Create Label</h2>
+              <button onClick={() => setShowCreateLabel(false)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Label Name</label>
+                <input
+                  type="text"
+                  value={newLabelName}
+                  onChange={(e) => setNewLabelName(e.target.value)}
+                  placeholder="e.g. Landscaping"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Color</label>
+                <div className="flex gap-2">
+                  {COLOR_OPTIONS.map((c) => (
+                    <button
+                      key={c.value}
+                      onClick={() => setNewLabelColor(c.value)}
+                      className={`w-8 h-8 rounded-full ${c.value} ${newLabelColor === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      title={c.label}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-3">
+              <button onClick={() => setShowCreateLabel(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleCreateLabel} disabled={!newLabelName.trim()} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+                Create Label
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Invite User Modal */}
+      {showInviteUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setShowInviteUser(false)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">Invite User</h2>
+              <button onClick={() => setShowInviteUser(false)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Email Address</label>
+                <input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder="colleague@company.com"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Role</label>
+                <select
+                  value={inviteRole}
+                  onChange={(e) => setInviteRole(e.target.value)}
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                >
+                  <option value="Property Manager">Property Manager</option>
+                  <option value="Maintenance Coordinator">Maintenance Coordinator</option>
+                  <option value="Front Desk">Front Desk</option>
+                </select>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-3">
+              <button onClick={() => setShowInviteUser(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleInviteUser} disabled={!inviteEmail.trim()} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+                Send Invite
+              </button>
             </div>
           </div>
         </div>
