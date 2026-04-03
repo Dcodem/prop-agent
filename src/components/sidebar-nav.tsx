@@ -23,6 +23,7 @@ const navSections: NavSection[] = [
   {
     heading: "Overview",
     items: [
+      { label: "Dashboard", href: "/overview", icon: "dashboard", exact: true },
       { label: "Cases", href: "/cases", icon: "assignment" },
       { label: "Properties", href: "/properties", icon: "domain" },
       { label: "Tenants", href: "/tenants", icon: "groups" },

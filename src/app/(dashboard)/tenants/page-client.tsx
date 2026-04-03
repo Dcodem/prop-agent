@@ -46,13 +46,17 @@ export function TenantsPageClient({
 
   // Compute stats
   const totalTenants = tenants.length;
-  const expiringSoon = tenants.filter((t) => {
-    if (!t.leaseEnd) return false;
-    const days = Math.ceil(
-      (t.leaseEnd.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
-    );
-    return days > 0 && days <= 30;
-  }).length;
+  const leasesByWindow = useMemo(() => {
+    let d30 = 0, d60 = 0, d90 = 0;
+    for (const t of tenants) {
+      if (!t.leaseEnd) continue;
+      const days = Math.ceil((t.leaseEnd.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+      if (days > 0 && days <= 30) d30++;
+      else if (days > 30 && days <= 60) d60++;
+      else if (days > 60 && days <= 90) d90++;
+    }
+    return { d30, d60, d90, total: d30 + d60 + d90 };
+  }, [tenants]);
   const activeCases = 0; // Placeholder -- would need case data
 
   return (
@@ -95,15 +99,32 @@ export function TenantsPageClient({
         </div>
         <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
           <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
-            Expiring Soon
+            Leases Expiring
           </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-orange-600 tracking-tighter">
-              {expiringSoon}
+          <div className="flex items-center gap-3">
+            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
+              {leasesByWindow.total}
             </span>
-            <span className="text-[11px] text-orange-600 font-bold bg-orange-50 px-2 py-0.5 rounded">
-              30 days
-            </span>
+            <div className="flex flex-col gap-0.5">
+              {leasesByWindow.d30 > 0 && (
+                <span className="text-[10px] font-bold text-red-700 bg-red-50 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />{leasesByWindow.d30} within 30d
+                </span>
+              )}
+              {leasesByWindow.d60 > 0 && (
+                <span className="text-[10px] font-bold text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />{leasesByWindow.d60} within 60d
+                </span>
+              )}
+              {leasesByWindow.d90 > 0 && (
+                <span className="text-[10px] font-bold text-yellow-700 bg-yellow-50 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" />{leasesByWindow.d90} within 90d
+                </span>
+              )}
+              {leasesByWindow.total === 0 && (
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">All clear</span>
+              )}
+            </div>
           </div>
         </div>
         <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">

@@ -213,6 +213,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
             onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
             className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
           >
+            <option value={5}>5 per page</option>
             <option value={10}>10 per page</option>
             <option value={25}>25 per page</option>
             <option value={50}>50 per page</option>

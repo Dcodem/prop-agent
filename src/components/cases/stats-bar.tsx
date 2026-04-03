@@ -4,9 +4,10 @@ interface StatsBarProps {
   totalCases: number;
   openCases: number;
   propertyCount: number;
+  onOpenCasesClick?: () => void;
 }
 
-export function StatsBar({ totalCases, openCases, propertyCount }: StatsBarProps) {
+export function StatsBar({ totalCases, openCases, propertyCount, onOpenCasesClick }: StatsBarProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="bg-surface-container-lowest rounded-2xl p-5 card-shadow border border-outline-variant/10 flex items-center gap-4">
@@ -18,7 +19,10 @@ export function StatsBar({ totalCases, openCases, propertyCount }: StatsBarProps
           <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Total Cases</p>
         </div>
       </div>
-      <div className="bg-surface-container-lowest rounded-2xl p-5 card-shadow border border-outline-variant/10 flex items-center gap-4">
+      <button
+        onClick={onOpenCasesClick}
+        className="bg-surface-container-lowest rounded-2xl p-5 card-shadow border border-outline-variant/10 flex items-center gap-4 text-left hover:ring-2 hover:ring-orange-300 transition-all cursor-pointer"
+      >
         <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
           <span aria-hidden="true" className="material-symbols-outlined text-orange-600">pending_actions</span>
         </div>
@@ -32,7 +36,7 @@ export function StatsBar({ totalCases, openCases, propertyCount }: StatsBarProps
             Active
           </div>
         )}
-      </div>
+      </button>
       <div className="bg-surface-container-lowest rounded-2xl p-5 card-shadow border border-outline-variant/10 flex items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-primary-fixed-dim flex items-center justify-center">
           <span aria-hidden="true" className="material-symbols-outlined text-primary">domain</span>

@@ -52,7 +52,13 @@ function getLeaseStatusClasses(leaseEnd: Date | null) {
     return "bg-error-container text-error border-error/20";
   }
   if (daysUntilEnd <= 30) {
-    return "bg-orange-50 text-orange-700 border-orange-100";
+    return "bg-red-50 text-red-700 border-red-200";
+  }
+  if (daysUntilEnd <= 60) {
+    return "bg-orange-50 text-orange-700 border-orange-200";
+  }
+  if (daysUntilEnd <= 90) {
+    return "bg-yellow-50 text-yellow-700 border-yellow-200";
   }
   return "bg-emerald-50 text-emerald-700 border-emerald-100";
 }
@@ -238,6 +244,7 @@ export function TenantTable({
               onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
               className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
             >
+              <option value={5}>5 per page</option>
               <option value={10}>10 per page</option>
               <option value={25}>25 per page</option>
               <option value={50}>50 per page</option>

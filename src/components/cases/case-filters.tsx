@@ -17,6 +17,7 @@ interface CaseFiltersProps {
   propertyFilter: string;
   onPropertyFilterChange: (value: string) => void;
   onClearFilters: () => void;
+  onNewCase?: () => void;
 }
 
 export function CaseFilters({
@@ -30,6 +31,7 @@ export function CaseFilters({
   propertyFilter,
   onPropertyFilterChange,
   onClearFilters,
+  onNewCase,
 }: CaseFiltersProps) {
   const hasFilters = statusFilter || urgencyFilter || propertyFilter;
 
@@ -43,6 +45,7 @@ export function CaseFilters({
           onChange={(e) => onStatusFilterChange(e.target.value)}
         >
           <option value="">Status</option>
+          <option value="__open__">All Open</option>
           {CASE_STATUSES.map((status) => (
             <option key={status} value={status}>
               {formatEnum(status)}
@@ -105,8 +108,8 @@ export function CaseFilters({
         </button>
       </div>
       <div className="h-8 w-px bg-surface-container"></div>
-      <a
-        href="/cases/new"
+      <button
+        onClick={onNewCase}
         className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-colors"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -114,7 +117,7 @@ export function CaseFilters({
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
         New Case
-      </a>
+      </button>
     </div>
   );
 }

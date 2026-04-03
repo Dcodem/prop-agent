@@ -5,23 +5,32 @@ import { StatsBar } from "@/components/cases/stats-bar";
 import { CaseFilters } from "@/components/cases/case-filters";
 import { CaseTable } from "@/components/cases/case-table";
 import { CaseKanban } from "@/components/cases/case-kanban";
-import type { Case, Property, Tenant } from "@/lib/db/schema";
+import { CaseCreateModal } from "@/components/cases/case-create-modal";
+import type { Case, Property, Tenant, Vendor } from "@/lib/db/schema";
 
 interface CasesPageClientProps {
   cases: Case[];
   properties: Property[];
   tenants: Tenant[];
+  vendors: Vendor[];
 }
 
-export function CasesPageClient({ cases, properties, tenants }: CasesPageClientProps) {
+export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPageClientProps) {
   const [viewMode, setViewMode] = useState<"table" | "kanban">("table");
   const [statusFilter, setStatusFilter] = useState("");
   const [urgencyFilter, setUrgencyFilter] = useState("");
   const [propertyFilter, setPropertyFilter] = useState("");
+  const [showNewCaseModal, setShowNewCaseModal] = useState(false);
+
+  const OPEN_STATUSES = new Set(["open", "in_progress", "waiting_on_vendor", "waiting_on_tenant"]);
 
   const filteredCases = useMemo(() => {
     return cases.filter((c) => {
-      if (statusFilter && c.status !== statusFilter) return false;
+      if (statusFilter === "__open__") {
+        if (!OPEN_STATUSES.has(c.status)) return false;
+      } else if (statusFilter && c.status !== statusFilter) {
+        return false;
+      }
       if (urgencyFilter && c.urgency !== urgencyFilter) return false;
       if (propertyFilter && c.propertyId !== propertyFilter) return false;
       return true;
@@ -47,6 +56,15 @@ export function CasesPageClient({ cases, properties, tenants }: CasesPageClientP
         totalCases={cases.length}
         openCases={openCount}
         propertyCount={uniquePropertyIds.size}
+        onOpenCasesClick={() => {
+          if (statusFilter === "__open__") {
+            setStatusFilter("");
+          } else {
+            setStatusFilter("__open__");
+            setUrgencyFilter("");
+            setPropertyFilter("");
+          }
+        }}
       />
 
       {/* Filter Bar */}
@@ -65,6 +83,7 @@ export function CasesPageClient({ cases, properties, tenants }: CasesPageClientP
           setUrgencyFilter("");
           setPropertyFilter("");
         }}
+        onNewCase={() => setShowNewCaseModal(true)}
       />
 
       {/* View */}
@@ -72,6 +91,15 @@ export function CasesPageClient({ cases, properties, tenants }: CasesPageClientP
         <CaseTable cases={filteredCases} properties={properties} tenants={tenants} />
       ) : (
         <CaseKanban cases={filteredCases} properties={properties} tenants={tenants} />
+      )}
+
+      {/* New Case Modal */}
+      {showNewCaseModal && (
+        <CaseCreateModal
+          properties={properties}
+          vendors={vendors}
+          onClose={() => setShowNewCaseModal(false)}
+        />
       )}
     </div>
   );
