@@ -55,10 +55,6 @@ export function CaseSidebar({
             )}
           </div>
 
-          <button className="w-full py-5 bg-primary-fixed text-primary rounded-lg font-black text-sm flex items-center justify-center gap-3 hover:shadow-lg transition-all active:scale-[0.98]">
-            <span className="material-symbols-outlined">calendar_today</span>
-            Schedule Inspection
-          </button>
           <button
             onClick={() => setShowWorkOrder(true)}
             className="w-full py-5 border-2 border-outline-variant/20 text-on-surface rounded-lg font-black text-sm flex items-center justify-center gap-3 hover:bg-surface transition-all"

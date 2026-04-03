@@ -23,6 +23,10 @@ const PROPERTY_PHOTOS: Record<string, string> = {
   "142 Oak Street, Austin, TX 78701": "/properties/142-oak-street.jpg",
   "88 Commerce Blvd, Austin, TX 78702": "/properties/88-commerce-blvd.jpg",
   "7 Maple Lane, Austin, TX 78703": "/properties/7-maple-lane.jpg",
+  "310 Congress Ave, Austin, TX 78701": "/properties/310-congress-ave.jpg",
+  "45 Rainey Street, Austin, TX 78701": "/properties/45-rainey-street.jpg",
+  "1200 South Lamar Blvd, Austin, TX 78704": "/properties/1200-south-lamar.jpg",
+  "22 Barton Springs Rd, Austin, TX 78704": "/properties/22-barton-springs.jpg",
 };
 
 export function PropertyCard({
