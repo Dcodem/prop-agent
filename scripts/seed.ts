@@ -23,7 +23,6 @@ const PROPERTY_IDS = [
   "00000000-0000-4000-a000-000000000103",
   "00000000-0000-4000-a000-000000000104",
   "00000000-0000-4000-a000-000000000105",
-  "00000000-0000-4000-a000-000000000106",
   "00000000-0000-4000-a000-000000000107",
 ];
 
@@ -182,16 +181,6 @@ async function seed() {
     {
       id: PROPERTY_IDS[5],
       orgId: ORG_ID,
-      address: "1200 South Lamar Blvd, Austin, TX 78704",
-      unitCount: 3,
-      type: "commercial",
-      accessInstructions: "Main entrance unlocked during business hours. After hours: security desk.",
-      parkingInstructions: "Front lot and underground garage. Tenant spots clearly marked.",
-      notes: "Mixed-use commercial. Suite A: restaurant, Suite B: coworking, Suite C: retail.",
-    },
-    {
-      id: PROPERTY_IDS[6],
-      orgId: ORG_ID,
       address: "22 Barton Springs Rd, Austin, TX 78704",
       unitCount: 4,
       type: "residential",
@@ -343,7 +332,7 @@ async function seed() {
     // 22 Barton Springs tenants
     {
       id: TENANT_IDS[12],
-      propertyId: PROPERTY_IDS[6],
+      propertyId: PROPERTY_IDS[5],
       orgId: ORG_ID,
       name: "Rachel Park",
       email: "rachel.park@email.com",
@@ -354,7 +343,7 @@ async function seed() {
     },
     {
       id: TENANT_IDS[13],
-      propertyId: PROPERTY_IDS[6],
+      propertyId: PROPERTY_IDS[5],
       orgId: ORG_ID,
       name: "Derek Okonkwo",
       email: "derek.o@email.com",
@@ -564,7 +553,7 @@ async function seed() {
       id: CASE_IDS[7],
       orgId: ORG_ID,
       tenantId: TENANT_IDS[12],
-      propertyId: PROPERTY_IDS[6],
+      propertyId: PROPERTY_IDS[5],
       source: "sms",
       rawMessage: "The dishwasher in my unit stopped working mid-cycle. It's making a grinding noise and won't drain. Water is sitting in the bottom.",
       category: "maintenance",
@@ -595,7 +584,7 @@ async function seed() {
       id: CASE_IDS[9],
       orgId: ORG_ID,
       tenantId: TENANT_IDS[13],
-      propertyId: PROPERTY_IDS[6],
+      propertyId: PROPERTY_IDS[5],
       source: "sms",
       rawMessage: "The construction crew next door starts at 6:30 AM every morning. Is there anything the building can do? My lease says quiet hours until 8 AM.",
       category: "noise_complaint",
@@ -697,7 +686,7 @@ async function seed() {
 
   console.log("\n✅ Seed complete!\n");
   console.log("  Organization: Sunrise Property Management");
-  console.log("  Properties:   7");
+  console.log("  Properties:   6");
   console.log("  Tenants:      14");
   console.log("  Vendors:      7");
   console.log("  Cases:        10 (with 60+ timeline entries)");

@@ -68,6 +68,8 @@ export function SettingsTabsClient({
   // Modal states
   const [showAddStage, setShowAddStage] = useState(false);
   const [showCreateLabel, setShowCreateLabel] = useState(false);
+  const [showAiLabels, setShowAiLabels] = useState(false);
+  const [aiLabelSuggestions, setAiLabelSuggestions] = useState<{ name: string; color: string; reason: string }[]>([]);
   const [showInviteUser, setShowInviteUser] = useState(false);
 
   // Three-dot menu & edit states
@@ -257,11 +259,69 @@ export function SettingsTabsClient({
                 Manage the labels used to categorize maintenance cases.
               </p>
             </div>
-            <button onClick={() => setShowCreateLabel(true)} className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
-              <span className="material-symbols-outlined text-lg">add</span>
-              Create Label
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setAiLabelSuggestions([
+                    { name: "Water Damage", color: "bg-blue-500", reason: "3 recent cases mention water/flooding but aren't categorized" },
+                    { name: "Parking", color: "bg-slate-500", reason: "Detected 2 cases about parking disputes with no matching label" },
+                    { name: "Landscaping", color: "bg-emerald-500", reason: "Vendor ClearView Landscaping assigned but no label exists" },
+                    { name: "Security", color: "bg-red-500", reason: "Lockout and access cases could benefit from a dedicated label" },
+                  ]);
+                  setShowAiLabels(true);
+                }}
+                className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-lg">auto_awesome</span>
+                AI Smart Labels
+              </button>
+              <button onClick={() => setShowCreateLabel(true)} className="px-5 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+                <span className="material-symbols-outlined text-lg">add</span>
+                Create Label
+              </button>
+            </div>
           </div>
+
+          {/* AI Label Suggestions */}
+          {showAiLabels && aiLabelSuggestions.length > 0 && (
+            <div className="bg-primary/5 border border-primary/10 rounded-2xl p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary">auto_awesome</span>
+                  <h3 className="text-sm font-bold text-on-surface">AI-Suggested Labels</h3>
+                  <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase">
+                    Based on your cases
+                  </span>
+                </div>
+                <button onClick={() => setShowAiLabels(false)} className="text-on-surface-variant hover:text-on-surface transition-colors">
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {aiLabelSuggestions.map((suggestion) => (
+                  <div key={suggestion.name} className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/10 flex items-start justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`w-3 h-3 rounded-full ${suggestion.color}`} />
+                        <span className="text-sm font-bold text-on-surface">{suggestion.name}</span>
+                      </div>
+                      <p className="text-xs text-on-surface-variant">{suggestion.reason}</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setLabels((prev) => [...prev, { name: suggestion.name, color: suggestion.color, count: 0 }]);
+                        setAiLabelSuggestions((prev) => prev.filter((s) => s.name !== suggestion.name));
+                      }}
+                      className="shrink-0 px-3 py-1.5 bg-primary text-on-primary rounded-lg text-xs font-bold hover:opacity-90 transition-opacity"
+                    >
+                      Add
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {labels.map((label) => (
               <div
@@ -317,6 +377,37 @@ export function SettingsTabsClient({
               Invite User
             </button>
           </div>
+          {/* Role Description Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-primary text-lg">admin_panel_settings</span>
+                <h4 className="text-sm font-bold text-on-surface">Property Manager</h4>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Full access to all features. Can manage properties, tenants, vendors, cases, billing, and team members. Can configure AI settings and automation rules.
+              </p>
+            </div>
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-amber-500">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-amber-600 text-lg">engineering</span>
+                <h4 className="text-sm font-bold text-on-surface">Maintenance Coordinator</h4>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Can manage cases and dispatch vendors. Can view properties and tenants. Cannot modify billing, team members, or AI settings.
+              </p>
+            </div>
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-emerald-500">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-emerald-600 text-lg">support_agent</span>
+                <h4 className="text-sm font-bold text-on-surface">Front Desk</h4>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Can view and create cases. Can view tenant and property info. Cannot manage vendors, billing, team members, or settings.
+              </p>
+            </div>
+          </div>
+
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
             <table className="w-full text-left">
               <thead className="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
@@ -416,21 +507,6 @@ export function SettingsTabsClient({
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
-            <span className="material-symbols-outlined text-primary text-xl mt-0.5">
-              info
-            </span>
-            <div>
-              <p className="text-sm font-bold text-on-surface">
-                Role Permissions
-              </p>
-              <p className="text-xs text-on-surface-variant mt-1">
-                Property Managers have full access. Maintenance Coordinators can
-                manage cases and vendors. Front Desk can view and create cases
-                only.
-              </p>
-            </div>
           </div>
         </div>
       )}

@@ -66,6 +66,8 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [tradeFilter, setTradeFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const filtered = useMemo(() => {
     return vendors.filter((v) => {
@@ -77,6 +79,20 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
       return matchesSearch && matchesTrade;
     });
   }, [vendors, search, tradeFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
+  const paginatedVendors = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filtered.slice(start, start + itemsPerPage);
+  }, [filtered, currentPage, itemsPerPage]);
+
+  const handleItemsPerPageChange = (value: number) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  };
+
+  const startItem = filtered.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
+  const endItem = Math.min(currentPage * itemsPerPage, filtered.length);
 
   return (
     <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 overflow-hidden mb-12">
@@ -115,7 +131,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/10">
-            {filtered.length === 0 && (
+            {paginatedVendors.length === 0 && (
               <tr>
                 <td
                   colSpan={5}
@@ -125,7 +141,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
                 </td>
               </tr>
             )}
-            {filtered.map((vendor, idx) => {
+            {paginatedVendors.map((vendor, idx) => {
               const color = getAvatarColor(vendor.name);
               return (
                 <tr
@@ -186,10 +202,50 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
         </table>
       </div>
 
-      {/* Pagination info */}
-      <div className="px-8 py-4 bg-primary-fixed flex justify-between items-center text-xs font-semibold text-on-surface-variant">
-        <div>
-          Showing {filtered.length} of {vendors.length}
+      {/* Pagination Footer */}
+      <div className="px-8 py-4 bg-primary-fixed flex items-center justify-between text-xs font-semibold text-on-surface-variant">
+        <div className="flex items-center gap-3">
+          <span>
+            Showing {startItem}–{endItem} of {filtered.length} vendor{filtered.length !== 1 ? "s" : ""}
+          </span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+            className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
+          >
+            <option value={10}>10 per page</option>
+            <option value={25}>25 per page</option>
+            <option value={50}>50 per page</option>
+          </select>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <span className="material-symbols-outlined text-sm">chevron_left</span>
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-8 h-8 text-xs font-bold rounded transition-colors ${
+                page === currentPage
+                  ? "bg-primary text-on-primary"
+                  : "text-on-surface-variant hover:bg-surface-container-high"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <span className="material-symbols-outlined text-sm">chevron_right</span>
+          </button>
         </div>
       </div>
     </section>

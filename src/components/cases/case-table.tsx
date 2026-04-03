@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { formatEnum, timeAgo } from "@/lib/utils";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
@@ -52,6 +53,33 @@ const SOURCE_ICON: Record<string, React.ReactNode> = {
   ),
 };
 
+// Generate AI-like summary from raw message
+function generateSummary(rawMessage: string, category: string | null, status: string): string {
+  const cat = category ?? "general";
+  const summaries: Record<string, (msg: string) => string> = {
+    maintenance: (msg) => {
+      if (msg.toLowerCase().includes("sink") || msg.toLowerCase().includes("leak")) return "Kitchen sink leak — water pooling under cabinet";
+      if (msg.toLowerCase().includes("ac") || msg.toLowerCase().includes("hvac") || msg.toLowerCase().includes("air")) return "AC unit blowing warm air — needs HVAC service";
+      if (msg.toLowerCase().includes("dishwasher")) return "Dishwasher malfunction — grinding noise, won't drain";
+      if (msg.toLowerCase().includes("ant") || msg.toLowerCase().includes("pest")) return "Ant infestation in kitchen — recurring issue near baseboard";
+      return msg.length > 60 ? msg.slice(0, 57) + "..." : msg;
+    },
+    emergency: (msg) => {
+      if (msg.toLowerCase().includes("electrical") || msg.toLowerCase().includes("burning")) return "Electrical emergency — burning smell from outlet";
+      if (msg.toLowerCase().includes("lock")) return "Tenant lockout — needs emergency locksmith";
+      return msg.length > 60 ? msg.slice(0, 57) + "..." : msg;
+    },
+    lease_question: () => "Lease renewal inquiry — requesting terms for extension",
+    noise_complaint: (msg) => {
+      if (msg.toLowerCase().includes("construction")) return "Early-morning construction noise — violates quiet hours";
+      return "Noise complaint — repeated late-night disturbances";
+    },
+    payment: () => "Payment issue — rent transfer rejected by bank",
+    general: (msg) => msg.length > 60 ? msg.slice(0, 57) + "..." : msg,
+  };
+  return (summaries[cat] ?? summaries.general)(rawMessage);
+}
+
 interface CaseTableProps {
   cases: Case[];
   properties: Property[];
@@ -60,6 +88,20 @@ interface CaseTableProps {
 
 export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const totalPages = Math.max(1, Math.ceil(cases.length / itemsPerPage));
+  const paginatedCases = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return cases.slice(start, start + itemsPerPage);
+  }, [cases, currentPage, itemsPerPage]);
+
+  // Reset to page 1 when items per page or data changes
+  const handleItemsPerPageChange = (value: number) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  };
 
   if (cases.length === 0) {
     return (
@@ -70,6 +112,9 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
       </div>
     );
   }
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, cases.length);
 
   return (
     <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
@@ -85,7 +130,7 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           </tr>
         </thead>
         <tbody className="divide-y divide-outline-variant/30">
-          {cases.map((c) => (
+          {paginatedCases.map((c) => (
             <tr
               key={c.id}
               onClick={() => router.push(`/cases/${c.id}`)}
@@ -98,7 +143,9 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
                 </div>
               </td>
               <td className="px-6 py-4">
-                <p className="text-sm text-on-surface font-semibold truncate max-w-[300px]">{c.rawMessage}</p>
+                <p className="text-sm text-on-surface font-semibold truncate max-w-[300px]">
+                  {generateSummary(c.rawMessage, c.category, c.status)}
+                </p>
               </td>
               <td className="px-6 py-4">
                 <span className={`${CATEGORY_BADGE[c.category ?? "general"]} text-[11px] font-bold px-2.5 py-1 rounded-full uppercase`}>
@@ -122,8 +169,51 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           ))}
         </tbody>
       </table>
+      {/* Pagination Footer */}
       <div className="px-6 py-4 bg-surface-container-low flex items-center justify-between border-t border-outline-variant/30">
-        <span className="text-xs font-medium text-on-surface-variant">Showing {cases.length} case{cases.length !== 1 ? "s" : ""}</span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-medium text-on-surface-variant">
+            Showing {startItem}–{endItem} of {cases.length} case{cases.length !== 1 ? "s" : ""}
+          </span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+            className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
+          >
+            <option value={10}>10 per page</option>
+            <option value={25}>25 per page</option>
+            <option value={50}>50 per page</option>
+          </select>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
+          >
+            <span className="material-symbols-outlined text-sm">chevron_left</span>
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-8 h-8 text-xs font-bold rounded transition-colors ${
+                page === currentPage
+                  ? "bg-primary text-on-primary"
+                  : "text-on-surface-variant hover:bg-surface-container-high"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
+          >
+            <span className="material-symbols-outlined text-sm">chevron_right</span>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -82,6 +82,34 @@ export function TenantForm({
         <form ref={formRef} action={formAction} className="space-y-4">
           {isEditing && <input type="hidden" name="id" value={tenant.id} />}
 
+          {/* Lease Upload to Auto-Populate */}
+          {!isEditing && (
+            <div className="bg-primary-fixed/40 border border-primary/10 rounded-xl p-4 mb-2">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary text-lg">upload_file</span>
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-on-surface">Upload Lease Document</p>
+                  <p className="text-[11px] text-on-surface-variant">Upload a lease to auto-populate tenant details</p>
+                </div>
+              </div>
+              <label className="block cursor-pointer">
+                <div className="border-2 border-dashed border-primary/20 rounded-lg p-3 text-center hover:border-primary/40 hover:bg-primary/5 transition-all">
+                  <span className="text-xs font-medium text-primary">Click to upload PDF or image</span>
+                </div>
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className="hidden"
+                  onChange={() => {
+                    // Prototype: in production this would parse the lease via AI
+                  }}
+                />
+              </label>
+            </div>
+          )}
+
           {/* Name */}
           <div>
             <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">

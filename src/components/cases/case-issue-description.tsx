@@ -35,16 +35,57 @@ function formatMessageTime(dateStr: string) {
   });
 }
 
+// Generate a detailed AI summary based on the case context
+function generateDetailedSummary(rawMessage: string, category: string | null, status: string): string {
+  const cat = category?.toLowerCase() ?? "general";
+  const statusLabel: Record<string, string> = {
+    open: "New — awaiting triage",
+    in_progress: "In progress — vendor dispatched",
+    waiting_on_vendor: "Waiting for vendor response",
+    waiting_on_tenant: "Waiting for tenant response",
+    resolved: "Resolved",
+    closed: "Closed",
+  };
+  const currentStatus = statusLabel[status] || status;
+
+  const summaries: Record<string, string> = {
+    maintenance: rawMessage.toLowerCase().includes("sink") || rawMessage.toLowerCase().includes("leak")
+      ? `Tenant reported a kitchen sink leak with water pooling under the cabinet. A plumber has been contacted. The tenant was advised to place towels and turn off the water valve if accessible.`
+      : rawMessage.toLowerCase().includes("ac") || rawMessage.toLowerCase().includes("hvac")
+      ? `Tenant reported their AC unit is blowing warm air despite thermostat and filter checks. An HVAC technician has been dispatched. High temperatures forecasted — prioritized for same-day service.`
+      : rawMessage.toLowerCase().includes("dishwasher")
+      ? `Tenant reported dishwasher stopped mid-cycle with a grinding noise and standing water in the basin. Appliance repair has been scheduled. Tenant advised not to run the unit until inspection.`
+      : rawMessage.toLowerCase().includes("ant") || rawMessage.toLowerCase().includes("pest")
+      ? `Tenant reported recurring ant trails in the kitchen near the baseboard and sink area. Store-bought treatments have been ineffective. Professional pest control has been scheduled for the unit and common areas.`
+      : `Maintenance issue reported by tenant. The property management team is coordinating a resolution.`,
+    emergency: rawMessage.toLowerCase().includes("electrical") || rawMessage.toLowerCase().includes("burning")
+      ? `URGENT: Tenant reported a burning smell from an electrical outlet in the living room. All devices have been unplugged but the smell persists. An electrician has been emergency-dispatched. Tenant was advised to avoid the outlet and evacuate if smoke appears.`
+      : rawMessage.toLowerCase().includes("lock")
+      ? `Tenant is locked out of their unit with the spare key inside. An emergency locksmith has been dispatched with an estimated arrival of 30 minutes.`
+      : `Emergency case reported. Immediate response initiated.`,
+    lease_question: `Tenant inquired about lease renewal options ahead of their upcoming expiration. The property manager has been notified to prepare renewal terms and follow up with available options.`,
+    noise_complaint: rawMessage.toLowerCase().includes("construction")
+      ? `Tenant reported early-morning construction noise starting at 6:30 AM, which violates the lease quiet hours policy (until 8 AM). Building management has contacted the construction site manager to negotiate a later start time.`
+      : `Tenant filed a noise complaint about repeated late-night disturbances from a neighboring unit. This is a recurring issue. The property manager has spoken with the offending tenant to resolve the situation.`,
+    payment: `Tenant reported their rent payment was rejected by their bank. The property management team confirmed the returned payment and has waived late fees provided the payment is retried within 5 business days.`,
+    general: `Case reported by tenant. The property management team is reviewing and will respond with next steps.`,
+  };
+
+  return `${summaries[cat] || summaries.general}\n\n**Current Status:** ${currentStatus}`;
+}
+
 export function CaseIssueDescription({
   rawMessage,
   category,
   messages,
   tenantName,
+  status,
 }: {
   rawMessage: string;
   category: string | null;
   messages: Message[];
   tenantName: string;
+  status?: string;
 }) {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showAllUpdates, setShowAllUpdates] = useState(false);
@@ -64,24 +105,52 @@ export function CaseIssueDescription({
 
   return (
     <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
-      {/* Original Report */}
+      {/* AI Summary */}
       <div className="flex items-start gap-6 mb-8">
         <div className="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0">
           <span
             className="material-symbols-outlined text-3xl"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
-            description
+            smart_toy
           </span>
         </div>
         <div className="flex-1">
-          <h2 className="text-2xl font-extrabold text-on-surface mb-3 tracking-tight">
-            Issue Description
-          </h2>
-          <p className="text-xl text-on-surface-variant leading-relaxed font-normal">
-            &ldquo;{rawMessage}&rdquo;
-          </p>
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">
+              Issue Summary
+            </h2>
+            <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider">
+              AI Generated
+            </span>
+          </div>
+          {generateDetailedSummary(rawMessage, category, status ?? "open").split("\n\n").map((para, i) => (
+            <p key={i} className={`text-base leading-relaxed ${
+              para.startsWith("**Current Status:")
+                ? "mt-4 text-sm font-bold text-on-surface"
+                : "text-on-surface-variant"
+            }`}>
+              {para.startsWith("**Current Status:**")
+                ? <>
+                    <span className="text-on-surface-variant font-normal">Current Status: </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                      {para.replace("**Current Status:** ", "")}
+                    </span>
+                  </>
+                : para}
+            </p>
+          ))}
         </div>
+      </div>
+
+      {/* Original Message */}
+      <div className="bg-surface-container-low rounded-xl p-6 mb-8">
+        <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
+          Original Report
+        </p>
+        <p className="text-sm text-on-surface-variant leading-relaxed italic">
+          &ldquo;{rawMessage}&rdquo;
+        </p>
       </div>
 
       {/* Attached Images */}

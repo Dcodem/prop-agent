@@ -181,6 +181,7 @@ export default async function CaseDetailPage({
               createdAt: m.createdAt.toISOString(),
             }))}
             tenantName={tenant?.name ?? "Tenant"}
+            status={caseData.status}
           />
 
           {/* Interaction Timeline */}

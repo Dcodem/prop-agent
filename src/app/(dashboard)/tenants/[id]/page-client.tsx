@@ -115,8 +115,6 @@ export function TenantDetailClient({
   const [isDeleting, startDeleteTransition] = useTransition();
   const [uploadedDocs, setUploadedDocs] = useState<string[]>([]);
   const [previewDoc, setPreviewDoc] = useState<string | null>(null);
-  const [showSupportModal, setShowSupportModal] = useState(false);
-  const [supportMessage, setSupportMessage] = useState("");
 
   const tenantForForm = {
     ...tenant,
@@ -244,12 +242,22 @@ export function TenantDetailClient({
               <h3 className="text-2xl font-bold tracking-tight">
                 Lease Information
               </h3>
-              <button
-                onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                className="text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2"
-              >
-                View Full Agreement
-              </button>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
+                  className="flex items-center gap-1.5 text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2"
+                >
+                  <span className="material-symbols-outlined text-base">description</span>
+                  View Lease
+                </button>
+                <button
+                  onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
+                  className="flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-primary hover:underline underline-offset-4 decoration-2 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-base">download</span>
+                  Download
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-y-8 gap-x-12">
               <div>
@@ -485,25 +493,6 @@ export function TenantDetailClient({
             )}
           </div>
 
-          {/* Contact Property Manager Glassmorphism */}
-          <div className="bg-primary/5 backdrop-blur-md p-8 rounded-2xl border border-primary/5 relative overflow-hidden group">
-            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
-              <span className="material-symbols-outlined text-9xl text-on-surface">
-                support_agent
-              </span>
-            </div>
-            <h4 className="text-on-surface font-bold mb-2">Need Help?</h4>
-            <p className="text-sm text-on-surface-variant mb-6 relative z-10">
-              Connect directly with the building management team for immediate
-              assistance.
-            </p>
-            <button
-              onClick={() => setShowSupportModal(true)}
-              className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-colors relative z-10"
-            >
-              Contact Support
-            </button>
-          </div>
       </div>
 
       {/* Sticky FAB: Contextual to Tenant Portal */}
@@ -558,47 +547,6 @@ export function TenantDetailClient({
               </button>
               <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
                 Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Contact Support Modal */}
-      {showSupportModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-on-surface/50" onClick={() => { setShowSupportModal(false); setSupportMessage(""); }} />
-          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg p-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-xl font-bold text-on-surface">Contact Support</h2>
-                <p className="text-sm text-on-surface-variant mt-1">Describe your issue and we&apos;ll get back to you shortly.</p>
-              </div>
-              <button onClick={() => { setShowSupportModal(false); setSupportMessage(""); }} className="text-outline hover:text-on-surface transition-colors">
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
-            <textarea
-              value={supportMessage}
-              onChange={(e) => setSupportMessage(e.target.value)}
-              placeholder="What do you need help with?"
-              rows={5}
-              className="w-full p-4 bg-surface-container-low rounded-lg border border-outline-variant/20 text-on-surface placeholder:text-on-surface-variant/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 resize-none"
-            />
-            <div className="mt-6 flex justify-end gap-3">
-              <button
-                onClick={() => { setShowSupportModal(false); setSupportMessage(""); }}
-                className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => { setShowSupportModal(false); setSupportMessage(""); }}
-                disabled={!supportMessage.trim()}
-                className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-sm">send</span>
-                Submit Request
               </button>
             </div>
           </div>
