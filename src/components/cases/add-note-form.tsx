@@ -3,36 +3,49 @@
 import { useState, useTransition, useRef } from "react";
 import { addNoteAction } from "@/app/(dashboard)/cases/actions";
 
-interface LocalNote {
+interface NoteDisplay {
   id: string;
   text: string;
   author: string;
-  timestamp: Date;
-  stage: string;
+  timestamp: string;
 }
 
-function formatStage(status: string) {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+interface AddNoteFormProps {
+  caseId: string;
+  caseStatus?: string;
+  existingNotes?: NoteDisplay[];
 }
 
-export function AddNoteForm({ caseId, caseStatus = "open" }: { caseId: string; caseStatus?: string }) {
+function formatTimestamp(iso: string) {
+  const d = new Date(iso);
+  const time = d.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const date = d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+  return `${time} \u2022 ${date}`;
+}
+
+export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }: AddNoteFormProps) {
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
-  const [localNotes, setLocalNotes] = useState<LocalNote[]>([]);
+  const [optimisticNotes, setOptimisticNotes] = useState<NoteDisplay[]>([]);
 
   function handleSubmit(formData: FormData) {
     const note = formData.get("note") as string;
     if (!note?.trim()) return;
 
-    // Add to local display immediately
-    setLocalNotes((prev) => [
+    setOptimisticNotes((prev) => [
       ...prev,
       {
         id: `note-${Date.now()}`,
         text: note.trim(),
         author: "Property Manager",
-        timestamp: new Date(),
-        stage: caseStatus,
+        timestamp: new Date().toISOString(),
       },
     ]);
 
@@ -42,12 +55,40 @@ export function AddNoteForm({ caseId, caseStatus = "open" }: { caseId: string; c
     });
   }
 
+  const allNotes = [...existingNotes, ...optimisticNotes];
+
   return (
     <div>
+      {/* Existing + optimistic notes */}
+      {allNotes.length > 0 && (
+        <div className="space-y-3 mb-8">
+          {allNotes.map((note) => (
+            <div
+              key={note.id}
+              className="bg-primary-fixed/50 border border-primary/10 rounded-lg p-4"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary text-sm">person</span>
+                  </div>
+                  <span className="text-xs font-bold text-on-surface">{note.author}</span>
+                </div>
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
+                  {formatTimestamp(note.timestamp)}
+                </span>
+              </div>
+              <p className="text-sm text-on-surface leading-relaxed">{note.text}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {allNotes.length === 0 && (
+        <p className="text-sm text-on-surface-variant mb-6">No notes yet.</p>
+      )}
+
       <form ref={formRef} action={handleSubmit}>
-        <label className="text-xs font-black text-on-surface-variant uppercase tracking-wider mb-3 block">
-          Add a Note
-        </label>
         <div className="flex gap-4">
           <input
             name="note"
@@ -66,43 +107,6 @@ export function AddNoteForm({ caseId, caseStatus = "open" }: { caseId: string; c
           </button>
         </div>
       </form>
-
-      {/* Notes appear below the form, oldest first */}
-      {localNotes.length > 0 && (
-        <div className="space-y-3 mt-6">
-          {localNotes.map((note) => (
-            <div
-              key={note.id}
-              className="bg-primary-fixed/50 border border-primary/10 rounded-lg p-4"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-sm">person</span>
-                  </div>
-                  <span className="text-xs font-bold text-on-surface">{note.author}</span>
-                  <span className="px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">
-                    {formatStage(note.stage)}
-                  </span>
-                </div>
-                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
-                  {note.timestamp.toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}{" "}
-                  &bull;{" "}
-                  {note.timestamp.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-              <p className="text-sm text-on-surface leading-relaxed">{note.text}</p>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

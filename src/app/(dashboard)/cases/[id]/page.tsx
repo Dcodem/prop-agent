@@ -187,7 +187,7 @@ export default async function CaseDetailPage({
 
           {/* Interaction Timeline */}
           <CaseTimeline
-            timeline={timeline}
+            timeline={timeline.filter((e) => e.type !== "note")}
             caseId={caseData.id}
             caseStatus={caseData.status}
           />
@@ -198,7 +198,18 @@ export default async function CaseDetailPage({
               <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Property Manager Notes</h2>
               <p className="text-sm text-on-surface-variant font-medium mt-1">Internal notes visible only to your team</p>
             </div>
-            <AddNoteForm caseId={caseData.id} caseStatus={caseData.status} />
+            <AddNoteForm
+              caseId={caseData.id}
+              caseStatus={caseData.status}
+              existingNotes={timeline
+                .filter((e) => e.type === "note")
+                .map((e) => ({
+                  id: e.id,
+                  text: e.details ?? "",
+                  author: (e.metadata as Record<string, unknown>)?.author as string ?? "Property Manager",
+                  timestamp: e.createdAt.toISOString(),
+                }))}
+            />
           </section>
 
           {/* Communication Log */}

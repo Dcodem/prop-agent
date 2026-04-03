@@ -1,6 +1,6 @@
 "use server";
 
-import { getOrgId } from "@/lib/db/queries/helpers";
+import { getOrgId, getCurrentUser } from "@/lib/db/queries/helpers";
 import { updateCase, addTimelineEntry } from "@/lib/db/queries/cases";
 import { revalidatePath } from "next/cache";
 
@@ -31,7 +31,11 @@ export async function assignVendorAction(caseId: string, vendorId: string) {
 }
 
 export async function addNoteAction(caseId: string, note: string) {
-  const orgId = await getOrgId();
-  await addTimelineEntry(caseId, { type: "note", details: note });
+  const user = await getCurrentUser();
+  await addTimelineEntry(caseId, {
+    type: "note",
+    details: note,
+    metadata: { author: user.name },
+  });
   revalidatePath(`/cases/${caseId}`);
 }
