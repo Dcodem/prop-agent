@@ -8,6 +8,7 @@ import { getMessagesByCase } from "@/lib/db/queries/messages";
 import { CaseTimeline } from "@/components/cases/case-timeline";
 import { CaseMessages } from "@/components/cases/case-messages";
 import { CaseSidebar } from "@/components/cases/case-sidebar";
+import { CaseIssueDescription } from "@/components/cases/case-issue-description";
 import { formatEnum, timeAgo } from "@/lib/utils";
 import Link from "next/link";
 
@@ -168,26 +169,19 @@ export default async function CaseDetailPage({
           </section>
 
           {/* Issue Description */}
-          <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
-            <div className="flex items-start gap-6 mb-10">
-              <div className="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0">
-                <span
-                  className="material-symbols-outlined text-3xl"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  description
-                </span>
-              </div>
-              <div>
-                <h2 className="text-2xl font-extrabold text-on-surface mb-3 tracking-tight">
-                  Issue Description
-                </h2>
-                <p className="text-xl text-on-surface-variant leading-relaxed font-normal">
-                  &ldquo;{caseData.rawMessage}&rdquo;
-                </p>
-              </div>
-            </div>
-          </section>
+          <CaseIssueDescription
+            rawMessage={caseData.rawMessage}
+            category={caseData.category}
+            messages={messages.map((m) => ({
+              id: m.id,
+              body: m.body,
+              direction: m.direction,
+              fromAddress: m.fromAddress,
+              messageType: m.messageType,
+              createdAt: m.createdAt.toISOString(),
+            }))}
+            tenantName={tenant?.name ?? "Tenant"}
+          />
 
           {/* Interaction Timeline */}
           <CaseTimeline
