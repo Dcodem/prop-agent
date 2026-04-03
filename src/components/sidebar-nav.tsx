@@ -161,13 +161,14 @@ export function SidebarNav({ open = false, onClose }: SidebarNavProps) {
             <span aria-hidden="true" className="material-symbols-outlined text-[20px]">person</span>
             <span className="text-sm font-medium">Profile</span>
           </Link>
-          <a
-            href="mailto:support@propagent.com"
+          <Link
+            href="/support"
+            onClick={onClose}
             className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors"
           >
             <span aria-hidden="true" className="material-symbols-outlined text-[20px]">help</span>
             <span className="text-sm font-medium">Support</span>
-          </a>
+          </Link>
           <SignOutButton className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors w-full">
             <span aria-hidden="true" className="material-symbols-outlined text-[20px]">logout</span>
             <span className="text-sm font-medium">Logout</span>

@@ -55,7 +55,7 @@ export default async function CaseDetailPage({
             href="/cases"
             className="hover:text-primary cursor-pointer transition-colors"
           >
-            Maintenance
+            Cases
           </Link>
           <span className="material-symbols-outlined text-base">
             chevron_right

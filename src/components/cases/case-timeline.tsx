@@ -28,9 +28,7 @@ function formatTime(date: Date) {
 }
 
 function formatType(type: string) {
-  return type
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return type.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export function CaseTimeline({
@@ -46,93 +44,76 @@ export function CaseTimeline({
     <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">
-            System of Record
-          </h2>
-          <p className="text-sm text-on-surface-variant font-medium mt-1">
-            At-a-glance roll call of case interactions
-          </p>
+          <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">System of Record</h2>
+          <p className="text-sm text-on-surface-variant font-medium mt-1">At-a-glance roll call of case interactions</p>
         </div>
         <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/5 px-4 py-2 rounded-full border border-primary/10">
           Audit Ready
         </span>
       </div>
-      <div className="relative space-y-0 pl-4">
-        {/* Vertical Line Connector */}
-        <div className="absolute left-[31px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-primary via-primary/30 to-outline-variant/20"></div>
+      <div className="relative pl-6">
+        {/* Vertical Line - centered on the icon column */}
+        <div className="absolute left-[23px] top-4 bottom-4 w-px bg-gradient-to-b from-primary via-primary/30 to-outline-variant/20"></div>
 
-        {timeline.map((entry, idx) => {
-          const isFirst = idx === 0;
-          const isLast = idx === timeline.length - 1;
+        <div className="space-y-0">
+          {timeline.map((entry, idx) => {
+            const isFirst = idx === 0;
+            const isLast = idx === timeline.length - 1;
 
-          return (
-            <div
-              key={entry.id}
-              className={`relative flex gap-8 ${!isLast ? "pb-10" : ""}`}
-            >
-              <div
-                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-sm ring-4 ring-white ${
-                  isFirst
-                    ? "bg-primary text-on-primary shadow-lg"
-                    : isLast
-                      ? "bg-primary text-on-primary shadow-md animate-pulse"
-                      : "bg-outline-variant/20 text-primary"
-                }`}
-              >
-                <span className="material-symbols-outlined text-lg">
-                  {getIcon(entry.type)}
-                </span>
-              </div>
-              <div className="flex-grow pt-1">
-                <div className="flex justify-between items-start mb-1">
-                  <h4
-                    className={`font-bold ${isLast ? "text-primary" : "text-on-surface"}`}
-                  >
-                    {isLast
-                      ? `Current Stage: ${formatType(caseStatus)}`
-                      : formatType(entry.type)}
-                  </h4>
-                  <span
-                    className={`text-[10px] font-black uppercase tracking-wider ${
-                      isLast ? "text-primary" : "text-on-surface-variant"
-                    }`}
-                  >
-                    {isLast ? "Now" : formatTime(entry.createdAt)}
-                  </span>
+            return (
+              <div key={entry.id} className={`relative flex gap-6 ${!isLast ? "pb-8" : ""}`}>
+                {/* Icon circle */}
+                <div
+                  className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ring-[5px] ring-surface-container-lowest ${
+                    isFirst
+                      ? "bg-primary text-on-primary shadow-lg"
+                      : isLast
+                        ? "bg-primary text-on-primary shadow-md animate-pulse"
+                        : "bg-surface-container-high text-primary"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[18px]">{getIcon(entry.type)}</span>
                 </div>
-                <p className="text-sm text-on-surface-variant">
-                  {entry.details ?? "No details provided."}
-                </p>
+                {/* Content */}
+                <div className="flex-grow pt-2 min-w-0">
+                  <div className="flex justify-between items-start mb-1 gap-4">
+                    <h4 className={`font-bold text-sm ${isLast ? "text-primary" : "text-on-surface"}`}>
+                      {isLast ? `Current Stage: ${formatType(caseStatus)}` : formatType(entry.type)}
+                    </h4>
+                    <span className={`text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${
+                      isLast ? "text-primary" : "text-on-surface-variant"
+                    }`}>
+                      {isLast ? "Now" : formatTime(entry.createdAt)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-on-surface-variant leading-relaxed">
+                    {entry.details ?? "No details provided."}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        {timeline.length === 0 && (
-          <div className="relative flex gap-8">
-            <div className="relative z-10 w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-md ring-4 ring-white animate-pulse">
-              <span className="material-symbols-outlined text-lg">
-                pending
-              </span>
-            </div>
-            <div className="flex-grow pt-1">
-              <div className="flex justify-between items-start mb-1">
-                <h4 className="font-bold text-primary">No activity yet</h4>
-                <span className="text-[10px] font-black text-primary uppercase tracking-wider">
-                  Now
-                </span>
+          {timeline.length === 0 && (
+            <div className="relative flex gap-6">
+              <div className="relative z-10 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-md ring-[5px] ring-surface-container-lowest animate-pulse shrink-0">
+                <span className="material-symbols-outlined text-[18px]">pending</span>
               </div>
-              <p className="text-sm text-on-surface-variant">
-                This case has no timeline entries yet.
-              </p>
+              <div className="flex-grow pt-2">
+                <div className="flex justify-between items-start mb-1">
+                  <h4 className="font-bold text-primary">No activity yet</h4>
+                  <span className="text-[10px] font-black text-primary uppercase tracking-wider">Now</span>
+                </div>
+                <p className="text-sm text-on-surface-variant">This case has no timeline entries yet.</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Add Note Form */}
       <div className="mt-10 pt-8 border-t border-outline-variant/20">
-        <AddNoteForm caseId={caseId} />
+        <AddNoteForm caseId={caseId} caseStatus={caseStatus} />
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { ConfidenceThresholdsForm } from "@/components/settings/confidence-thres
 import { SpendingLimitsForm } from "@/components/settings/spending-limits-form";
 import { UrgencyTimersForm } from "@/components/settings/urgency-timers-form";
 import { NotificationPreferencesForm } from "@/components/settings/notification-preferences-form";
+import { SettingsTabsClient } from "@/components/settings/settings-tabs-client";
 
 export const metadata = { title: "Settings | PropAgent" };
 
@@ -40,15 +41,19 @@ export default async function SettingsPage() {
         <h1 className="text-4xl font-extrabold text-on-surface tracking-tight font-headline">Settings</h1>
         <p className="text-on-surface-variant mt-2 font-medium">Configure your AI agent&apos;s operational parameters</p>
       </div>
-      <div className="space-y-10">
-        <ConfidenceThresholdsForm defaults={confidenceThresholds} />
-        <SpendingLimitsForm
-          spendingLimit={org?.spendingLimit ?? 50000}
-          emergencySpendingLimit={org?.emergencySpendingLimit ?? 100000}
-        />
-        <UrgencyTimersForm defaults={defaultUrgencyTimers} />
-        <NotificationPreferencesForm defaults={notificationPrefs} />
-      </div>
+      <SettingsTabsClient
+        aiSettingsContent={
+          <>
+            <ConfidenceThresholdsForm defaults={confidenceThresholds} />
+            <SpendingLimitsForm
+              spendingLimit={org?.spendingLimit ?? 50000}
+              emergencySpendingLimit={org?.emergencySpendingLimit ?? 100000}
+            />
+            <UrgencyTimersForm defaults={defaultUrgencyTimers} />
+            <NotificationPreferencesForm defaults={notificationPrefs} />
+          </>
+        }
+      />
       <footer className="mt-20 text-center border-t border-outline-variant/20 pt-10">
         <p className="text-[10px] text-outline font-bold uppercase tracking-[0.3em]">PropAgent AI Dashboard</p>
       </footer>

@@ -1,10 +1,28 @@
 import Link from "next/link";
+import Image from "next/image";
 
 type Property = {
   id: string;
   address: string;
   unitCount: number | null;
   type: string;
+};
+
+const TYPE_GRADIENTS: Record<string, string> = {
+  residential: "from-blue-900/80 via-blue-800/60 to-slate-900/80",
+  commercial: "from-emerald-900/80 via-emerald-800/60 to-slate-900/80",
+};
+
+const TYPE_ICONS: Record<string, string> = {
+  residential: "home",
+  commercial: "corporate_fare",
+};
+
+// Map property addresses to AI-generated photos
+const PROPERTY_PHOTOS: Record<string, string> = {
+  "142 Oak Street, Austin, TX 78701": "/properties/142-oak-street.jpg",
+  "88 Commerce Blvd, Austin, TX 78702": "/properties/88-commerce-blvd.jpg",
+  "7 Maple Lane, Austin, TX 78703": "/properties/7-maple-lane.jpg",
 };
 
 export function PropertyCard({
@@ -14,20 +32,33 @@ export function PropertyCard({
   property: Property;
   activeCases: number;
 }) {
+  const gradient = TYPE_GRADIENTS[property.type] ?? TYPE_GRADIENTS.residential;
+  const photo = PROPERTY_PHOTOS[property.address];
+
   return (
     <Link
       href={`/properties/${property.id}`}
       className="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/20 hover:shadow-lg transition-all duration-300 card-shadow"
     >
       <div className="h-48 overflow-hidden relative">
-        <div className="w-full h-full bg-gradient-to-br from-primary-fixed via-surface-container to-primary-fixed-dim/30 group-hover:scale-105 transition-transform duration-500" />
+        {photo ? (
+          <Image
+            src={photo}
+            alt={property.address}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        ) : (
+          <div className={`w-full h-full bg-gradient-to-br ${gradient} group-hover:scale-105 transition-transform duration-500`} />
+        )}
         <div className="absolute top-3 right-3">
           {activeCases > 0 ? (
-            <span className="px-3 py-1 rounded-full bg-primary-fixed text-primary text-[11px] font-bold uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full bg-primary-fixed text-primary text-[11px] font-bold uppercase tracking-wider shadow-sm">
               {activeCases} Active {activeCases === 1 ? "Case" : "Cases"}
             </span>
           ) : (
-            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-bold uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-bold uppercase tracking-wider shadow-sm">
               No Issues
             </span>
           )}
@@ -45,19 +76,26 @@ export function PropertyCard({
         </div>
         <div className="flex justify-between items-end pt-2">
           <div>
-            <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
-              Units
-            </p>
-            <p className="text-lg font-bold text-on-surface">
-              {String(property.unitCount ?? 1).padStart(2, "0")}
-            </p>
+            <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Units</p>
+            <p className="text-lg font-bold text-on-surface">{String(property.unitCount ?? 1).padStart(2, "0")}</p>
           </div>
           <div className="text-right">
-            <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
-              Cases
-            </p>
+            <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Cases</p>
             <p className="text-lg font-bold text-primary">{activeCases}</p>
           </div>
+        </div>
+        {/* Activity summary */}
+        <div className={`pt-2 border-t border-outline-variant/10 flex items-center gap-1.5 ${
+          activeCases > 0 ? "text-amber-600" : "text-emerald-600"
+        }`}>
+          <span className="material-symbols-outlined text-sm">
+            {activeCases > 0 ? "build" : "check_circle"}
+          </span>
+          <span className="text-xs font-medium">
+            {activeCases > 0
+              ? `${activeCases} active case${activeCases > 1 ? "s" : ""} \u2014 needs attention`
+              : "All clear \u2014 no open issues"}
+          </span>
         </div>
       </div>
     </Link>

@@ -6,6 +6,7 @@ import { cases } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { formatEnum, timeAgo } from "@/lib/utils";
 import Link from "next/link";
+import { VendorHistoryClient } from "@/components/vendors/vendor-history-client";
 
 export default async function VendorDetailPage({
   params,
@@ -62,7 +63,7 @@ export default async function VendorDetailPage({
               </div>
               <p className="text-lg text-on-surface-variant font-medium">{formatEnum(vendor.trade)} Specialist</p>
               <div className="flex items-center gap-4 mt-2 text-sm text-outline">
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">location_on</span> Service Area</span>
+                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">location_on</span> Greater Austin, TX — 25 mi radius</span>
                 <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">calendar_today</span> Partner since {partnerSince}</span>
               </div>
             </div>
@@ -74,7 +75,7 @@ export default async function VendorDetailPage({
                 Message
               </a>
             )}
-            <Link href={`/vendors`} className="px-6 py-2.5 bg-primary text-on-primary font-semibold text-sm rounded shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <Link href={`/vendors/${vendor.id}/edit`} className="px-6 py-2.5 bg-primary text-on-primary font-semibold text-sm rounded shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">edit</span>
               Edit Profile
             </Link>
@@ -163,42 +164,19 @@ export default async function VendorDetailPage({
               </div>
             </div>
 
-            {/* Work History: Asymmetric Layout */}
-            <div>
-              <div className="flex justify-between items-end mb-6">
-                <h2 className="text-xl font-bold text-on-surface font-headline tracking-tight">Recent History</h2>
-                <button className="text-sm font-bold text-primary hover:opacity-80">Export Logs</button>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {closedCases.length === 0 && (
-                  <div className="text-sm text-on-surface-variant col-span-2">No completed jobs yet.</div>
-                )}
-                {closedCases.slice(0, 4).map((c) => (
-                  <div key={c.id} className="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest hover:shadow-md transition-all border-l-2 border-transparent hover:border-primary group">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                        <span className="material-symbols-outlined">plumbing</span>
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-on-surface-variant uppercase">{c.resolvedAt ? new Date(c.resolvedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : timeAgo(c.createdAt)}</div>
-                        <div className="text-sm font-bold text-on-surface">{c.category ? formatEnum(c.category) : "Case"}</div>
-                      </div>
-                    </div>
-                    <div className="text-xs text-on-surface-variant mb-4">Case #{c.id.slice(0, 8).toUpperCase()}</div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="font-bold text-on-surface">{c.spendingAuthorized ? `$${(c.spendingAuthorized / 100).toFixed(2)}` : "—"}</span>
-                      <span className="text-green-600 font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                        Closed
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="w-full mt-6 py-3 border border-outline-variant text-on-surface-variant text-sm font-bold rounded-lg hover:bg-surface-container-low transition-colors">
-                Load More History
-              </button>
-            </div>
+            {/* Work History */}
+            <VendorHistoryClient
+              closedCases={closedCases.map((c) => ({
+                id: c.id,
+                category: c.category,
+                rawMessage: c.rawMessage,
+                status: c.status,
+                spendingAuthorized: c.spendingAuthorized,
+                resolvedAt: c.resolvedAt?.toISOString() ?? null,
+                createdAt: c.createdAt.toISOString(),
+              }))}
+              initials={initials}
+            />
           </div>
 
           {/* Right Column: Contact & Map Info */}
@@ -216,6 +194,14 @@ export default async function VendorDetailPage({
                 </div>
               </div>
               <div className="p-6 space-y-4">
+                <div className="flex items-start gap-4">
+                  <span className="material-symbols-outlined text-on-surface-variant">location_on</span>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Service Area</div>
+                    <div className="text-sm font-medium text-on-surface">Greater Austin, TX</div>
+                    <div className="text-xs text-on-surface-variant">25 mile radius from downtown</div>
+                  </div>
+                </div>
                 {vendor.phone && (
                   <div className="flex items-start gap-4">
                     <span className="material-symbols-outlined text-on-surface-variant">phone</span>

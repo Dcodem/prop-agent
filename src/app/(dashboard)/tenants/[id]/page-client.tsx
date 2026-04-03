@@ -92,6 +92,13 @@ const paymentHistory = [
   },
 ];
 
+// Mock tenant documents for prototype
+const MOCK_DOCS = [
+  { name: "Signed Lease Agreement", type: "Lease", date: "Jan 15, 2023", icon: "description" },
+  { name: "Move-In Inspection Report", type: "Inspection", date: "Jan 20, 2023", icon: "fact_check" },
+  { name: "Government ID (Verified)", type: "Identity", date: "Jan 10, 2023", icon: "badge" },
+];
+
 export function TenantDetailClient({
   tenant,
   property,
@@ -106,6 +113,8 @@ export function TenantDetailClient({
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isDeleting, startDeleteTransition] = useTransition();
+  const [uploadedDocs, setUploadedDocs] = useState<string[]>([]);
+  const [previewDoc, setPreviewDoc] = useState<string | null>(null);
 
   const tenantForForm = {
     ...tenant,
@@ -162,11 +171,20 @@ export function TenantDetailClient({
             {tenant.unitNumber ?? "N/A"}
           </p>
         </div>
-        <div className="col-span-12 lg:col-span-4 flex justify-end">
-          <div className="relative group">
-            <div className="absolute inset-0 bg-primary/10 translate-x-4 translate-y-4 rounded-xl -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
-            <div className="w-80 h-48 rounded-xl shadow-sm bg-gradient-to-br from-primary/20 via-primary/15 to-primary-fixed/20"></div>
-          </div>
+        <div className="col-span-12 lg:col-span-4 flex justify-end gap-3">
+          <button
+            onClick={() => setShowEditModal(true)}
+            className="px-6 py-3 bg-surface-container-lowest text-on-surface rounded-lg font-bold shadow-sm flex items-center gap-2 hover:bg-surface-container-low transition-colors h-fit"
+          >
+            <span className="material-symbols-outlined text-sm">edit</span>
+            Edit Tenant
+          </button>
+          <button
+            onClick={() => setShowDeleteDialog(true)}
+            className="px-4 py-3 bg-surface-container-lowest text-error rounded-lg font-bold shadow-sm flex items-center gap-2 hover:bg-error-container transition-colors h-fit"
+          >
+            <span className="material-symbols-outlined text-sm">delete</span>
+          </button>
         </div>
       </section>
 
@@ -202,28 +220,29 @@ export function TenantDetailClient({
         </div>
         <div className="bg-surface-container-low p-6 rounded-xl">
           <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-            Maintenance
+            Case History
           </p>
           <p className="text-3xl font-extrabold text-on-surface">
-            {activeCases.length}{" "}
+            {cases.length}{" "}
             <span className="text-sm font-medium text-on-surface-variant">
-              Requests
+              {cases.length === 1 ? "Case" : "Cases"}
             </span>
           </p>
         </div>
       </section>
 
-      {/* Main Content Area: Bento Style */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Lease Information & Payments (Left/Center) */}
-        <div className="lg:col-span-2 space-y-8">
+      {/* Main Content Area */}
+      <div className="space-y-8">
           {/* Lease Terms Card */}
           <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
             <div className="flex justify-between items-end">
               <h3 className="text-2xl font-bold tracking-tight">
                 Lease Information
               </h3>
-              <button className="text-primary font-semibold text-sm hover:underline">
+              <button
+                onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
+                className="text-primary font-semibold text-sm hover:underline"
+              >
                 View Full Agreement
               </button>
             </div>
@@ -308,10 +327,62 @@ export function TenantDetailClient({
               </tbody>
             </table>
           </div>
-        </div>
 
-        {/* Active Maintenance Requests (Right Sidebar) */}
-        <div className="space-y-8">
+          {/* Tenant Documents */}
+          <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
+            <div className="flex justify-between items-end">
+              <h3 className="text-2xl font-bold tracking-tight">Documents</h3>
+              <label className="text-primary font-semibold text-sm hover:underline cursor-pointer flex items-center gap-1">
+                <span className="material-symbols-outlined text-sm">upload_file</span>
+                Upload
+                <input type="file" className="hidden" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setUploadedDocs((prev) => [...prev, file.name]);
+                  e.target.value = "";
+                }} />
+              </label>
+            </div>
+            <div className="space-y-3">
+              {MOCK_DOCS.map((doc) => (
+                <button
+                  key={doc.name}
+                  onClick={() => setPreviewDoc(doc.name)}
+                  className="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-primary-fixed transition-colors text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                      <span className="material-symbols-outlined">{doc.icon}</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">{doc.name}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase">{doc.type} &middot; {doc.date}</p>
+                    </div>
+                  </div>
+                  <span className="material-symbols-outlined text-on-surface-variant text-sm opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+                </button>
+              ))}
+              {uploadedDocs.map((doc) => (
+                <button
+                  key={doc}
+                  onClick={() => setPreviewDoc(doc)}
+                  className="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-primary-fixed transition-colors text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                      <span className="material-symbols-outlined">upload_file</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">{doc}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase">Uploaded &middot; Just now</p>
+                    </div>
+                  </div>
+                  <span className="material-symbols-outlined text-on-surface-variant text-sm opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+        {/* Active Requests */}
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold tracking-tight">
               Active Requests
@@ -324,9 +395,10 @@ export function TenantDetailClient({
             {/* Request Card 1 */}
             {activeCases.length > 0 ? (
               activeCases.map((c) => (
-                <div
+                <Link
                   key={c.id}
-                  className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary"
+                  href={`/cases/${c.id}`}
+                  className="block bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary hover:shadow-md hover:border-primary/80 transition-all"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
@@ -352,7 +424,7 @@ export function TenantDetailClient({
                       Submitted {timeAgo(new Date(c.createdAt))}
                     </span>
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <>
@@ -424,7 +496,6 @@ export function TenantDetailClient({
               Contact Support
             </button>
           </div>
-        </div>
       </div>
 
       {/* Sticky FAB: Contextual to Tenant Portal */}
@@ -452,6 +523,37 @@ export function TenantDetailClient({
           tenant={tenantForForm}
           onClose={() => setShowEditModal(false)}
         />
+      )}
+
+      {/* Document Preview Modal */}
+      {previewDoc && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setPreviewDoc(null)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">{previewDoc}</h2>
+              <button onClick={() => setPreviewDoc(null)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="bg-surface-container-low p-6 rounded-lg min-h-[200px] flex items-center justify-center">
+              <div className="text-center text-on-surface-variant">
+                <span className="material-symbols-outlined text-4xl mb-3 block">description</span>
+                <p className="text-sm font-medium">Document preview</p>
+                <p className="text-xs mt-1">Full document viewer would render here</p>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end gap-3">
+              <button className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-all flex items-center gap-1">
+                <span className="material-symbols-outlined text-sm">download</span>
+                Download
+              </button>
+              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Delete Confirmation Dialog */}

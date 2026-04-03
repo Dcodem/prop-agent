@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useRef, useEffect } from "react";
 import { assignVendorAction } from "@/app/(dashboard)/cases/actions";
 import type { Vendor } from "@/lib/db/schema";
 
@@ -17,6 +17,18 @@ export function AssignVendorForm({
 }) {
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClick(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isOpen]);
 
   function handleAssign(vendorId: string) {
     startTransition(async () => {
@@ -27,7 +39,7 @@ export function AssignVendorForm({
 
   if (mode === "edit") {
     return (
-      <>
+      <div ref={dropdownRef} className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-on-surface-variant hover:text-primary p-2 rounded-lg transition-colors bg-surface-container-lowest shadow-sm"
@@ -61,7 +73,7 @@ export function AssignVendorForm({
             ))}
           </div>
         )}
-      </>
+      </div>
     );
   }
 

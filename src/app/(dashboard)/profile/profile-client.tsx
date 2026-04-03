@@ -27,6 +27,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
   const [deactivating, startDeactivate] = useTransition();
   const [saveError, setSaveError] = useState<string | null>(null);
   const [resetMsg, setResetMsg] = useState<string | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
   const initials = user.name
     .split(" ")
@@ -79,15 +80,34 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
         {/* Profile Header */}
         <section className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16">
           <div className="flex items-start gap-8">
-            <div className="relative">
+            <div className="relative group">
               <div className="w-32 h-32 rounded-xl overflow-hidden shadow-2xl bg-surface-container-high border-4 border-white">
-                <div className="w-full h-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-on-primary text-4xl font-extrabold">
-                  {initials}
-                </div>
+                {profilePhoto ? (
+                  <img src={profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-on-primary text-4xl font-extrabold">
+                    {initials}
+                  </div>
+                )}
               </div>
               <div className="absolute -bottom-2 -right-2 bg-primary p-2 rounded-lg text-on-primary shadow-lg">
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
+              <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-xl">
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setProfilePhoto(URL.createObjectURL(file));
+                }} />
+                <span className="material-symbols-outlined text-white text-2xl">photo_camera</span>
+              </label>
+              {!profilePhoto && (
+                <p className="text-[10px] text-on-surface-variant text-center mt-2 max-w-[130px]">Add a profile photo so your team can recognize you</p>
+              )}
+              {profilePhoto && (
+                <button onClick={() => setProfilePhoto(null)} className="text-[10px] text-error font-medium text-center block mt-2 mx-auto hover:underline">
+                  Remove Photo
+                </button>
+              )}
             </div>
             <div className="pt-2">
               <span className="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold block mb-1">PropAgent Manager</span>
