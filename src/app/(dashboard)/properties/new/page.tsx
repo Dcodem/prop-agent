@@ -119,7 +119,7 @@ export default function AddPropertyPage() {
         <div className="mt-8 text-center">
           <button
             onClick={() => setMode("manual")}
-            className="text-primary font-bold text-sm hover:underline inline-flex items-center gap-1"
+            className="text-primary font-bold text-sm hover:underline underline-offset-4 decoration-2 inline-flex items-center gap-1"
           >
             Or fill in manually
             <span className="material-symbols-outlined text-sm">arrow_forward</span>

@@ -149,7 +149,7 @@ export function TenantDetailClient({
         <div className="col-span-12 lg:col-span-8 space-y-4">
           <Link
             href="/tenants"
-            className="flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-sm mb-6 transition-colors group"
+            className="flex items-center gap-2 text-primary hover:text-primary/80 hover:underline underline-offset-4 decoration-2 font-bold text-sm mb-6 transition-colors group"
           >
             <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">
               arrow_back
@@ -246,7 +246,7 @@ export function TenantDetailClient({
               </h3>
               <button
                 onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                className="text-primary font-semibold text-sm hover:underline"
+                className="text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2"
               >
                 View Full Agreement
               </button>
@@ -337,7 +337,7 @@ export function TenantDetailClient({
           <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
             <div className="flex justify-between items-end">
               <h3 className="text-2xl font-bold tracking-tight">Documents</h3>
-              <label className="text-primary font-semibold text-sm hover:underline cursor-pointer flex items-center gap-1">
+              <label className="text-primary font-semibold text-sm hover:underline underline-offset-4 decoration-2 cursor-pointer flex items-center gap-1">
                 <span className="material-symbols-outlined text-sm">upload_file</span>
                 Upload
                 <input type="file" className="hidden" onChange={(e) => {

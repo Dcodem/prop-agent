@@ -299,7 +299,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <h3 className="text-2xl font-bold font-headline">Unit Breakdown</h3>
             <Link
               href={`/tenants?propertyId=${property.id}`}
-              className="text-primary font-bold text-sm hover:underline"
+              className="text-primary font-bold text-sm hover:underline underline-offset-4 decoration-2"
             >
               View All {totalUnits} {totalUnits === 1 ? "Unit" : "Units"}
             </Link>

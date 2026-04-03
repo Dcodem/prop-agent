@@ -104,7 +104,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 <p className="text-[10px] text-on-surface-variant text-center mt-2 max-w-[130px]">Add a profile photo so your team can recognize you</p>
               )}
               {profilePhoto && (
-                <button onClick={() => setProfilePhoto(null)} className="text-[10px] text-error font-medium text-center block mt-2 mx-auto hover:underline">
+                <button onClick={() => setProfilePhoto(null)} className="text-[10px] text-error font-medium text-center block mt-2 mx-auto hover:underline underline-offset-4 decoration-2">
                   Remove Photo
                 </button>
               )}

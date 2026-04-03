@@ -76,7 +76,7 @@ export function CaseFilters({
       </div>
       {hasFilters && (
         <button
-          className="text-primary text-sm font-medium hover:underline ml-auto"
+          className="text-primary text-sm font-medium hover:underline underline-offset-4 decoration-2 ml-auto"
           onClick={onClearFilters}
         >
           Clear filters

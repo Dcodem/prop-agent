@@ -155,7 +155,7 @@ export default async function VendorDetailPage({
                           +{Math.max(1, activeCases.length - 1)}
                         </div>
                       </div>
-                      <Link href={`/cases/${c.id}`} className="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                      <Link href={`/cases/${c.id}`} className="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline underline-offset-4 decoration-2">
                         View Details <span className="material-symbols-outlined text-base">chevron_right</span>
                       </Link>
                     </div>

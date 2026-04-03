@@ -216,7 +216,7 @@ export default function SignupPage() {
             <div className="mt-8 pt-6 border-t border-outline-variant/10 text-center">
               <p className="text-sm text-on-surface-variant">
                 Already have an account?{" "}
-                <Link className="font-semibold text-primary hover:underline ml-1" href="/login">Log in</Link>
+                <Link className="font-semibold text-primary hover:underline underline-offset-4 decoration-2 ml-1" href="/login">Log in</Link>
               </p>
             </div>
           </div>
