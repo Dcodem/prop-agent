@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 
 const TABS = [
   { id: "ai", label: "AI Settings", icon: "smart_toy" },
@@ -70,6 +70,26 @@ export function SettingsTabsClient({
   const [showCreateLabel, setShowCreateLabel] = useState(false);
   const [showInviteUser, setShowInviteUser] = useState(false);
 
+  // Three-dot menu & edit states
+  const [openMenuEmail, setOpenMenuEmail] = useState<string | null>(null);
+  const [editingRoleEmail, setEditingRoleEmail] = useState<string | null>(null);
+  const [editingRoleValue, setEditingRoleValue] = useState("");
+  const [editingLabel, setEditingLabel] = useState<{ originalName: string; name: string; color: string } | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Click-outside to close dropdown
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuEmail(null);
+      }
+    }
+    if (openMenuEmail) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [openMenuEmail]);
+
   // Form states
   const [newStageName, setNewStageName] = useState("");
   const [newStageColor, setNewStageColor] = useState("bg-blue-500");
@@ -120,6 +140,24 @@ export function SettingsTabsClient({
     setInviteEmail("");
     setInviteRole("Front Desk");
     setShowInviteUser(false);
+  }
+
+  function handleChangeRole() {
+    if (!editingRoleEmail || !editingRoleValue) return;
+    setTeam((prev) => prev.map((m) => m.email === editingRoleEmail ? { ...m, role: editingRoleValue } : m));
+    setEditingRoleEmail(null);
+    setEditingRoleValue("");
+  }
+
+  function handleRemoveUser(email: string) {
+    setTeam((prev) => prev.filter((m) => m.email !== email));
+    setOpenMenuEmail(null);
+  }
+
+  function handleEditLabel() {
+    if (!editingLabel || !editingLabel.name.trim()) return;
+    setLabels((prev) => prev.map((l) => l.name === editingLabel.originalName ? { ...l, name: editingLabel.name.trim(), color: editingLabel.color } : l));
+    setEditingLabel(null);
   }
 
   return (
@@ -239,9 +277,15 @@ export function SettingsTabsClient({
                       {label.name}
                     </span>
                   </div>
-                  <span className="material-symbols-outlined text-on-surface-variant text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                    edit
-                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingLabel({ originalName: label.name, name: label.name, color: label.color });
+                    }}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-on-surface-variant hover:text-primary"
+                  >
+                    <span className="material-symbols-outlined text-sm">edit</span>
+                  </button>
                 </div>
                 <p className="text-2xl font-extrabold text-on-surface">
                   {label.count}
@@ -335,11 +379,38 @@ export function SettingsTabsClient({
                       {member.lastActive}
                     </td>
                     <td className="px-6 py-5 text-right">
-                      <button className="text-on-surface-variant hover:text-primary transition-colors">
-                        <span className="material-symbols-outlined text-xl">
-                          more_horiz
-                        </span>
-                      </button>
+                      <div className="relative inline-block" ref={openMenuEmail === member.email ? menuRef : undefined}>
+                        <button
+                          onClick={() => setOpenMenuEmail(openMenuEmail === member.email ? null : member.email)}
+                          className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-container-high"
+                        >
+                          <span className="material-symbols-outlined text-xl">
+                            more_horiz
+                          </span>
+                        </button>
+                        {openMenuEmail === member.email && (
+                          <div className="absolute right-0 top-full mt-1 w-48 bg-surface-container-lowest rounded-xl shadow-xl border border-outline-variant/20 overflow-hidden z-50">
+                            <button
+                              onClick={() => {
+                                setEditingRoleEmail(member.email);
+                                setEditingRoleValue(member.role);
+                                setOpenMenuEmail(null);
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container-low transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-lg text-on-surface-variant">manage_accounts</span>
+                              Edit Role
+                            </button>
+                            <button
+                              onClick={() => handleRemoveUser(member.email)}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-lg">person_remove</span>
+                              Remove User
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -501,6 +572,94 @@ export function SettingsTabsClient({
               </button>
               <button onClick={handleInviteUser} disabled={!inviteEmail.trim()} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
                 Send Invite
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Role Modal */}
+      {editingRoleEmail && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setEditingRoleEmail(null)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">Edit Role</h2>
+              <button onClick={() => setEditingRoleEmail(null)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">User</label>
+                <p className="text-sm font-medium text-on-surface">{team.find((m) => m.email === editingRoleEmail)?.name} ({editingRoleEmail})</p>
+              </div>
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Role</label>
+                <select
+                  value={editingRoleValue}
+                  onChange={(e) => setEditingRoleValue(e.target.value)}
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                >
+                  <option value="Property Manager">Property Manager</option>
+                  <option value="Maintenance Coordinator">Maintenance Coordinator</option>
+                  <option value="Front Desk">Front Desk</option>
+                </select>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-3">
+              <button onClick={() => setEditingRoleEmail(null)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleChangeRole} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all">
+                Save Role
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Label Modal */}
+      {editingLabel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setEditingLabel(null)} />
+          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-on-surface">Edit Label</h2>
+              <button onClick={() => setEditingLabel(null)} className="text-outline hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Label Name</label>
+                <input
+                  type="text"
+                  value={editingLabel.name}
+                  onChange={(e) => setEditingLabel({ ...editingLabel, name: e.target.value })}
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Color</label>
+                <div className="flex gap-2">
+                  {COLOR_OPTIONS.map((c) => (
+                    <button
+                      key={c.value}
+                      onClick={() => setEditingLabel({ ...editingLabel, color: c.value })}
+                      className={`w-8 h-8 rounded-full ${c.value} ${editingLabel.color === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      title={c.label}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-3">
+              <button onClick={() => setEditingLabel(null)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleEditLabel} disabled={!editingLabel.name.trim()} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+                Save Changes
               </button>
             </div>
           </div>
