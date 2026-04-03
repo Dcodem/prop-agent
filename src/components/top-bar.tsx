@@ -19,10 +19,16 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
             <span aria-hidden="true" className="material-symbols-outlined">menu</span>
           </button>
         )}
-        <div className="flex items-center gap-2 bg-surface-container-high rounded-lg pl-3 pr-2 py-1.5 text-sm w-48 sm:w-64">
+        <button
+          onClick={() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
+          className="flex items-center gap-2 bg-surface-container-high rounded-lg pl-3 pr-2 py-1.5 text-sm w-48 sm:w-64 hover:bg-surface-container-high/80 transition-colors group"
+        >
           <span aria-hidden="true" className="material-symbols-outlined text-lg text-on-surface-variant">search</span>
           <span className="text-on-surface-variant text-sm flex-1 text-left">Search...</span>
-        </div>
+          <kbd className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 bg-surface-container-lowest rounded text-[11px] font-bold text-on-surface-variant border border-outline-variant/20">
+            &#8984;K
+          </kbd>
+        </button>
       </div>
       <div className="flex items-center gap-2 sm:gap-4">
         <div className="flex items-center gap-1 sm:gap-2 text-on-surface-variant">
