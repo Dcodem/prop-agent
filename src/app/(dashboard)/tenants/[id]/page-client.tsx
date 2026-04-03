@@ -220,13 +220,16 @@ export function TenantDetailClient({
         </div>
         <div className="bg-surface-container-low p-6 rounded-xl">
           <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-            Case History
+            Maintenance
           </p>
           <p className="text-3xl font-extrabold text-on-surface">
-            {cases.length}{" "}
+            {activeCases.length}{" "}
             <span className="text-sm font-medium text-on-surface-variant">
-              {cases.length === 1 ? "Case" : "Cases"}
+              Active
             </span>
+          </p>
+          <p className="text-xs text-on-surface-variant mt-1">
+            {cases.length} total
           </p>
         </div>
       </section>

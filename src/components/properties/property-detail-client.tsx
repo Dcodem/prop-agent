@@ -125,11 +125,11 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
 
       {/* Operational Overview Cards */}
       <section className="px-8 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48 group transition-all duration-300">
+        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-primary-fixed rounded-lg">
               <span
-                className="material-symbols-outlined text-primary "
+                className="material-symbols-outlined text-primary"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 engineering
@@ -143,20 +143,20 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             )}
           </div>
           <div>
-            <h4 className="text-on-surface-variant font-medium text-sm /80">
+            <h4 className="text-on-surface-variant font-medium text-sm">
               Active Cases
             </h4>
-            <p className="text-3xl font-black text-on-surface  mt-1">
+            <p className="text-3xl font-black text-on-surface mt-1">
               {activeCases.length}
             </p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48 group transition-all duration-300">
+        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-primary-fixed rounded-lg">
               <span
-                className="material-symbols-outlined text-primary "
+                className="material-symbols-outlined text-primary"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 apartment
@@ -167,20 +167,20 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             </span>
           </div>
           <div>
-            <h4 className="text-on-surface-variant font-medium text-sm /80">
+            <h4 className="text-on-surface-variant font-medium text-sm">
               Occupancy Rate
             </h4>
-            <p className="text-3xl font-black text-on-surface  mt-1">
+            <p className="text-3xl font-black text-on-surface mt-1">
               {occupancyRate}%
             </p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48 group transition-all duration-300">
+        <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
             <div className="p-3 bg-primary-fixed rounded-lg">
               <span
-                className="material-symbols-outlined text-primary "
+                className="material-symbols-outlined text-primary"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 group
@@ -191,10 +191,10 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             </span>
           </div>
           <div>
-            <h4 className="text-on-surface-variant font-medium text-sm /80">
+            <h4 className="text-on-surface-variant font-medium text-sm">
               Total Tenants
             </h4>
-            <p className="text-3xl font-black text-on-surface  mt-1">
+            <p className="text-3xl font-black text-on-surface mt-1">
               {tenants.length}
             </p>
           </div>
@@ -234,8 +234,11 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                           {timeAgo(c.createdAt)}
                         </p>
                         <h4 className="text-lg font-bold mt-1 text-on-surface group-hover:text-primary transition-colors">
-                          {c.rawMessage.length > 80 ? c.rawMessage.slice(0, 80) + "..." : c.rawMessage}
+                          {c.category ? formatEnum(c.category) : "Maintenance"} Request
                         </h4>
+                        <p className="text-sm text-on-surface-variant mt-1 line-clamp-2">
+                          {c.rawMessage.length > 100 ? c.rawMessage.slice(0, 100) + "..." : c.rawMessage}
+                        </p>
                         <div className="mt-3 flex gap-2">
                           <span
                             className={`px-3 py-1 text-[10px] font-bold rounded-md uppercase border ${getCaseStatusColor(c.status)} border-outline-variant/20`}
@@ -247,11 +250,6 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                               className={`px-3 py-1 text-[10px] font-bold rounded-md uppercase ${getCaseUrgencyBadge(c.urgency)}`}
                             >
                               {formatEnum(c.urgency)}
-                            </span>
-                          )}
-                          {c.category && (
-                            <span className="px-3 py-1 text-[10px] font-bold rounded-md uppercase bg-surface-container-high text-on-surface-variant">
-                              {formatEnum(c.category)}
                             </span>
                           )}
                         </div>

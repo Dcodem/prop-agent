@@ -31,6 +31,33 @@ function formatType(type: string) {
   return type.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function getStageBadge(entry: CaseTimelineEntry): string | null {
+  if (entry.type === "status_change" && entry.metadata) {
+    const meta = entry.metadata as Record<string, unknown>;
+    if (meta.newStatus) return String(meta.newStatus);
+    if (meta.to) return String(meta.to);
+  }
+  if (entry.type === "case_created") return "open";
+  if (entry.type === "vendor_assigned") return "in_progress";
+  return null;
+}
+
+const STAGE_COLORS: Record<string, string> = {
+  open: "bg-blue-100 text-blue-800",
+  in_progress: "bg-amber-100 text-amber-800",
+  waiting_on_vendor: "bg-orange-100 text-orange-800",
+  waiting_on_tenant: "bg-purple-100 text-purple-800",
+  resolved: "bg-emerald-100 text-emerald-800",
+  closed: "bg-surface-container-high text-on-surface-variant",
+};
+
 export function CaseTimeline({
   timeline,
   caseId,
@@ -77,13 +104,24 @@ export function CaseTimeline({
                 {/* Content */}
                 <div className="flex-grow pt-2 min-w-0">
                   <div className="flex justify-between items-start mb-1 gap-4">
-                    <h4 className={`font-bold text-sm ${isLast ? "text-primary" : "text-on-surface"}`}>
-                      {isLast ? `Current Stage: ${formatType(caseStatus)}` : formatType(entry.type)}
-                    </h4>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className={`font-bold text-sm ${isLast ? "text-primary" : "text-on-surface"}`}>
+                        {isLast ? `Current Stage: ${formatType(caseStatus)}` : formatType(entry.type)}
+                      </h4>
+                      {(() => {
+                        const stage = getStageBadge(entry);
+                        if (!stage) return null;
+                        return (
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${STAGE_COLORS[stage] ?? "bg-surface-container-high text-on-surface-variant"}`}>
+                            {formatType(stage)}
+                          </span>
+                        );
+                      })()}
+                    </div>
                     <span className={`text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${
                       isLast ? "text-primary" : "text-on-surface-variant"
                     }`}>
-                      {isLast ? "Now" : formatTime(entry.createdAt)}
+                      {isLast ? "Now" : `${formatDate(entry.createdAt)} ${formatTime(entry.createdAt)}`}
                     </span>
                   </div>
                   <p className="text-sm text-on-surface-variant leading-relaxed">
