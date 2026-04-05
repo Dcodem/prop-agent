@@ -66,12 +66,12 @@ export default async function CaseDetailPage({
             Case #{caseData.id.slice(0, 8).toUpperCase()}
           </span>
         </div>
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-5xl font-extrabold text-on-surface tracking-tight leading-[1.1]">
+        <div className="flex justify-between items-center gap-6">
+          <div className="min-w-0">
+            <h1 className="text-3xl font-extrabold text-on-surface tracking-tight leading-snug">
               {generateCaseSummary(caseData.rawMessage, caseData.category)}
             </h1>
-            <p className="text-xl text-on-surface-variant mt-3 font-medium opacity-80">
+            <p className="text-sm text-on-surface-variant mt-2 font-medium">
               {property?.address ?? "Unknown Property"}
               {" \u2022 "}
               Reported by {tenant?.name ?? "Unknown Tenant"}
@@ -80,19 +80,19 @@ export default async function CaseDetailPage({
               {timeAgo(caseData.createdAt)}
             </p>
           </div>
-          <div className="flex gap-4">
-            <span className="px-6 py-3 bg-primary-fixed text-on-surface rounded-full text-sm font-bold flex items-center gap-3 shadow-sm border border-outline-variant/10">
-              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
-              Status: {statusLabel}
+          <div className="flex gap-2 shrink-0">
+            <span className="px-3 py-1.5 bg-surface-container-high text-on-surface rounded-full text-xs font-bold flex items-center gap-2 border border-outline-variant/10">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              {statusLabel}
             </span>
             {isHighUrgency && (
-              <span className="px-6 py-3 bg-error-container text-on-error-container rounded-full text-sm font-bold shadow-sm">
-                Priority: {urgencyLabel}
+              <span className="px-3 py-1.5 bg-error-container text-on-error-container rounded-full text-xs font-bold">
+                {urgencyLabel}
               </span>
             )}
             {!isHighUrgency && caseData.urgency && (
-              <span className="px-6 py-3 bg-primary-fixed text-on-surface-variant rounded-full text-sm font-bold shadow-sm">
-                Priority: {urgencyLabel}
+              <span className="px-3 py-1.5 bg-surface-container-high text-on-surface-variant rounded-full text-xs font-bold">
+                {urgencyLabel}
               </span>
             )}
           </div>
