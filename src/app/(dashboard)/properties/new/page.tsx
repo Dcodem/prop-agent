@@ -32,7 +32,7 @@ export default function AddPropertyPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-widest mb-2">
+          <div className="flex items-center gap-2 text-on-surface-variant font-semibold text-xs uppercase tracking-widest mb-2">
             <span>Properties</span>
             <span className="material-symbols-outlined text-xs">chevron_right</span>
             <span>New Property</span>
@@ -47,7 +47,7 @@ export default function AddPropertyPage() {
 
         {/* Upload Zone */}
         <div
-          className="border-2 border-dashed border-primary/30 rounded-2xl bg-primary-fixed/30 p-16 text-center hover:border-primary/60 hover:bg-primary-fixed/50 transition-all cursor-pointer"
+          className="border-2 border-dashed border-outline-variant/30 rounded-2xl bg-surface-container-low p-16 text-center hover:border-outline-variant/60 hover:bg-surface-container transition-all cursor-pointer"
           onClick={() => fileInputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
           onDrop={(e) => { e.preventDefault(); e.stopPropagation(); handleFiles(e.dataTransfer.files); }}
@@ -59,8 +59,8 @@ export default function AddPropertyPage() {
             className="hidden"
             onChange={(e) => handleFiles(e.target.files)}
           />
-          <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-            <span className="material-symbols-outlined text-primary text-4xl">cloud_upload</span>
+          <div className="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mx-auto mb-6">
+            <span className="material-symbols-outlined text-on-surface-variant text-4xl">cloud_upload</span>
           </div>
           <h2 className="text-2xl font-extrabold text-on-surface mb-3">
             Upload Property Documents
@@ -70,7 +70,7 @@ export default function AddPropertyPage() {
           </p>
           <button
             onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
-            className="px-8 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-lg hover:opacity-90 transition-all inline-flex items-center gap-2"
+            className="px-8 py-3 bg-on-surface text-surface font-bold rounded-lg shadow-lg hover:opacity-90 transition-all inline-flex items-center gap-2"
           >
             <span className="material-symbols-outlined">folder_open</span>
             Browse Files
@@ -84,7 +84,7 @@ export default function AddPropertyPage() {
             {files.map((file, i) => (
               <div key={i} className="flex items-center justify-between bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/10">
                 <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary">description</span>
+                  <span className="material-symbols-outlined text-on-surface-variant">description</span>
                   <span className="text-sm font-medium text-on-surface">{file}</span>
                 </div>
                 <button
@@ -98,7 +98,7 @@ export default function AddPropertyPage() {
             <button
               onClick={handleProcess}
               disabled={processing}
-              className="mt-4 px-10 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-xl shadow-primary/10 active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
+              className="mt-4 px-10 py-3 bg-on-surface text-surface font-bold rounded-lg shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
             >
               {processing ? (
                 <>
@@ -119,7 +119,7 @@ export default function AddPropertyPage() {
         <div className="mt-8 text-center">
           <button
             onClick={() => setMode("manual")}
-            className="group text-primary font-bold text-sm inline-flex items-center gap-1"
+            className="group text-on-surface font-bold text-sm inline-flex items-center gap-1"
           >
             <span className="group-hover:underline underline-offset-4 decoration-2">Or fill in manually</span>
             <span className="material-symbols-outlined text-sm">arrow_forward</span>

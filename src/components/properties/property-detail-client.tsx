@@ -25,7 +25,7 @@ function getCaseStatusColor(status: string) {
   switch (status) {
     case "open":
     case "in_progress":
-      return "bg-primary-fixed text-primary";
+      return "bg-surface-container-high text-on-surface";
     case "waiting_on_vendor":
     case "waiting_on_tenant":
       return "bg-surface-container-high text-on-surface";
@@ -33,7 +33,7 @@ function getCaseStatusColor(status: string) {
     case "closed":
       return "bg-surface-container-low text-on-surface-variant";
     default:
-      return "bg-primary-fixed text-primary";
+      return "bg-surface-container-high text-on-surface";
   }
 }
 
@@ -44,11 +44,11 @@ function getCaseUrgencyColor(urgency: string | null) {
     case "high":
       return "bg-on-surface border-white ring-on-surface/10";
     case "medium":
-      return "bg-primary border-white ring-primary/10";
+      return "bg-on-surface-variant border-white ring-on-surface-variant/10";
     case "low":
       return "bg-outline border-white ring-outline/10";
     default:
-      return "bg-primary border-white ring-primary/10";
+      return "bg-on-surface-variant border-white ring-on-surface-variant/10";
   }
 }
 
@@ -59,7 +59,7 @@ function getCaseUrgencyBadge(urgency: string | null) {
     case "high":
       return "bg-surface-container-high text-on-surface";
     default:
-      return "bg-primary-fixed text-primary";
+      return "bg-surface-container-high text-on-surface-variant";
   }
 }
 
@@ -87,12 +87,12 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
       {/* Hero Section */}
       <section className="pt-2 px-8">
         <div className="relative h-96 rounded-xl overflow-hidden group">
-          <div className="w-full h-full bg-gradient-to-br from-primary to-primary" />
+          <div className="w-full h-full bg-gradient-to-br from-stone-800 to-stone-900" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="bg-primary/20 backdrop-blur-md text-primary-fixed border border-primary/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                <span className="bg-white/15 backdrop-blur-md text-white/90 border border-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
                   {formatEnum(property.type)}
                 </span>
               </div>
@@ -131,9 +131,9 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
       <section className="px-8 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
-            <div className="p-3 bg-primary-fixed rounded-lg">
+            <div className="p-3 bg-surface-container-high rounded-lg">
               <span
-                className="material-symbols-outlined text-primary"
+                className="material-symbols-outlined text-on-surface-variant"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 engineering
@@ -158,15 +158,15 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
 
         <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
-            <div className="p-3 bg-primary-fixed rounded-lg">
+            <div className="p-3 bg-surface-container-high rounded-lg">
               <span
-                className="material-symbols-outlined text-primary"
+                className="material-symbols-outlined text-on-surface-variant"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 apartment
               </span>
             </div>
-            <span className="text-primary font-bold flex items-center gap-1 text-sm bg-primary-fixed px-2 py-1 rounded">
+            <span className="text-on-surface-variant font-bold flex items-center gap-1 text-sm bg-surface-container-high px-2 py-1 rounded">
               {Number(occupancyRate) >= 90 ? "STABLE" : "LOW"}
             </span>
           </div>
@@ -182,15 +182,15 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
 
         <div className="bg-surface-container-lowest p-8 rounded-2xl border-none flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
-            <div className="p-3 bg-primary-fixed rounded-lg">
+            <div className="p-3 bg-surface-container-high rounded-lg">
               <span
-                className="material-symbols-outlined text-primary"
+                className="material-symbols-outlined text-on-surface-variant"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 group
               </span>
             </div>
-            <span className="text-primary font-bold flex items-center gap-1 text-sm bg-primary-fixed px-2 py-1 rounded">
+            <span className="text-on-surface-variant font-bold flex items-center gap-1 text-sm bg-surface-container-high px-2 py-1 rounded">
               {tenants.length}
             </span>
           </div>
@@ -214,7 +214,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <div className="flex gap-2">
               <Link
                 href={`/cases?propertyId=${property.id}`}
-                className="px-4 py-2 bg-primary text-on-primary font-semibold text-sm rounded-lg hover:opacity-90 transition-all flex items-center gap-2"
+                className="px-4 py-2 bg-on-surface text-surface font-semibold text-sm rounded-lg hover:opacity-90 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-sm">visibility</span>
                 View All Cases
@@ -230,14 +230,14 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 {recentCases.length > 0 ? (
                   <div className="relative pl-8 space-y-10 before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-low">
                     {recentCases.map((c) => (
-                      <Link key={c.id} href={`/cases/${c.id}`} className="relative block group hover:bg-primary-fixed/30 -mx-4 px-4 py-2 rounded-lg transition-colors">
+                      <Link key={c.id} href={`/cases/${c.id}`} className="relative block group hover:bg-surface-container-low -mx-4 px-4 py-2 rounded-lg transition-colors">
                         <span
                           className={`absolute -left-[37px] top-3 w-4 h-4 rounded-full border-4 ring-4 ${getCaseUrgencyColor(c.urgency)}`}
                         ></span>
                         <p className="text-[10px] font-bold text-outline uppercase">
                           {timeAgo(c.createdAt)}
                         </p>
-                        <h4 className="text-lg font-bold mt-1 text-on-surface group-hover:text-primary transition-colors">
+                        <h4 className="text-lg font-bold mt-1 text-on-surface group-hover:text-on-surface transition-colors">
                           {c.category ? formatEnum(c.category) : "Maintenance"} Request
                         </h4>
                         <p className="text-sm text-on-surface-variant mt-1 line-clamp-2">
@@ -268,18 +268,18 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 <h4 className="text-xs font-black uppercase tracking-widest text-outline">
                   Property Health
                 </h4>
-                <Link href={`/cases?propertyId=${property.id}`} className="bg-primary-fixed/50 p-6 rounded-xl border border-outline-variant/30 hover:border-primary/30 hover:bg-primary-fixed transition-all block">
+                <Link href={`/cases?propertyId=${property.id}`} className="bg-surface-container-low p-6 rounded-xl border border-outline-variant/30 hover:border-outline-variant/50 hover:bg-surface-container transition-all block">
                   <p className="text-sm font-semibold text-on-surface-variant">Active Cases</p>
                   <div className="flex items-end gap-2 mt-2">
                     <span className="text-3xl font-black text-on-surface">
                       {activeCases.length}
                     </span>
-                    <span className="text-primary font-bold text-xs mb-1">
+                    <span className="text-on-surface-variant font-bold text-xs mb-1">
                       {activeCases.length === 0 ? "All clear" : "Needs attention"}
                     </span>
                   </div>
                 </Link>
-                <Link href={`/cases?propertyId=${property.id}`} className="bg-primary-fixed/50 p-6 rounded-xl border border-outline-variant/30 hover:border-primary/30 hover:bg-primary-fixed transition-all block">
+                <Link href={`/cases?propertyId=${property.id}`} className="bg-surface-container-low p-6 rounded-xl border border-outline-variant/30 hover:border-outline-variant/50 hover:bg-surface-container transition-all block">
                   <p className="text-sm font-semibold text-on-surface-variant">Total Cases</p>
                   <div className="flex items-end gap-2 mt-2">
                     <span className="text-3xl font-black text-on-surface">{cases.length}</span>
@@ -288,7 +288,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 </Link>
                 <Link
                   href={`/properties/${property.id}/analytics`}
-                  className="block w-full py-4 bg-primary-fixed text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary transition-all text-sm uppercase tracking-wider text-center"
+                  className="block w-full py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-on-surface hover:text-surface transition-all text-sm uppercase tracking-wider text-center"
                 >
                   View Full Analytics
                 </Link>
@@ -303,13 +303,13 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <h3 className="text-2xl font-bold font-headline">Unit Breakdown</h3>
             <Link
               href={`/tenants?propertyId=${property.id}`}
-              className="text-primary font-bold text-sm hover:underline underline-offset-4 decoration-2"
+              className="text-on-surface font-bold text-sm hover:underline underline-offset-4 decoration-2"
             >
               View All {totalUnits} {totalUnits === 1 ? "Unit" : "Units"}
             </Link>
           </div>
           <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
-            <div className="grid grid-cols-6 px-6 py-4 bg-primary-fixed text-[10px] font-black uppercase tracking-wider text-on-surface-variant">
+            <div className="grid grid-cols-6 px-6 py-4 bg-surface-container-low text-[10px] font-black uppercase tracking-wider text-on-surface-variant">
               <div className="col-span-1">Unit</div>
               <div className="col-span-1">Type</div>
               <div className="col-span-2">Resident</div>
@@ -335,25 +335,25 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                     leaseBadgeClass = "bg-surface-container-high text-on-surface";
                   } else {
                     leaseLabel = `Renews ${leaseEnd.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`;
-                    leaseBadgeClass = "bg-primary-fixed text-primary";
+                    leaseBadgeClass = "bg-surface-container-high text-on-surface-variant";
                   }
                   return (
                     <Link
                       key={tenant.id}
                       href={`/tenants/${tenant.id}`}
-                      className="grid grid-cols-6 px-6 py-4 items-center hover:bg-primary-fixed transition-colors group cursor-pointer"
+                      className="grid grid-cols-6 px-6 py-4 items-center hover:bg-surface-container-low transition-colors group cursor-pointer"
                     >
-                      <div className="col-span-1 font-bold text-primary">
+                      <div className="col-span-1 font-bold text-on-surface">
                         {tenant.unitNumber || "N/A"}
                       </div>
                       <div className="col-span-1 text-sm text-on-surface-variant">
                         {formatEnum(property.type)}
                       </div>
                       <div className="col-span-2 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-[10px]">
+                        <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-bold text-[10px]">
                           {getInitials(tenant.name)}
                         </div>
-                        <span className="text-sm font-semibold group-hover:text-primary transition-colors">{tenant.name}</span>
+                        <span className="text-sm font-semibold group-hover:text-on-surface transition-colors">{tenant.name}</span>
                       </div>
                       <div className="col-span-1">
                         <span className={`${leaseBadgeClass} px-3 py-1 rounded-full text-[10px] font-black uppercase`}>
@@ -385,7 +385,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
         <section className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
           <button
             onClick={() => setDocumentsOpen(!documentsOpen)}
-            className="w-full flex items-center justify-between p-6 cursor-pointer select-none hover:bg-primary-fixed transition-colors text-left"
+            className="w-full flex items-center justify-between p-6 cursor-pointer select-none hover:bg-surface-container-low transition-colors text-left"
           >
             <h3 className="text-xl font-bold font-headline">Building Documents</h3>
             <span
@@ -406,9 +406,9 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <div className="px-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {property.accessInstructions && (
-                  <button onClick={() => setPreviewDoc({ title: "Access Instructions", content: property.accessInstructions! })} className="flex items-center justify-between p-4 bg-primary-fixed/50 rounded-xl group hover:bg-primary-fixed cursor-pointer transition-all border border-transparent hover:border-primary/20 text-left">
+                  <button onClick={() => setPreviewDoc({ title: "Access Instructions", content: property.accessInstructions! })} className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl group hover:bg-surface-container cursor-pointer transition-all border border-transparent hover:border-outline-variant/20 text-left">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
                         <span className="material-symbols-outlined">key</span>
                       </div>
                       <div>
@@ -416,13 +416,13 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                         <p className="text-[10px] text-outline uppercase">Property Access</p>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-outline group-hover:text-primary">info</span>
+                    <span className="material-symbols-outlined text-outline group-hover:text-on-surface">info</span>
                   </button>
                 )}
                 {property.parkingInstructions && (
-                  <button onClick={() => setPreviewDoc({ title: "Parking Instructions", content: property.parkingInstructions! })} className="flex items-center justify-between p-4 bg-primary-fixed/50 rounded-xl group hover:bg-primary-fixed cursor-pointer transition-all border border-transparent hover:border-primary/20 text-left">
+                  <button onClick={() => setPreviewDoc({ title: "Parking Instructions", content: property.parkingInstructions! })} className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl group hover:bg-surface-container cursor-pointer transition-all border border-transparent hover:border-outline-variant/20 text-left">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
                         <span className="material-symbols-outlined">local_parking</span>
                       </div>
                       <div>
@@ -430,13 +430,13 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                         <p className="text-[10px] text-outline uppercase">Vendor Parking</p>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-outline group-hover:text-primary">info</span>
+                    <span className="material-symbols-outlined text-outline group-hover:text-on-surface">info</span>
                   </button>
                 )}
                 {property.specialInstructions && (
-                  <button onClick={() => setPreviewDoc({ title: "Special Instructions", content: property.specialInstructions! })} className="flex items-center justify-between p-4 bg-primary-fixed/50 rounded-xl group hover:bg-primary-fixed cursor-pointer transition-all border border-transparent hover:border-primary/20 text-left">
+                  <button onClick={() => setPreviewDoc({ title: "Special Instructions", content: property.specialInstructions! })} className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl group hover:bg-surface-container cursor-pointer transition-all border border-transparent hover:border-outline-variant/20 text-left">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
                         <span className="material-symbols-outlined">description</span>
                       </div>
                       <div>
@@ -444,13 +444,13 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                         <p className="text-[10px] text-outline uppercase">Property Notes</p>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-outline group-hover:text-primary">info</span>
+                    <span className="material-symbols-outlined text-outline group-hover:text-on-surface">info</span>
                   </button>
                 )}
                 {uploadedDocs.map((doc) => (
-                  <button key={doc} onClick={() => setPreviewDoc({ title: doc, content: `Uploaded document: ${doc}` })} className="flex items-center justify-between p-4 bg-primary-fixed/50 rounded-xl group hover:bg-primary-fixed cursor-pointer transition-all border border-transparent hover:border-primary/20 text-left">
+                  <button key={doc} onClick={() => setPreviewDoc({ title: doc, content: `Uploaded document: ${doc}` })} className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl group hover:bg-surface-container cursor-pointer transition-all border border-transparent hover:border-outline-variant/20 text-left">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+                      <div className="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-sm">
                         <span className="material-symbols-outlined">upload_file</span>
                       </div>
                       <div>
@@ -458,11 +458,11 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                         <p className="text-[10px] text-outline uppercase">Uploaded Document</p>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-outline group-hover:text-primary">info</span>
+                    <span className="material-symbols-outlined text-outline group-hover:text-on-surface">info</span>
                   </button>
                 ))}
                 {/* Add Document Button */}
-                <label className="flex items-center justify-center p-4 border-2 border-dashed border-outline-variant/30 rounded-xl cursor-pointer hover:border-primary/50 hover:bg-primary-fixed/30 transition-all">
+                <label className="flex items-center justify-center p-4 border-2 border-dashed border-outline-variant/30 rounded-xl cursor-pointer hover:border-outline-variant/50 hover:bg-surface-container-low transition-all">
                   <input type="file" className="hidden" onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) setUploadedDocs((prev) => [...prev, file.name]);
@@ -480,7 +480,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 )}
               </div>
               {property.notes && (
-                <div className="mt-4 p-4 bg-primary-fixed/50 rounded-xl border border-outline-variant/30">
+                <div className="mt-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant/30">
                   <p className="text-xs font-bold text-outline uppercase tracking-widest mb-2">
                     Notes
                   </p>
@@ -507,7 +507,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
               <p className="text-sm text-on-surface leading-relaxed whitespace-pre-wrap">{previewDoc.content}</p>
             </div>
             <div className="mt-6 flex justify-end">
-              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
+              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-on-surface text-surface rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
                 Close
               </button>
             </div>

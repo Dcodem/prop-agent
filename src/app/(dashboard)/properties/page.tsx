@@ -36,7 +36,7 @@ export default async function PropertiesPage() {
       {/* Metrics */}
       <section className="grid grid-cols-1 gap-4 mb-12 md:grid-cols-3">
         <StatCard icon="gavel" iconBg="bg-error-container" iconColor="text-error" value={String(totalOpenCases).padStart(2, "0")} label="Open Cases" />
-        <StatCard icon="domain" iconBg="bg-primary-fixed-dim" iconColor="text-primary" value={String(properties.length).padStart(2, "0")} label="Properties" />
+        <StatCard icon="domain" iconBg="bg-surface-container-high" iconColor="text-on-surface-variant" value={String(properties.length).padStart(2, "0")} label="Properties" />
         <StatCard icon="apartment" value={String(properties.reduce((sum, p) => sum + (p.unitCount ?? 1), 0)).padStart(2, "0")} label="Total Units" />
       </section>
 
