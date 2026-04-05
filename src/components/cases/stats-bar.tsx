@@ -12,7 +12,7 @@ interface StatsBarProps {
 export function StatsBar({ totalCases, openCases, propertyCount, onOpenCasesClick }: StatsBarProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <StatCard icon="folder" iconBg="bg-info-container" iconColor="text-info" value={totalCases} label="Total Cases" />
+      <StatCard icon="folder" value={totalCases} label="Total Cases" />
       <StatCard
         icon="pending_actions"
         iconBg="bg-caution-container"
@@ -27,7 +27,7 @@ export function StatsBar({ totalCases, openCases, propertyCount, onOpenCasesClic
           </div>
         ) : undefined}
       />
-      <StatCard icon="domain" iconBg="bg-purple-container" iconColor="text-purple" value={propertyCount} label="Properties" />
+      <StatCard icon="domain" value={propertyCount} label="Properties" />
     </div>
   );
 }

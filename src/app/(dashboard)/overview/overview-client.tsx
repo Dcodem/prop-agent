@@ -79,7 +79,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
         <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" />
         <StatCard icon="assignment" iconBg="bg-info-container" iconColor="text-info" href="/cases" value={openCases.length} label="Open Cases" />
         <StatCard icon="event_upcoming" iconBg="bg-caution-container" iconColor="text-caution" value={expiringLeases.length} label="Lease Follow-ups" />
-        <StatCard icon="payments" iconBg="bg-warning-container" iconColor="text-warning-dim" value={lateOnRent.length} label="Late on Rent" />
+        <StatCard icon="payments" iconBg="bg-error/10" iconColor="text-error" value={lateOnRent.length} label="Late on Rent" />
       </div>
 
       {/* Open Cases Section */}

@@ -30,12 +30,12 @@ function getInitials(name: string) {
 }
 
 const INITIAL_COLORS = [
-  "bg-info-container text-info",
-  "bg-purple-container text-purple",
-  "bg-caution-container text-caution",
-  "bg-success-container text-on-success-container",
-  "bg-warning-container text-on-warning-container",
-  "bg-error-container text-error",
+  "bg-info-container text-info/70",
+  "bg-purple-container text-purple/70",
+  "bg-surface-container-high text-on-surface-variant",
+  "bg-success-container text-on-success-container/70",
+  "bg-surface-container-highest text-on-surface",
+  "bg-warning-container text-on-warning-container/70",
 ];
 
 // Mock: some tenants are late on rent (by index for prototype)
