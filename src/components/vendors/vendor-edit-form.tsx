@@ -4,6 +4,7 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { updateVendorAction } from "@/app/(dashboard)/vendors/actions";
+import { toast } from "sonner";
 import { VENDOR_TRADES } from "@/lib/constants";
 import { formatEnum } from "@/lib/utils";
 
@@ -35,9 +36,13 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
 
   useEffect(() => {
     if (state?.success) {
+      toast.success("Vendor profile saved.");
       router.push(`/vendors/${vendor.id}`);
     }
-  }, [state?.success, router, vendor.id]);
+    if (state?.error) {
+      toast.error("Please fix the errors and try again.");
+    }
+  }, [state, router, vendor.id]);
 
   const errors = state?.error;
 
@@ -244,12 +249,6 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
         </div>
       </div>
 
-      {/* Error Banner */}
-      {errors && (
-        <div className="fixed bottom-6 right-6 bg-error-container text-on-error-container rounded-lg px-6 py-3 text-sm font-medium shadow-lg">
-          Please fix the errors and try again.
-        </div>
-      )}
     </div>
   );
 }

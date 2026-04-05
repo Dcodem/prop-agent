@@ -5,6 +5,7 @@ import { SidebarNav } from "@/components/sidebar-nav";
 import { TopBar } from "@/components/top-bar";
 import { CommandSearch } from "@/components/command-search";
 import type { SearchEntities } from "@/components/command-search";
+import { Toaster } from "@/components/ui/sonner";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ export function DashboardShell({ children, searchEntities, userInfo }: Dashboard
       <main id="main-content" className="lg:ml-[220px] pt-16 min-h-screen px-6 lg:px-10 py-8 animate-fade-in-up">
         {children}
       </main>
+      <Toaster position="bottom-right" />
     </>
   );
 }

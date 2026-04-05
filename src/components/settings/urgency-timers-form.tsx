@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { updateUrgencyTimersAction } from "@/app/(dashboard)/settings/actions";
+import { toast } from "sonner";
 
 type ActionState = { success: boolean; error?: string } | null;
 
@@ -37,6 +38,11 @@ export function UrgencyTimersForm({
     },
     null,
   );
+
+  useEffect(() => {
+    if (state?.success) toast.success("Urgency timers saved.");
+    if (state?.error) toast.error(state.error);
+  }, [state]);
 
   return (
     <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow">
@@ -104,12 +110,6 @@ export function UrgencyTimersForm({
               </tbody>
             </table>
           </div>
-          {state?.error && (
-            <p className="mt-4 text-sm text-error font-medium">{state.error}</p>
-          )}
-          {state?.success && (
-            <p className="mt-4 text-sm text-primary font-medium">Saved successfully.</p>
-          )}
         </div>
         <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
