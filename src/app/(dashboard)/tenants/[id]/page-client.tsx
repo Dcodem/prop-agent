@@ -5,6 +5,7 @@ import Link from "next/link";
 import { deleteTenantAction } from "@/app/(dashboard)/tenants/actions";
 import { TenantForm } from "@/components/tenants/tenant-form";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { formatEnum, timeAgo } from "@/lib/utils";
 
 type SerializedTenant = {
@@ -145,15 +146,7 @@ export function TenantDetailClient({
       {/* Hero Section: Asymmetric Editorial Style */}
       <section className="grid grid-cols-12 gap-8 items-end">
         <div className="col-span-12 lg:col-span-8 space-y-4">
-          <Link
-            href="/tenants"
-            className="flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-sm mb-6 transition-colors group"
-          >
-            <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">
-              arrow_back
-            </span>
-            <span className="group-hover:underline underline-offset-4 decoration-2">Back to Tenants</span>
-          </Link>
+          <Breadcrumb items={[{ label: "Tenants", href: "/tenants" }, { label: tenant.name }]} />
           <div className="flex items-center gap-4 mb-2">
             <span className="bg-surface-container text-on-surface-variant px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
               Resident Status

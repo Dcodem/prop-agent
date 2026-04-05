@@ -33,7 +33,7 @@ export function SpendingLimitsForm({
   );
 
   return (
-    <section className="bg-surface-container-lowest border border-outline-variant/20 shadow-sm">
+    <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow">
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">

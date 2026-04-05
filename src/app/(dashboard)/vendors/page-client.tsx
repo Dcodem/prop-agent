@@ -6,22 +6,25 @@ import type { vendors } from "@/lib/db/schema";
 import { VendorTable } from "@/components/vendors/vendor-table";
 import { VendorForm } from "@/components/vendors/vendor-form";
 import { Modal } from "@/components/ui/modal";
+import { StatCard } from "@/components/ui/stat-card";
 
 type Vendor = typeof vendors.$inferSelect;
 
 export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const complianceRate = vendors.length > 0
+    ? ((vendors.filter((v) => (v.preferenceScore ?? 0) >= 0.5).length / vendors.length) * 100).toFixed(1)
+    : "0.0";
+  const tradeCount = new Set(vendors.map((v) => v.trade)).size;
+
   return (
-    <div className="max-w-7xl mx-auto px-8 py-12">
+    <div className="max-w-7xl mx-auto py-12">
       {/* Header Section */}
-      <div className="flex justify-between items-end mb-12">
+      <div className="flex justify-between items-end mb-8">
         <div className="text-left">
-          <div className="inline-block px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold mb-3 tracking-wide uppercase">
-            Partnership Network
-          </div>
-          <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
-            Vendors Roster
+          <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface mb-2">
+            Vendors
           </h1>
           <p className="text-on-surface-variant max-w-lg leading-relaxed">
             Centralized management for your preferred trade professionals and
@@ -37,99 +40,31 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
         </button>
       </div>
 
+      {/* Stats — above table */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <StatCard icon="engineering" value={vendors.length} label="Total Vendors" />
+        <StatCard icon="verified" iconBg="bg-primary-fixed-dim" iconColor="text-primary" value={`${complianceRate}%`} label="Compliance Rate" />
+        <StatCard icon="pending_actions" value={tradeCount} label="Trade Categories" />
+      </div>
+
       {/* Vendor Table */}
       <VendorTable vendors={vendors} />
 
-      {/* Metrics Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Card 1 */}
-        <div className="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between group hover:border-primary/30 transition-all">
-          <div className="flex justify-between items-start mb-6">
-            <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined">engineering</span>
-            </div>
-            <span className="text-xs font-bold text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-[0.5rem]">
-              +{vendors.length} total
-            </span>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-on-surface mb-1">
-              {vendors.length}
-            </div>
-            <div className="text-sm font-bold text-on-surface-variant uppercase tracking-widest">
-              Total Vendors
-            </div>
-          </div>
-        </div>
-        {/* Card 2 */}
-        <div className="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between group hover:border-primary/30 transition-all">
-          <div className="flex justify-between items-start mb-6">
-            <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined">verified</span>
-            </div>
-            <span className="text-xs font-bold text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-[0.5rem]">
-              Target 98%
-            </span>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-on-surface mb-1">
-              {vendors.length > 0
-                ? (
-                    (vendors.filter((v) => (v.preferenceScore ?? 0) >= 0.5)
-                      .length /
-                      vendors.length) *
-                    100
-                  ).toFixed(1)
-                : "0.0"}
-              %
-            </div>
-            <div className="text-sm font-bold text-on-surface-variant uppercase tracking-widest">
-              Compliance Rate
-            </div>
-          </div>
-        </div>
-        {/* Card 3 */}
-        <div className="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between group hover:border-primary/30 transition-all">
-          <div className="flex justify-between items-start mb-6">
-            <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined">
-                pending_actions
-              </span>
-            </div>
-            <span className="text-xs font-bold text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-[0.5rem]">
-              {new Set(vendors.map((v) => v.trade)).size} Trades
-            </span>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-on-surface mb-1">
-              {new Set(vendors.map((v) => v.trade)).size}
-            </div>
-            <div className="text-sm font-bold text-on-surface-variant uppercase tracking-widest">
-              Trade Categories
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Promotion / Action Section */}
-      <div className="mt-12 bg-primary rounded-lg p-10 flex items-center justify-between overflow-hidden relative">
-        {/* Background decorative element */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-white/10 skew-x-[-15deg] translate-x-20" />
-        <div className="relative z-10 max-w-2xl">
-          <h3 className="text-on-primary text-2xl font-extrabold mb-4">
+      <div className="bg-surface-container-lowest rounded-2xl p-8 card-shadow border border-outline-variant/10 flex items-center justify-between">
+        <div className="max-w-2xl">
+          <h3 className="text-on-surface text-xl font-bold mb-2">
             Optimizing your vendor relationships?
           </h3>
-          <p className="text-on-primary/80 text-base leading-relaxed">
+          <p className="text-on-surface-variant text-sm leading-relaxed">
             Unlock advanced analytics, automated insurance tracking, and tiered
             performance scoring for your entire network with our Premium Vendor
             Management module.
           </p>
         </div>
-        <div className="relative z-10">
-          <Link href="/settings" className="bg-surface-container-lowest text-primary px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-surface-container-low transition-colors cursor-pointer inline-block">
-            Configure Settings
-          </Link>
-        </div>
+        <Link href="/settings" className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer inline-block shrink-0">
+          Configure Settings
+        </Link>
       </div>
 
       {/* Add Vendor Modal */}

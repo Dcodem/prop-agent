@@ -76,7 +76,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="max-w-7xl mx-auto p-8 lg:p-12">
+      <div className="max-w-7xl mx-auto py-8">
         {/* Profile Header */}
         <section className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16">
           <div className="flex items-start gap-8">
@@ -110,7 +110,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
               )}
             </div>
             <div className="pt-2">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold block mb-1">PropAgent Manager</span>
+              <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold block mb-1">PropAgent Manager</span>
               <h1 className="text-4xl font-extrabold tracking-tight text-on-surface leading-none mb-2">{user.name}</h1>
               <p className="text-on-surface-variant font-medium flex items-center gap-2">
                 {user.role === "owner" ? "Account Owner" : user.role}
@@ -135,23 +135,23 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
 
         <div className="space-y-12">
           {/* Account Details */}
-          <div className="bg-surface-container-lowest rounded-xl p-8">
+          <div className="bg-surface-container-lowest rounded-2xl p-8 card-shadow border border-outline-variant/10">
             <h2 className="text-xl font-bold tracking-tight mb-8">Account Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
               <div className="space-y-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant">Email Address</label>
+                <label className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">Email Address</label>
                 <div className="bg-surface-container-high p-4 rounded-lg text-on-surface font-medium border-l-2 border-transparent">
                   {user.email}
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant">Phone Number</label>
+                <label className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">Phone Number</label>
                 <div className="bg-surface-container-high p-4 rounded-lg text-on-surface font-medium border-l-2 border-transparent">
                   {user.phone ?? "Not set"}
                 </div>
               </div>
               <div className="col-span-full space-y-4 pt-4">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant">Notification Preferences</label>
+                <label className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">Notification Preferences</label>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-4 bg-surface-container-low rounded-lg">
                     <div className="flex items-center gap-3">
@@ -177,11 +177,11 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
           </div>
 
           {/* Security & Access */}
-          <div className="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,30,0.06)] p-8 border-t-4 border-on-surface">
+          <div className="bg-surface-container-lowest rounded-2xl p-8 card-shadow border border-outline-variant/10">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-bold tracking-tight">Security &amp; Access</h2>
               <div className="bg-surface-container-low px-4 py-2 rounded-lg flex items-center gap-3">
-                <p className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant">Current Active Session</p>
+                <p className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">Current Active Session</p>
                 <span className="text-xs font-bold text-primary">Active Session</span>
               </div>
             </div>
@@ -233,8 +233,8 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
               <h3 className="text-xl font-bold text-on-surface mb-2">Account Finality</h3>
               <p className="text-on-surface-variant text-sm mb-8 max-w-md mx-auto">Deactivating your PropAgent account will cease all autonomous operations and revoke access to historical performance logs.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button onClick={() => setShowDeactivateDialog(true)} className="w-full sm:w-auto px-8 py-3 bg-surface-container-lowest text-error border border-error/30 text-xs font-bold rounded-lg hover:bg-error/5 transition-colors uppercase tracking-widest">Deactivate PropAgent</button>
-                <button onClick={() => setShowCloseDialog(true)} className="w-full sm:w-auto px-8 py-3 text-on-surface-variant text-[10px] font-bold uppercase tracking-widest hover:text-error transition-colors">Close Agent Account</button>
+                <button onClick={() => setShowDeactivateDialog(true)} className="w-full sm:w-auto px-8 py-3 bg-surface-container-lowest text-error border border-error/30 text-[11px] font-bold rounded-lg hover:bg-error/5 transition-colors uppercase tracking-wider">Deactivate PropAgent</button>
+                <button onClick={() => setShowCloseDialog(true)} className="w-full sm:w-auto px-8 py-3 text-on-surface-variant text-[11px] font-bold uppercase tracking-wider hover:text-error transition-colors">Close Agent Account</button>
               </div>
             </div>
           </div>

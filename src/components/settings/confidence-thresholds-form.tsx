@@ -21,7 +21,7 @@ export function ConfidenceThresholdsForm({
   );
 
   return (
-    <section className="bg-surface-container-lowest border border-outline-variant/20 shadow-sm">
+    <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow">
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
@@ -36,7 +36,7 @@ export function ConfidenceThresholdsForm({
                 <span className="px-4 py-1.5 bg-primary-fixed text-primary border border-primary/20 rounded text-sm font-bold">{high.toFixed(2)}</span>
               </div>
               <input
-                className="w-full h-1.5 bg-surface-container-low rounded-full appearance-none cursor-pointer accent-primary"
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-primary"
                 max="1"
                 min="0"
                 step="0.05"
@@ -44,6 +44,7 @@ export function ConfidenceThresholdsForm({
                 name="high"
                 value={high}
                 onChange={(e) => setHigh(Number(e.target.value))}
+                style={{ background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${high * 100}%, var(--color-surface-container-low) ${high * 100}%, var(--color-surface-container-low) 100%)` }}
               />
               <div className="flex justify-between mt-3 text-[10px] text-outline font-bold uppercase tracking-widest">
                 <span>Conservative</span>
@@ -56,7 +57,7 @@ export function ConfidenceThresholdsForm({
                 <span className="px-4 py-1.5 bg-surface-container-low text-on-surface border border-outline-variant/10 rounded text-sm font-bold">{medium.toFixed(2)}</span>
               </div>
               <input
-                className="w-full h-1.5 bg-surface-container-low rounded-full appearance-none cursor-pointer accent-primary"
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-primary"
                 max="1"
                 min="0"
                 step="0.05"
@@ -64,6 +65,7 @@ export function ConfidenceThresholdsForm({
                 name="medium"
                 value={medium}
                 onChange={(e) => setMedium(Number(e.target.value))}
+                style={{ background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${medium * 100}%, var(--color-surface-container-low) ${medium * 100}%, var(--color-surface-container-low) 100%)` }}
               />
             </div>
           </div>

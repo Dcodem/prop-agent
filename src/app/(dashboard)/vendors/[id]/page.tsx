@@ -6,6 +6,7 @@ import { cases } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { formatEnum, timeAgo } from "@/lib/utils";
 import Link from "next/link";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { VendorHistoryClient } from "@/components/vendors/vendor-history-client";
 
 export default async function VendorDetailPage({
@@ -45,6 +46,7 @@ export default async function VendorDetailPage({
   return (
     <main className="pt-8 pb-24 px-12 max-w-[1600px] mx-auto min-h-screen">
       <div className="max-w-7xl mx-auto p-8">
+        <Breadcrumb items={[{ label: "Vendors", href: "/vendors" }, { label: vendor.name }]} />
         {/* Header Section: Profile & Actions */}
         <header className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
           <div className="flex items-center gap-8">

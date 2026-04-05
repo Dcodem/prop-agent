@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Property, Tenant, Case } from "@/lib/db/schema";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { formatEnum, timeAgo } from "@/lib/utils";
 
 type Props = {
@@ -80,8 +81,11 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
 
   return (
     <div className="min-h-screen pb-12">
+      <div className="px-8 pt-4">
+        <Breadcrumb items={[{ label: "Properties", href: "/properties" }, { label: property.address }]} />
+      </div>
       {/* Hero Section */}
-      <section className="pt-8 px-8">
+      <section className="pt-2 px-8">
         <div className="relative h-96 rounded-xl overflow-hidden group">
           <div className="w-full h-full bg-gradient-to-br from-primary to-primary" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>

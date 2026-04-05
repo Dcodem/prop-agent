@@ -35,10 +35,10 @@ export default async function SettingsPage() {
   };
 
   return (
-    <div className="max-w-[800px] mx-auto py-12 px-8">
+    <div className="max-w-[800px] mx-auto py-12">
       {/* Page Header */}
       <div className="mb-12 border-b border-outline-variant/20 pb-8">
-        <h1 className="text-4xl font-extrabold text-on-surface tracking-tight font-headline">Settings</h1>
+        <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface">Settings</h1>
         <p className="text-on-surface-variant mt-2 font-medium">Configure your AI agent&apos;s operational parameters</p>
       </div>
       <SettingsTabsClient

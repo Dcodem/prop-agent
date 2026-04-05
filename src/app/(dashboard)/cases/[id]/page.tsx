@@ -12,6 +12,7 @@ import { CaseIssueDescription } from "@/components/cases/case-issue-description"
 import { AddNoteForm } from "@/components/cases/add-note-form";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import Link from "next/link";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 export default async function CaseDetailPage({
   params,
@@ -51,21 +52,7 @@ export default async function CaseDetailPage({
     <main className="pt-8 pb-24 px-12 max-w-[1600px] mx-auto min-h-screen">
       {/* Breadcrumb & Header */}
       <div className="mb-14">
-        <div className="flex items-center gap-3 text-sm text-on-surface-variant mb-4 font-medium uppercase tracking-wider">
-          <span className="material-symbols-outlined text-base">home</span>
-          <Link
-            href="/cases"
-            className="hover:text-primary cursor-pointer transition-colors"
-          >
-            Cases
-          </Link>
-          <span className="material-symbols-outlined text-base">
-            chevron_right
-          </span>
-          <span className="text-primary font-bold">
-            Case #{caseData.id.slice(0, 8).toUpperCase()}
-          </span>
-        </div>
+        <Breadcrumb items={[{ label: "Cases", href: "/cases" }, { label: `Case #${caseData.id.slice(0, 8).toUpperCase()}` }]} />
         <div className="flex justify-between items-center gap-6">
           <div className="min-w-0">
             <h1 className="text-3xl font-extrabold text-on-surface tracking-tight leading-snug">

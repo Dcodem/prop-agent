@@ -3,6 +3,8 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
+import { StatCard } from "@/components/ui/stat-card";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 interface OverviewClientProps {
@@ -63,7 +65,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
   const totalActions = openCases.length + expiringLeases.length + lateOnRent.length;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pt-8 pb-12 px-8">
+    <div className="max-w-7xl mx-auto space-y-8 pt-8 pb-12">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface">Dashboard</h1>
@@ -74,42 +76,10 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
 
       {/* Summary Strip */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-error/10 flex items-center justify-center">
-            <span className="material-symbols-outlined text-error">priority_high</span>
-          </div>
-          <div>
-            <p className="text-2xl font-extrabold text-on-surface">{totalActions}</p>
-            <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Action Items</p>
-          </div>
-        </div>
-        <Link href="/cases" className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4 hover:ring-2 hover:ring-outline-variant/30 transition-all">
-          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant">assignment</span>
-          </div>
-          <div>
-            <p className="text-2xl font-extrabold text-on-surface">{openCases.length}</p>
-            <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Open Cases</p>
-          </div>
-        </Link>
-        <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant">event_upcoming</span>
-          </div>
-          <div>
-            <p className="text-2xl font-extrabold text-on-surface">{expiringLeases.length}</p>
-            <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Lease Follow-ups</p>
-          </div>
-        </div>
-        <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant">payments</span>
-          </div>
-          <div>
-            <p className="text-2xl font-extrabold text-on-surface">{lateOnRent.length}</p>
-            <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Late on Rent</p>
-          </div>
-        </div>
+        <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" />
+        <StatCard icon="assignment" href="/cases" value={openCases.length} label="Open Cases" />
+        <StatCard icon="event_upcoming" value={expiringLeases.length} label="Lease Follow-ups" />
+        <StatCard icon="payments" value={lateOnRent.length} label="Late on Rent" />
       </div>
 
       {/* Open Cases Section */}
@@ -269,23 +239,23 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant block mb-3">Status</span>
+              <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Status</span>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 <span className="text-lg font-bold">Active &amp; Learning</span>
               </div>
             </div>
             <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant block mb-3">Confidence</span>
+              <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Confidence</span>
               <div className="flex items-end gap-1">
-                <span className="text-3xl font-extrabold leading-none">94.8</span>
+                <span className="text-3xl font-extrabold leading-none"><AnimatedCounter value={94.8} decimals={1} /></span>
                 <span className="text-sm font-bold text-on-surface-variant mb-0.5">%</span>
               </div>
             </div>
             <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant block mb-3">Decision Speed</span>
+              <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Decision Speed</span>
               <div className="flex items-end gap-1">
-                <span className="text-3xl font-extrabold leading-none">1.2</span>
+                <span className="text-3xl font-extrabold leading-none"><AnimatedCounter value={1.2} decimals={1} /></span>
                 <span className="text-sm font-bold text-on-surface-variant mb-0.5">sec</span>
               </div>
             </div>
@@ -298,14 +268,14 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
         <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-48">
           <span className="material-symbols-outlined text-primary text-3xl">bolt</span>
           <div>
-            <h3 className="text-4xl font-black tracking-tighter">1,284</h3>
+            <h3 className="text-4xl font-black tracking-tighter"><AnimatedCounter value={1284} /></h3>
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Cases Automated</p>
           </div>
         </div>
         <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-48">
           <span className="material-symbols-outlined text-primary text-3xl">schedule</span>
           <div>
-            <h3 className="text-4xl font-black tracking-tighter">312<span className="text-xl font-medium">h</span></h3>
+            <h3 className="text-4xl font-black tracking-tighter"><AnimatedCounter value={312} suffix="h" /></h3>
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Time Saved</p>
           </div>
         </div>
@@ -315,7 +285,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <span className="bg-surface-container text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold">+4%</span>
           </div>
           <div>
-            <h3 className="text-4xl font-black tracking-tighter">4.9</h3>
+            <h3 className="text-4xl font-black tracking-tighter"><AnimatedCounter value={4.9} decimals={1} /></h3>
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Tenant Satisfaction</p>
           </div>
         </div>

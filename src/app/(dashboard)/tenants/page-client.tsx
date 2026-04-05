@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { TenantSearch } from "@/components/tenants/tenant-search";
 import { TenantTable } from "@/components/tenants/tenant-table";
 import { TenantForm } from "@/components/tenants/tenant-form";
+import { StatCard } from "@/components/ui/stat-card";
 
 type Tenant = {
   id: string;
@@ -60,11 +61,11 @@ export function TenantsPageClient({
   const activeCases = 0; // Placeholder -- would need case data
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-12">
+    <div className="max-w-7xl mx-auto py-12">
       {/* Header Section */}
-      <div className="flex justify-between items-end mb-12">
+      <div className="flex justify-between items-end mb-8">
         <div>
-          <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
+          <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface mb-2">
             Tenants
           </h1>
           <p className="text-on-surface-variant max-w-lg leading-relaxed">
@@ -84,76 +85,42 @@ export function TenantsPageClient({
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
-          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
-            Total Tenants
-          </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
-              {totalTenants}
-            </span>
-          </div>
-        </div>
-        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
-          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
-            Leases Expiring
-          </span>
-          <div className="flex items-center gap-3">
-            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
-              {leasesByWindow.total}
-            </span>
-            <div className="flex flex-col gap-0.5">
-              {leasesByWindow.d30 > 0 && (
-                <span className="text-[10px] font-bold text-error bg-error/10 px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-error" />{leasesByWindow.d30} within 30d
-                </span>
-              )}
-              {leasesByWindow.d60 > 0 && (
-                <span className="text-[10px] font-bold text-on-surface bg-surface-container-high px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant" />{leasesByWindow.d60} within 60d
-                </span>
-              )}
-              {leasesByWindow.d90 > 0 && (
-                <span className="text-[10px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-outline" />{leasesByWindow.d90} within 90d
-                </span>
-              )}
-              {leasesByWindow.total === 0 && (
-                <span className="text-[10px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded">All clear</span>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
-          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
-            Occupancy
-          </span>
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
-              {totalTenants > 0 ? "100%" : "0%"}
-            </span>
-            <div className="flex-1 h-1 bg-surface-container-low rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary"
-                style={{ width: totalTenants > 0 ? "100%" : "0%" }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
-          <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
-            Active Cases
-          </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
-              {activeCases}
-            </span>
-            <span className="text-[11px] text-on-surface-variant font-bold bg-surface-container-high px-2 py-0.5 rounded">
-              Pending
-            </span>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <StatCard icon="groups" value={totalTenants} label="Total Tenants" />
+        <StatCard
+          icon="event_upcoming"
+          value={leasesByWindow.total}
+          label="Leases Expiring"
+          badge={
+            leasesByWindow.total > 0 ? (
+              <div className="flex flex-col gap-0.5">
+                {leasesByWindow.d30 > 0 && (
+                  <span className="text-[11px] font-bold text-error bg-error/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-error" />{leasesByWindow.d30} within 30d
+                  </span>
+                )}
+                {leasesByWindow.d60 > 0 && (
+                  <span className="text-[11px] font-bold text-on-surface bg-surface-container-high px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant" />{leasesByWindow.d60} within 60d
+                  </span>
+                )}
+                {leasesByWindow.d90 > 0 && (
+                  <span className="text-[11px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-outline" />{leasesByWindow.d90} within 90d
+                  </span>
+                )}
+              </div>
+            ) : undefined
+          }
+        />
+        <StatCard
+          icon="trending_up"
+          iconBg="bg-primary-fixed-dim"
+          iconColor="text-primary"
+          value={totalTenants > 0 ? "100%" : "0%"}
+          label="Occupancy"
+        />
+        <StatCard icon="assignment" value={activeCases} label="Active Cases" />
       </div>
 
       {/* Search */}

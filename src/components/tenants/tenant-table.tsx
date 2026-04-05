@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Tenant = {
   id: string;
@@ -81,6 +82,7 @@ export function TenantTable({
   properties: Property[];
   onEdit?: (tenant: Tenant) => void;
 }) {
+  const router = useRouter();
   const propertyMap = new Map(properties.map((p) => [p.id, p.address]));
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -154,6 +156,7 @@ export function TenantTable({
                 return (
                   <tr
                     key={tenant.id}
+                    onClick={() => router.push(`/tenants/${tenant.id}`)}
                     className="group hover:bg-surface-container-low/50 transition-colors cursor-pointer"
                   >
                     <td className="px-8 py-5">
