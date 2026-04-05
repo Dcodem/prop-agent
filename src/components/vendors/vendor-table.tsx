@@ -9,14 +9,14 @@ import { TradeFilter } from "./trade-filter";
 type Vendor = typeof vendors.$inferSelect;
 
 const AVATAR_COLORS = [
-  { bg: "bg-teal-100", text: "text-teal-700" },
-  { bg: "bg-amber-100", text: "text-amber-700" },
-  { bg: "bg-surface-container", text: "text-on-surface" },
-  { bg: "bg-emerald-100", text: "text-emerald-700" },
-  { bg: "bg-violet-100", text: "text-violet-700" },
-  { bg: "bg-rose-100", text: "text-rose-700" },
-  { bg: "bg-blue-100", text: "text-blue-700" },
-  { bg: "bg-orange-100", text: "text-orange-700" },
+  { bg: "bg-surface-container-high", text: "text-on-surface" },
+  { bg: "bg-surface-container", text: "text-on-surface-variant" },
+  { bg: "bg-surface-container-highest", text: "text-on-surface" },
+  { bg: "bg-surface-container-high", text: "text-on-surface" },
+  { bg: "bg-surface-container", text: "text-on-surface-variant" },
+  { bg: "bg-surface-container-highest", text: "text-on-surface" },
+  { bg: "bg-surface-container-high", text: "text-on-surface" },
+  { bg: "bg-surface-container", text: "text-on-surface-variant" },
 ];
 
 function getInitials(name: string): string {
@@ -186,11 +186,11 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
                   </td>
                   <td className="px-8 py-6 text-right">
                     {vendor.availabilityNotes ? (
-                      <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
+                      <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider border border-outline-variant/10">
                         {vendor.availabilityNotes}
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
+                      <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider border border-outline-variant/10">
                         Active
                       </span>
                     )}

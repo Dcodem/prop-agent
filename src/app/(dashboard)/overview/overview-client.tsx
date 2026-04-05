@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { formatEnum, timeAgo } from "@/lib/utils";
+import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 interface OverviewClientProps {
@@ -55,9 +55,9 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
   );
 
   function getLeaseUrgencyColor(days: number) {
-    if (days <= 30) return { bg: "bg-red-50", text: "text-red-700", dot: "bg-red-500", label: "Critical" };
-    if (days <= 60) return { bg: "bg-orange-50", text: "text-orange-700", dot: "bg-orange-500", label: "Soon" };
-    return { bg: "bg-yellow-50", text: "text-yellow-700", dot: "bg-yellow-500", label: "Upcoming" };
+    if (days <= 30) return { bg: "bg-error/10", text: "text-error", dot: "bg-error", label: "Critical" };
+    if (days <= 60) return { bg: "bg-surface-container-high", text: "text-on-surface", dot: "bg-on-surface-variant", label: "Soon" };
+    return { bg: "bg-surface-container", text: "text-on-surface-variant", dot: "bg-outline", label: "Upcoming" };
   }
 
   const totalActions = openCases.length + expiringLeases.length + lateOnRent.length;
@@ -83,9 +83,9 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <p className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Action Items</p>
           </div>
         </div>
-        <Link href="/cases" className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4 hover:ring-2 hover:ring-orange-300 transition-all">
-          <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
-            <span className="material-symbols-outlined text-orange-600">assignment</span>
+        <Link href="/cases" className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4 hover:ring-2 hover:ring-outline-variant/30 transition-all">
+          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
+            <span className="material-symbols-outlined text-on-surface-variant">assignment</span>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-on-surface">{openCases.length}</p>
@@ -93,8 +93,8 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
           </div>
         </Link>
         <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center">
-            <span className="material-symbols-outlined text-yellow-700">event_upcoming</span>
+          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
+            <span className="material-symbols-outlined text-on-surface-variant">event_upcoming</span>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-on-surface">{expiringLeases.length}</p>
@@ -102,8 +102,8 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
           </div>
         </div>
         <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
-            <span className="material-symbols-outlined text-red-600">payments</span>
+          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
+            <span className="material-symbols-outlined text-on-surface-variant">payments</span>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-on-surface">{lateOnRent.length}</p>
@@ -113,12 +113,12 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       </div>
 
       {/* Open Cases Section */}
-      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-orange-600">assignment</span>
+            <span className="material-symbols-outlined text-on-surface-variant">assignment</span>
             <h2 className="text-lg font-bold text-on-surface">Open Cases</h2>
-            <span className="bg-orange-100 text-orange-700 text-[11px] font-bold px-2 py-0.5 rounded-full">{openCases.length}</span>
+            <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{openCases.length}</span>
           </div>
           <Link href="/cases" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
             View all cases
@@ -127,37 +127,37 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
         {openCases.length === 0 ? (
           <div className="px-6 py-8 text-center text-on-surface-variant text-sm">No open cases. All clear.</div>
         ) : (
-          <table className="w-full text-left">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-surface-container-low border-b border-outline-variant/20">
-                <th className="px-6 py-3 text-[11px] font-bold text-outline uppercase tracking-wider">Urgency</th>
-                <th className="px-6 py-3 text-[11px] font-bold text-outline uppercase tracking-wider">Subject</th>
-                <th className="px-6 py-3 text-[11px] font-bold text-outline uppercase tracking-wider">Property</th>
-                <th className="px-6 py-3 text-[11px] font-bold text-outline uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-[11px] font-bold text-outline uppercase tracking-wider">Time</th>
+              <tr className="bg-surface-container-low border-b border-outline-variant/30">
+                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-32">Urgency</th>
+                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Subject</th>
+                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Property</th>
+                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-44">Status</th>
+                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-24">Time</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-outline-variant/10">
+            <tbody className="divide-y divide-outline-variant/30">
               {openCases.slice(0, 5).map((c) => (
-                <tr key={c.id} className="hover:bg-primary-fixed/30 transition-colors">
-                  <td className="px-6 py-3">
+                <tr key={c.id} onClick={() => window.location.href = `/cases/${c.id}`} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
+                  <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`} />
-                      <span className="text-sm font-medium">{formatEnum(c.urgency ?? "low")}</span>
+                      <span className="text-sm font-medium text-on-surface">{formatEnum(c.urgency ?? "low")}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-3">
-                    <Link href={`/cases/${c.id}`} className="text-sm font-semibold text-on-surface hover:text-primary truncate block max-w-[300px]">
-                      {c.rawMessage.length > 60 ? c.rawMessage.slice(0, 57) + "..." : c.rawMessage}
-                    </Link>
+                  <td className="px-6 py-4">
+                    <p className="text-sm text-on-surface font-semibold">
+                      {generateCaseSummary(c.rawMessage, c.category)}
+                    </p>
                   </td>
-                  <td className="px-6 py-3 text-sm text-on-surface-variant">
+                  <td className="px-6 py-4 text-sm text-on-surface-variant">
                     {propertyMap.get(c.propertyId ?? "") ?? "—"}
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-6 py-4">
                     <span className="text-sm font-medium">{formatEnum(c.status)}</span>
                   </td>
-                  <td className="px-6 py-3 text-xs text-outline">{timeAgo(c.createdAt)}</td>
+                  <td className="px-6 py-4 text-xs text-outline">{timeAgo(c.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
@@ -176,9 +176,9 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-yellow-700">event_upcoming</span>
+            <span className="material-symbols-outlined text-on-surface-variant">event_upcoming</span>
             <h2 className="text-lg font-bold text-on-surface">Lease Renewals</h2>
-            <span className="bg-yellow-100 text-yellow-700 text-[11px] font-bold px-2 py-0.5 rounded-full">{expiringLeases.length}</span>
+            <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{expiringLeases.length}</span>
           </div>
           <Link href="/tenants" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
             View all tenants
@@ -191,7 +191,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             {expiringLeases.map((t) => {
               const colors = getLeaseUrgencyColor(t.daysLeft);
               return (
-                <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-primary-fixed/30 transition-colors">
+                <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
                   <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
                     <span className={`material-symbols-outlined ${colors.text} text-lg`}>calendar_today</span>
                   </div>
@@ -221,9 +221,9 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-red-600">payments</span>
+            <span className="material-symbols-outlined text-on-surface-variant">payments</span>
             <h2 className="text-lg font-bold text-on-surface">Late on Rent</h2>
-            <span className="bg-red-100 text-red-700 text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
+            <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
           </div>
           <Link href="/tenants" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
             View all tenants
@@ -234,9 +234,9 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
         ) : (
           <div className="divide-y divide-outline-variant/10">
             {lateOnRent.map((t) => (
-              <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-primary-fixed/30 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-red-600 text-lg">warning</span>
+              <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+                  <span className="material-symbols-outlined text-on-surface-variant text-lg">warning</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-on-surface">{t.name}</p>
@@ -271,7 +271,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
               <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant block mb-3">Status</span>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 <span className="text-lg font-bold">Active &amp; Learning</span>
               </div>
             </div>

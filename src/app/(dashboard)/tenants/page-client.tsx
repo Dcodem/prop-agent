@@ -120,7 +120,7 @@ export function TenantsPageClient({
                 </span>
               )}
               {leasesByWindow.total === 0 && (
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">All clear</span>
+                <span className="text-[10px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded">All clear</span>
               )}
             </div>
           </div>

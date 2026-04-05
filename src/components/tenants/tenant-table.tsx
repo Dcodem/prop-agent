@@ -29,12 +29,12 @@ function getInitials(name: string) {
 }
 
 const INITIAL_COLORS = [
-  "bg-teal-100 text-teal-700",
-  "bg-amber-100 text-amber-700",
-  "bg-emerald-100 text-emerald-700",
-  "bg-violet-100 text-violet-700",
-  "bg-rose-100 text-rose-700",
-  "bg-sky-100 text-sky-700",
+  "bg-surface-container-high text-on-surface",
+  "bg-surface-container text-on-surface-variant",
+  "bg-surface-container-highest text-on-surface",
+  "bg-surface-container-high text-on-surface",
+  "bg-surface-container text-on-surface-variant",
+  "bg-surface-container-highest text-on-surface",
 ];
 
 // Mock: some tenants are late on rent (by index for prototype)
@@ -52,15 +52,15 @@ function getLeaseStatusClasses(leaseEnd: Date | null) {
     return "bg-error-container text-error border-error/20";
   }
   if (daysUntilEnd <= 30) {
-    return "bg-red-50 text-red-700 border-red-200";
+    return "bg-error-container text-error border-error/20";
   }
   if (daysUntilEnd <= 60) {
-    return "bg-orange-50 text-orange-700 border-orange-200";
+    return "bg-surface-container-high text-on-surface border-outline-variant/30";
   }
   if (daysUntilEnd <= 90) {
-    return "bg-yellow-50 text-yellow-700 border-yellow-200";
+    return "bg-surface-container text-on-surface-variant border-outline-variant/20";
   }
-  return "bg-emerald-50 text-emerald-700 border-emerald-100";
+  return "bg-surface-container-low text-on-surface-variant border-outline-variant/10";
 }
 
 function formatDate(date: Date | null) {
@@ -211,8 +211,8 @@ export function TenantTable({
                           Late
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-surface-container-low text-on-surface-variant border border-outline-variant/10">
+                          <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
                           Paid
                         </span>
                       )}

@@ -9,10 +9,10 @@ interface TopBarProps {
 }
 
 const notifications = [
-  { id: 1, icon: "warning", iconBg: "bg-red-100", iconColor: "text-red-600", title: "Critical case opened", desc: "Emergency plumbing issue reported at 45 Oak St, Unit 3B", time: "12m ago", unread: true, href: "/cases" },
-  { id: 2, icon: "assignment", iconBg: "bg-primary-fixed", iconColor: "text-primary", title: "3 cases awaiting review", desc: "New maintenance requests need triage and vendor assignment", time: "2h ago", unread: true, href: "/cases" },
-  { id: 3, icon: "event", iconBg: "bg-orange-100", iconColor: "text-orange-600", title: "Lease expiring soon", desc: "2 tenant leases expire within the next 30 days", time: "5h ago", unread: false, href: "/tenants" },
-  { id: 4, icon: "engineering", iconBg: "bg-emerald-100", iconColor: "text-emerald-700", title: "Vendor confirmed", desc: "Quick Fix Plumbing confirmed appointment for tomorrow 9AM", time: "1d ago", unread: false, href: "/vendors" },
+  { id: 1, icon: "warning", iconBg: "bg-surface-container-high", iconColor: "text-on-surface", title: "Critical case opened", desc: "Emergency plumbing issue reported at 45 Oak St, Unit 3B", time: "12m ago", unread: true, href: "/cases" },
+  { id: 2, icon: "assignment", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "3 cases awaiting review", desc: "New maintenance requests need triage and vendor assignment", time: "2h ago", unread: true, href: "/cases" },
+  { id: 3, icon: "event", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "Lease expiring soon", desc: "2 tenant leases expire within the next 30 days", time: "5h ago", unread: false, href: "/tenants" },
+  { id: 4, icon: "engineering", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "Vendor confirmed", desc: "Quick Fix Plumbing confirmed appointment for tomorrow 9AM", time: "1d ago", unread: false, href: "/vendors" },
 ];
 
 export function TopBar({ onMenuToggle }: TopBarProps) {
@@ -65,7 +65,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
             >
               <span aria-hidden="true" className="material-symbols-outlined">notifications</span>
               {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 w-4 h-4 bg-primary text-on-primary text-[10px] font-bold rounded-full flex items-center justify-center">
                   {unreadCount}
                 </span>
               )}
