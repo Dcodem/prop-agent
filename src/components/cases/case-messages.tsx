@@ -29,8 +29,10 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
   const [attachedFile, setAttachedFile] = useState<string | null>(null);
   const [showEmoji, setShowEmoji] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const hasMounted = useRef(false);
 
   const sorted = [...messages].sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -47,7 +49,11 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
   const displayMessages = activeThread === "tenant" ? allTenantMessages : contractorMessages;
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [localMessages, activeThread]);
 
   function handleSend() {
