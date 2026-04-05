@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import type { Property } from "@/lib/db/schema";
 
 export function PropertyEditForm({ property }: { property: Property }) {
   const router = useRouter();
-  const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({
     address: property.address,
     type: property.type,
@@ -22,7 +22,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
   }
 
   function handleSave() {
-    setSaved(true);
+    toast.success("Property saved successfully.");
     setTimeout(() => {
       router.back();
     }, 1200);
@@ -44,14 +44,6 @@ export function PropertyEditForm({ property }: { property: Property }) {
             </h1>
             <p className="text-on-surface-variant">{property.address}</p>
           </div>
-
-          {/* Success toast */}
-          {saved && (
-            <div className="mb-6 bg-primary/10 border border-primary/20 text-primary rounded-lg px-4 py-3 flex items-center gap-2 text-sm font-medium animate-in">
-              <span className="material-symbols-outlined text-primary">check_circle</span>
-              Property saved successfully. Redirecting...
-            </div>
-          )}
 
           <div className="space-y-8">
             {/* Property Details */}

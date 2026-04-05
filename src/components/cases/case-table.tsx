@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
@@ -61,7 +61,6 @@ interface CaseTableProps {
 }
 
 export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -107,38 +106,43 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           {paginatedCases.map((c) => (
             <tr
               key={c.id}
-              onClick={() => router.push(`/cases/${c.id}`)}
-              className="hover:bg-surface-container-low/50 transition-colors cursor-pointer group"
+              className="hover:bg-surface-container-low/50 transition-colors group"
             >
               <td className="px-6 py-4">
-                <div className="flex items-center gap-2">
+                <Link href={`/cases/${c.id}`} className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`}></span>
                   <span className="text-sm font-medium text-on-surface">{formatEnum(c.urgency ?? "low")}</span>
-                </div>
+                </Link>
               </td>
               <td className="px-6 py-4">
-                <p className="text-sm text-on-surface font-semibold">
+                <Link href={`/cases/${c.id}`} className="block text-sm text-on-surface font-semibold">
                   {generateCaseSummary(c.rawMessage, c.category)}
-                </p>
+                </Link>
               </td>
               <td className="px-6 py-4">
-                <span className={`${CATEGORY_BADGE[c.category ?? "general"]} text-[11px] font-bold px-2.5 py-1 rounded-full uppercase`}>
-                  {formatEnum(c.category ?? "general")}
-                </span>
+                <Link href={`/cases/${c.id}`}>
+                  <span className={`${CATEGORY_BADGE[c.category ?? "general"]} text-[11px] font-bold px-2.5 py-1 rounded-full uppercase`}>
+                    {formatEnum(c.category ?? "general")}
+                  </span>
+                </Link>
               </td>
               <td className="px-6 py-4">
-                <div className="flex items-center gap-2 text-on-surface-variant">
+                <Link href={`/cases/${c.id}`} className="flex items-center gap-2 text-on-surface-variant">
                   {SOURCE_ICON[c.source] ?? SOURCE_ICON.email}
                   <span className="text-xs font-medium">{c.source.toUpperCase()}</span>
-                </div>
+                </Link>
               </td>
               <td className="px-6 py-4">
-                <div className="flex items-center gap-2">
+                <Link href={`/cases/${c.id}`} className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${STATUS_DOT[c.status]}`}></span>
                   <span className={`text-sm font-medium ${STATUS_TEXT[c.status]}`}>{formatEnum(c.status)}</span>
-                </div>
+                </Link>
               </td>
-              <td className="px-6 py-4 text-xs text-outline font-medium">{timeAgo(c.createdAt)}</td>
+              <td className="px-6 py-4">
+                <Link href={`/cases/${c.id}`} className="text-xs text-outline font-medium">
+                  {timeAgo(c.createdAt)}
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>

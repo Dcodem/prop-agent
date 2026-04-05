@@ -1,22 +1,35 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createPropertyAction } from "@/app/(dashboard)/properties/actions";
+import { toast } from "sonner";
 
-type FormState = { error?: string | null };
+type FormState = { success?: boolean; error?: string | null };
 
 export function PropertyAddForm() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(
     async (_prev: FormState, formData: FormData): Promise<FormState> => {
       const result = await createPropertyAction(formData);
       if ("error" in result) {
         return { error: result.error };
       }
-      return {};
+      return { success: true };
     },
     { error: null }
   );
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Property added successfully.");
+      router.push("/properties");
+    }
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state, router]);
 
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:p-12">
@@ -157,13 +170,6 @@ export function PropertyAddForm() {
               />
             </div>
           </div>
-
-          {/* Error Banner */}
-          {state?.error && (
-            <div className="bg-error-container text-on-error-container rounded-lg px-4 py-3 text-sm font-medium border border-error-border">
-              {state.error}
-            </div>
-          )}
 
           {/* Form Actions */}
           <div className="flex items-center justify-end gap-4 pt-8 mt-12 border-t border-outline-variant/20">

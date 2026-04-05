@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from "react";
 import { addNoteAction } from "@/app/(dashboard)/cases/actions";
+import { toast } from "sonner";
 
 interface NoteDisplay {
   id: string;
@@ -51,6 +52,7 @@ export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }:
 
     startTransition(async () => {
       await addNoteAction(caseId, note.trim());
+      toast.success("Note added.");
       formRef.current?.reset();
     });
   }

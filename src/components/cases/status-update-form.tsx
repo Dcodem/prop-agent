@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { updateCaseStatusAction } from "@/app/(dashboard)/cases/actions";
+import { toast } from "sonner";
 
 const STATUS_OPTIONS = [
   { value: "open", label: "Open" },
@@ -24,9 +25,11 @@ export function StatusUpdateForm({
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newStatus = e.target.value;
     if (newStatus === currentStatus) return;
+    const label = STATUS_OPTIONS.find((o) => o.value === newStatus)?.label ?? newStatus;
 
     startTransition(async () => {
       await updateCaseStatusAction(caseId, newStatus);
+      toast.success(`Status updated to ${label}.`);
     });
   }
 

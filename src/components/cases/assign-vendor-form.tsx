@@ -2,6 +2,7 @@
 
 import { useTransition, useState, useRef, useEffect } from "react";
 import { assignVendorAction } from "@/app/(dashboard)/cases/actions";
+import { toast } from "sonner";
 import type { Vendor } from "@/lib/db/schema";
 
 export function AssignVendorForm({
@@ -31,8 +32,10 @@ export function AssignVendorForm({
   }, [isOpen]);
 
   function handleAssign(vendorId: string) {
+    const vendor = allVendors.find((v) => v.id === vendorId);
     startTransition(async () => {
       await assignVendorAction(caseId, vendorId);
+      toast.success(`Vendor ${vendor?.name ?? ""} assigned.`);
       setIsOpen(false);
     });
   }

@@ -4,6 +4,7 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createTenantAction } from "@/app/(dashboard)/tenants/actions";
+import { toast } from "sonner";
 
 type Property = { id: string; address: string };
 type FormState = { success?: boolean; error?: Record<string, string[]> | null };
@@ -23,9 +24,13 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
 
   useEffect(() => {
     if (state?.success) {
+      toast.success("Tenant added successfully.");
       router.push("/tenants");
     }
-  }, [state?.success, router]);
+    if (state?.error) {
+      toast.error("Please fix the errors and try again.");
+    }
+  }, [state, router]);
 
   const errors = state?.error;
 
@@ -168,13 +173,6 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               </div>
             </div>
           </div>
-
-          {/* Error Banner */}
-          {errors && (
-            <div className="bg-error-container text-on-error-container rounded-lg px-4 py-3 text-sm font-medium">
-              Please fix the errors above and try again.
-            </div>
-          )}
 
           {/* Form Actions */}
           <div className="flex items-center justify-end gap-4 pt-8 mt-12 border-t border-outline-variant/20">

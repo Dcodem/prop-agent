@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import { createCaseAction } from "@/app/(dashboard)/cases/new/actions";
+import { toast } from "sonner";
 import type { Property, Vendor } from "@/lib/db/schema";
 
 interface CaseCreateFormProps {
@@ -15,6 +16,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
   const [, formAction, isPending] = useActionState(
     async (_prev: unknown, formData: FormData) => {
       formData.set("urgency", urgency);
+      toast.success("Case submitted successfully.");
       await createCaseAction(formData);
     },
     null

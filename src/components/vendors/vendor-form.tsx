@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { VENDOR_TRADES } from "@/lib/constants";
 import { formatEnum } from "@/lib/utils";
 import { createVendorAction } from "@/app/(dashboard)/vendors/actions";
+import { toast } from "sonner";
 
 interface VendorFormProps {
   onSuccess: () => void;
@@ -14,9 +15,11 @@ export function VendorForm({ onSuccess }: VendorFormProps) {
     async (_prev: unknown, formData: FormData) => {
       const result = await createVendorAction(formData);
       if (result.success) {
+        toast.success("Vendor added successfully.");
         onSuccess();
         return { error: null };
       }
+      toast.error("Please fix the errors and try again.");
       return result;
     },
     { error: null } as { error: Record<string, string[]> | null }
