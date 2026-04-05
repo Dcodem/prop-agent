@@ -17,7 +17,7 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
       {/* Header Section */}
       <div className="flex justify-between items-end mb-12">
         <div className="text-left">
-          <div className="inline-block px-3 py-1 rounded-full bg-primary-fixed text-primary text-xs font-bold mb-3 tracking-wide uppercase">
+          <div className="inline-block px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold mb-3 tracking-wide uppercase">
             Partnership Network
           </div>
           <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
@@ -45,7 +45,7 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
         {/* Card 1 */}
         <div className="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between group hover:border-primary/30 transition-all">
           <div className="flex justify-between items-start mb-6">
-            <div className="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined">engineering</span>
             </div>
             <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-[0.5rem]">
@@ -67,7 +67,7 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
             <div className="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined">verified</span>
             </div>
-            <span className="text-xs font-bold text-on-surface-variant bg-primary-fixed px-2 py-1 rounded-[0.5rem]">
+            <span className="text-xs font-bold text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-[0.5rem]">
               Target 98%
             </span>
           </div>

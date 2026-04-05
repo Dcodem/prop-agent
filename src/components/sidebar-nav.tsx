@@ -43,12 +43,23 @@ function isActiveRoute(pathname: string, href: string, exact?: boolean): boolean
   return pathname === href || pathname.startsWith(href + "/");
 }
 
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 interface SidebarNavProps {
   open?: boolean;
   onClose?: () => void;
+  userInfo?: { name: string; email: string; role: string };
 }
 
-export function SidebarNav({ open = false, onClose }: SidebarNavProps) {
+export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps) {
   const pathname = usePathname();
   const asideRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<Element | null>(null);
@@ -153,15 +164,24 @@ export function SidebarNav({ open = false, onClose }: SidebarNavProps) {
           ))}
         </nav>
 
-        <div className="mt-auto space-y-1 pt-6 border-t border-outline-variant">
-          <Link
-            href="/profile"
-            onClick={onClose}
-            className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors"
-          >
-            <span aria-hidden="true" className="material-symbols-outlined text-[20px]">person</span>
-            <span className="text-sm font-medium">Profile</span>
-          </Link>
+        {/* User Profile Footer */}
+        <Link
+          href="/profile"
+          onClick={onClose}
+          className="mt-auto flex items-center gap-3 px-2 pt-6 border-t border-outline-variant hover:bg-surface-container-high/50 rounded-lg transition-colors"
+        >
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">
+            {userInfo ? getInitials(userInfo.name) : "PM"}
+          </div>
+          <div className="overflow-hidden flex-1">
+            <p className="text-xs font-bold truncate">{userInfo?.name ?? "Property Manager"}</p>
+            <p className="text-[11px] text-on-surface-variant truncate capitalize">{userInfo?.role ?? "owner"}</p>
+          </div>
+          <span aria-hidden="true" className="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+        </Link>
+
+        {/* Quick Actions */}
+        <div className="mt-3 space-y-1">
           <Link
             href="/support"
             onClick={onClose}

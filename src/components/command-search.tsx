@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,13 @@ interface SearchItem {
   section: string;
 }
 
-const searchItems: SearchItem[] = [
+export interface SearchEntities {
+  tenants: { id: string; name: string; unitNumber: string | null }[];
+  properties: { id: string; address: string; type: string }[];
+  cases: { id: string; rawMessage: string; category: string | null; status: string }[];
+}
+
+const staticItems: SearchItem[] = [
   { label: "Dashboard", href: "/overview", icon: "dashboard", section: "Pages" },
   { label: "Cases", href: "/cases", icon: "assignment", section: "Pages" },
   { label: "Properties", href: "/properties", icon: "domain", section: "Pages" },
@@ -23,20 +29,57 @@ const searchItems: SearchItem[] = [
   { label: "New Case", href: "/cases/new", icon: "add_circle", section: "Actions" },
 ];
 
-export function CommandSearch() {
+interface CommandSearchProps {
+  searchEntities?: SearchEntities;
+}
+
+export function CommandSearch({ searchEntities }: CommandSearchProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const dynamicItems = useMemo<SearchItem[]>(() => {
+    if (!searchEntities) return [];
+    const items: SearchItem[] = [];
+    for (const t of searchEntities.tenants) {
+      items.push({
+        label: `${t.name}${t.unitNumber ? ` — Unit ${t.unitNumber}` : ""}`,
+        href: `/tenants/${t.id}`,
+        icon: "person",
+        section: "Tenants",
+      });
+    }
+    for (const p of searchEntities.properties) {
+      items.push({
+        label: p.address,
+        href: `/properties/${p.id}`,
+        icon: p.type === "commercial" ? "business" : "apartment",
+        section: "Properties",
+      });
+    }
+    for (const c of searchEntities.cases) {
+      const summary = c.rawMessage.length > 60 ? c.rawMessage.slice(0, 60) + "…" : c.rawMessage;
+      items.push({
+        label: summary,
+        href: `/cases/${c.id}`,
+        icon: "assignment",
+        section: "Cases",
+      });
+    }
+    return items;
+  }, [searchEntities]);
+
+  const allItems = useMemo(() => [...staticItems, ...dynamicItems], [dynamicItems]);
+
   const filtered = query
-    ? searchItems.filter(
+    ? allItems.filter(
         (item) =>
           item.label.toLowerCase().includes(query.toLowerCase()) ||
           item.section.toLowerCase().includes(query.toLowerCase())
       )
-    : searchItems;
+    : staticItems;
 
   const sections = Array.from(new Set(filtered.map((i) => i.section)));
 
@@ -165,9 +208,9 @@ export function CommandSearch() {
                             >
                               {item.icon}
                             </span>
-                            <span className="text-sm font-medium">{item.label}</span>
+                            <span className="text-sm font-medium truncate">{item.label}</span>
                             {selectedIndex === idx && (
-                              <span aria-hidden="true" className="material-symbols-outlined text-[14px] ml-auto text-on-surface-variant">
+                              <span aria-hidden="true" className="material-symbols-outlined text-[14px] ml-auto text-on-surface-variant shrink-0">
                                 subdirectory_arrow_left
                               </span>
                             )}

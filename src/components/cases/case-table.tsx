@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { formatEnum, timeAgo } from "@/lib/utils";
+import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 const URGENCY_DOT: Record<string, string> = {
@@ -53,32 +53,6 @@ const SOURCE_ICON: Record<string, React.ReactNode> = {
   ),
 };
 
-// Generate AI-like summary from raw message
-function generateSummary(rawMessage: string, category: string | null, status: string): string {
-  const cat = category ?? "general";
-  const summaries: Record<string, (msg: string) => string> = {
-    maintenance: (msg) => {
-      if (msg.toLowerCase().includes("sink") || msg.toLowerCase().includes("leak")) return "Kitchen sink leak — water pooling under cabinet";
-      if (msg.toLowerCase().includes("ac") || msg.toLowerCase().includes("hvac") || msg.toLowerCase().includes("air")) return "AC unit blowing warm air — needs HVAC service";
-      if (msg.toLowerCase().includes("dishwasher")) return "Dishwasher malfunction — grinding noise, won't drain";
-      if (msg.toLowerCase().includes("ant") || msg.toLowerCase().includes("pest")) return "Ant infestation in kitchen — recurring issue near baseboard";
-      return msg.length > 60 ? msg.slice(0, 57) + "..." : msg;
-    },
-    emergency: (msg) => {
-      if (msg.toLowerCase().includes("electrical") || msg.toLowerCase().includes("burning")) return "Electrical emergency — burning smell from outlet";
-      if (msg.toLowerCase().includes("lock")) return "Tenant lockout — needs emergency locksmith";
-      return msg.length > 60 ? msg.slice(0, 57) + "..." : msg;
-    },
-    lease_question: () => "Lease renewal inquiry — requesting terms for extension",
-    noise_complaint: (msg) => {
-      if (msg.toLowerCase().includes("construction")) return "Early-morning construction noise — violates quiet hours";
-      return "Noise complaint — repeated late-night disturbances";
-    },
-    payment: () => "Payment issue — rent transfer rejected by bank",
-    general: (msg) => msg.length > 60 ? msg.slice(0, 57) + "..." : msg,
-  };
-  return (summaries[cat] ?? summaries.general)(rawMessage);
-}
 
 interface CaseTableProps {
   cases: Case[];
@@ -134,7 +108,7 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
             <tr
               key={c.id}
               onClick={() => router.push(`/cases/${c.id}`)}
-              className="hover:bg-primary-fixed/30 transition-colors cursor-pointer group"
+              className="hover:bg-surface-container-low/50 transition-colors cursor-pointer group"
             >
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
@@ -143,8 +117,8 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
                 </div>
               </td>
               <td className="px-6 py-4">
-                <p className="text-sm text-on-surface font-semibold truncate max-w-[300px]">
-                  {generateSummary(c.rawMessage, c.category, c.status)}
+                <p className="text-sm text-on-surface font-semibold">
+                  {generateCaseSummary(c.rawMessage, c.category)}
                 </p>
               </td>
               <td className="px-6 py-4">

@@ -29,7 +29,7 @@ function getInitials(name: string) {
 }
 
 const INITIAL_COLORS = [
-  "bg-primary-fixed text-primary",
+  "bg-teal-100 text-teal-700",
   "bg-amber-100 text-amber-700",
   "bg-emerald-100 text-emerald-700",
   "bg-violet-100 text-violet-700",
@@ -120,27 +120,27 @@ export function TenantTable({
 
   return (
     <>
-      <div className="bg-surface-container-lowest rounded border border-outline-variant/20 overflow-hidden shadow-sm">
+      <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden card-shadow">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-primary-fixed border-b border-outline-variant/20">
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+              <tr className="bg-surface-container-low/50">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
                   Name
                 </th>
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
                   Contact
                 </th>
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
                   Property
                 </th>
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
                   Unit
                 </th>
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
                   Lease End
                 </th>
-                <th className="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest text-right">
+                <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest text-right">
                   Late on Rent
                 </th>
               </tr>
@@ -154,9 +154,9 @@ export function TenantTable({
                 return (
                   <tr
                     key={tenant.id}
-                    className="group hover:bg-primary-fixed transition-colors cursor-pointer"
+                    className="group hover:bg-surface-container-low/50 transition-colors cursor-pointer"
                   >
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-5">
                       <Link
                         href={`/tenants/${tenant.id}`}
                         className="flex items-center gap-3"
@@ -171,7 +171,7 @@ export function TenantTable({
                         </span>
                       </Link>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-5">
                       <div className="flex flex-col">
                         <span className="text-[13px] text-on-surface-variant font-medium">
                           {tenant.email || "--"}
@@ -181,24 +181,24 @@ export function TenantTable({
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-5">
                       <span className="text-[13px] text-on-surface-variant">
                         {propertyMap.get(tenant.propertyId) || "Unknown"}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-5">
                       <span className="text-[13px] font-bold text-on-surface">
                         {tenant.unitNumber || "--"}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-5">
                       <div
                         className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold border ${getLeaseStatusClasses(tenant.leaseEnd)}`}
                       >
                         {formatDate(tenant.leaseEnd)}
                       </div>
                     </td>
-                    <td className="px-6 py-5 text-right">
+                    <td className="px-8 py-5 text-right">
                       {isLate ? (
                         <button
                           onClick={(e) => {
@@ -224,7 +224,7 @@ export function TenantTable({
                 <tr>
                   <td
                     colSpan={6}
-                    className="px-6 py-12 text-center text-outline text-sm"
+                    className="px-8 py-12 text-center text-outline text-sm"
                   >
                     No tenants found.
                   </td>
@@ -234,7 +234,7 @@ export function TenantTable({
           </table>
         </div>
         {/* Pagination footer */}
-        <div className="px-6 py-4 border-t border-outline-variant/10 flex items-center justify-between bg-primary-fixed/30">
+        <div className="px-8 py-6 border-t border-surface flex items-center justify-between bg-surface-container-low/30">
           <div className="flex items-center gap-3">
             <span className="text-[12px] font-medium text-on-surface-variant">
               Showing {startItem}–{endItem} of {tenants.length} tenant{tenants.length !== 1 ? "s" : ""}

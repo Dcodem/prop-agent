@@ -9,7 +9,7 @@ import { TradeFilter } from "./trade-filter";
 type Vendor = typeof vendors.$inferSelect;
 
 const AVATAR_COLORS = [
-  { bg: "bg-primary-fixed", text: "text-primary" },
+  { bg: "bg-teal-100", text: "text-teal-700" },
   { bg: "bg-amber-100", text: "text-amber-700" },
   { bg: "bg-surface-container", text: "text-on-surface" },
   { bg: "bg-emerald-100", text: "text-emerald-700" },
@@ -95,9 +95,9 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
   const endItem = Math.min(currentPage * itemsPerPage, filtered.length);
 
   return (
-    <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 overflow-hidden mb-12">
+    <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden mb-12 card-shadow">
       {/* Table Controls/Filters */}
-      <div className="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-primary-fixed">
+      <div className="px-8 py-6 border-b border-surface flex justify-between items-center bg-surface-container-low/30">
         <div className="flex items-center gap-4">
           <div className="relative">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
@@ -122,12 +122,12 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
       <div className="w-full overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-primary-fixed text-outline uppercase text-[11px] font-bold tracking-[0.15em]">
-              <th className="px-8 py-4">Vendor &amp; Trade</th>
-              <th className="px-8 py-4">Contact Information</th>
-              <th className="px-8 py-4">Rate Notes</th>
-              <th className="px-8 py-4">Preference</th>
-              <th className="px-8 py-4 text-right">Availability</th>
+            <tr className="bg-surface-container-low/50">
+              <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Vendor &amp; Trade</th>
+              <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Contact Information</th>
+              <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Rate Notes</th>
+              <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Preference</th>
+              <th className="px-8 py-5 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Availability</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/10">
@@ -148,8 +148,8 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
                   key={vendor.id}
                   onClick={() => router.push(`/vendors/${vendor.id}`)}
                   className={`${
-                    idx % 2 === 1 ? "bg-primary-fixed/30" : ""
-                  } hover:bg-primary-fixed transition-colors group cursor-pointer`}
+                    idx % 2 === 1 ? "bg-surface-container-low/20" : ""
+                  } hover:bg-surface-container-low/50 transition-colors group cursor-pointer`}
                 >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
@@ -186,11 +186,11 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
                   </td>
                   <td className="px-8 py-6 text-right">
                     {vendor.availabilityNotes ? (
-                      <span className="px-3 py-1 bg-primary-fixed text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">
+                      <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
                         {vendor.availabilityNotes}
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-primary-fixed text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">
+                      <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
                         Active
                       </span>
                     )}
@@ -203,7 +203,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
       </div>
 
       {/* Pagination Footer */}
-      <div className="px-8 py-4 bg-primary-fixed flex items-center justify-between text-xs font-semibold text-on-surface-variant">
+      <div className="px-8 py-6 bg-surface-container-low/30 border-t border-surface flex items-center justify-between text-xs font-semibold text-on-surface-variant">
         <div className="flex items-center gap-3">
           <span>
             Showing {startItem}–{endItem} of {filtered.length} vendor{filtered.length !== 1 ? "s" : ""}

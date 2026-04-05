@@ -60,15 +60,15 @@ export function TenantsPageClient({
   const activeCases = 0; // Placeholder -- would need case data
 
   return (
-    <div className="pt-8 pb-12 px-8 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-8 py-12">
       {/* Header Section */}
-      <div className="flex justify-between items-end mb-8">
+      <div className="flex justify-between items-end mb-12">
         <div>
-          <h2 className="text-3xl font-extrabold text-on-surface tracking-tighter">
+          <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
             Tenants
-          </h2>
-          <p className="text-on-surface-variant text-[15px] mt-1 font-medium">
-            Your architectural ledger of occupants
+          </h1>
+          <p className="text-on-surface-variant max-w-lg leading-relaxed">
+            Manage your occupants, lease terms, and rent collection across all properties.
           </p>
         </div>
         <button
@@ -76,18 +76,16 @@ export function TenantsPageClient({
             setEditingTenant(null);
             setShowForm(true);
           }}
-          className="bg-primary hover:opacity-90 text-on-primary font-bold py-2.5 px-6 rounded flex items-center gap-2 transition-all shadow-sm active:scale-95"
+          className="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
         >
-          <span className="material-symbols-outlined text-[20px]">
-            person_add
-          </span>
-          <span className="text-sm">+ Add Tenant</span>
+          <span className="material-symbols-outlined">person_add</span>
+          Add Tenant
         </button>
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
           <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Total Tenants
           </span>
@@ -97,7 +95,7 @@ export function TenantsPageClient({
             </span>
           </div>
         </div>
-        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
           <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Leases Expiring
           </span>
@@ -127,7 +125,7 @@ export function TenantsPageClient({
             </div>
           </div>
         </div>
-        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
           <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Occupancy
           </span>
@@ -143,7 +141,7 @@ export function TenantsPageClient({
             </div>
           </div>
         </div>
-        <div className="bg-surface-container-lowest p-5 rounded border border-outline-variant/20 flex flex-col">
+        <div className="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 flex flex-col">
           <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">
             Active Cases
           </span>
@@ -151,7 +149,7 @@ export function TenantsPageClient({
             <span className="text-3xl font-extrabold text-on-surface tracking-tighter">
               {activeCases}
             </span>
-            <span className="text-[11px] text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded">
+            <span className="text-[11px] text-on-surface-variant font-bold bg-surface-container-high px-2 py-0.5 rounded">
               Pending
             </span>
           </div>
@@ -159,7 +157,7 @@ export function TenantsPageClient({
       </div>
 
       {/* Search */}
-      <div className="mb-6">
+      <div className="mb-8">
         <TenantSearch value={search} onChange={setSearch} />
       </div>
 

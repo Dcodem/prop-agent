@@ -10,7 +10,7 @@ import { CaseMessages } from "@/components/cases/case-messages";
 import { CaseSidebar } from "@/components/cases/case-sidebar";
 import { CaseIssueDescription } from "@/components/cases/case-issue-description";
 import { AddNoteForm } from "@/components/cases/add-note-form";
-import { formatEnum, timeAgo } from "@/lib/utils";
+import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function CaseDetailPage({
@@ -69,9 +69,11 @@ export default async function CaseDetailPage({
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-5xl font-extrabold text-on-surface tracking-tight leading-[1.1]">
-              {categoryLabel}: {property?.address ?? "Unknown Property"}
+              {generateCaseSummary(caseData.rawMessage, caseData.category)}
             </h1>
             <p className="text-xl text-on-surface-variant mt-3 font-medium opacity-80">
+              {property?.address ?? "Unknown Property"}
+              {" \u2022 "}
               Reported by {tenant?.name ?? "Unknown Tenant"}
               {tenant?.unitNumber ? ` \u2022 Unit ${tenant.unitNumber}` : ""}
               {" \u2022 "}
