@@ -77,7 +77,7 @@ export function TenantsPageClient({
             setEditingTenant(null);
             setShowForm(true);
           }}
-          className="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+          className="bg-accent text-on-accent px-8 py-4 rounded-lg font-bold flex items-center gap-2 shadow-lg shadow-accent/20 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined">person_add</span>
           Add Tenant

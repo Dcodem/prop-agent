@@ -214,8 +214,8 @@ export function TenantTable({
                           Late
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-surface-container-low text-on-surface-variant border border-outline-variant/10">
-                          <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-success-container/60 text-on-success-container border border-success-border/30">
+                          <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
                           Paid
                         </span>
                       )}
@@ -346,7 +346,7 @@ export function TenantTable({
                   </button>
                   <button
                     onClick={handleSubmitCase}
-                    className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all flex items-center gap-2"
+                    className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all flex items-center gap-2"
                   >
                     <span className="material-symbols-outlined text-sm">add_circle</span>
                     Create Case

@@ -65,6 +65,9 @@
   --color-on-neutral-container: #4B5563;
   --color-neutral-border: #E5E7EB;
   --color-gold: #A16207;
+  --color-accent: #2563EB;
+  --color-on-accent: #ffffff;
+  --color-accent-container: #EFF6FF;
 }
 
 /* shadcn CSS variable bridge — maps to existing MD3 tokens */

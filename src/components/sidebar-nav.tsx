@@ -140,7 +140,7 @@ export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps)
                     onClick={onClose}
                     className={`flex items-center gap-3 px-3 py-2 transition-colors ${
                       active
-                        ? "text-primary font-bold border-r-2 border-primary hover:bg-surface-container-high/50"
+                        ? "text-accent font-bold border-r-2 border-accent hover:bg-accent-container/50"
                         : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50"
                     }`}
                   >
@@ -170,7 +170,7 @@ export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps)
           onClick={onClose}
           className="mt-auto flex items-center gap-3 px-2 pt-6 border-t border-outline-variant hover:bg-surface-container-high/50 rounded-lg transition-colors"
         >
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">
+          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold">
             {userInfo ? getInitials(userInfo.name) : "PM"}
           </div>
           <div className="overflow-hidden flex-1">
