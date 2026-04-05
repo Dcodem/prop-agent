@@ -58,8 +58,8 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
 
   function getLeaseUrgencyColor(days: number) {
     if (days <= 30) return { bg: "bg-error/10", text: "text-error", dot: "bg-error", label: "Critical" };
-    if (days <= 60) return { bg: "bg-surface-container-high", text: "text-on-surface", dot: "bg-on-surface-variant", label: "Soon" };
-    return { bg: "bg-surface-container", text: "text-on-surface-variant", dot: "bg-outline", label: "Upcoming" };
+    if (days <= 60) return { bg: "bg-caution/10", text: "text-caution", dot: "bg-caution", label: "Soon" };
+    return { bg: "bg-warning/10", text: "text-warning-dim", dot: "bg-warning", label: "Upcoming" };
   }
 
   const totalActions = openCases.length + expiringLeases.length + lateOnRent.length;
@@ -77,16 +77,16 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       {/* Summary Strip */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" />
-        <StatCard icon="assignment" href="/cases" value={openCases.length} label="Open Cases" />
-        <StatCard icon="event_upcoming" value={expiringLeases.length} label="Lease Follow-ups" />
-        <StatCard icon="payments" value={lateOnRent.length} label="Late on Rent" />
+        <StatCard icon="assignment" iconBg="bg-info-container" iconColor="text-info" href="/cases" value={openCases.length} label="Open Cases" />
+        <StatCard icon="event_upcoming" iconBg="bg-caution-container" iconColor="text-caution" value={expiringLeases.length} label="Lease Follow-ups" />
+        <StatCard icon="payments" iconBg="bg-warning-container" iconColor="text-warning-dim" value={lateOnRent.length} label="Late on Rent" />
       </div>
 
       {/* Open Cases Section */}
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-on-surface-variant">assignment</span>
+            <span className="material-symbols-outlined text-info">assignment</span>
             <h2 className="text-lg font-bold text-on-surface">Open Cases</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{openCases.length}</span>
           </div>
@@ -146,7 +146,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-on-surface-variant">event_upcoming</span>
+            <span className="material-symbols-outlined text-caution">event_upcoming</span>
             <h2 className="text-lg font-bold text-on-surface">Lease Renewals</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{expiringLeases.length}</span>
           </div>
@@ -191,7 +191,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-on-surface-variant">payments</span>
+            <span className="material-symbols-outlined text-warning-dim">payments</span>
             <h2 className="text-lg font-bold text-on-surface">Late on Rent</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
           </div>
@@ -205,8 +205,8 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
           <div className="divide-y divide-outline-variant/10">
             {lateOnRent.map((t) => (
               <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
-                  <span className="material-symbols-outlined text-on-surface-variant text-lg">warning</span>
+                <div className="w-10 h-10 rounded-lg bg-warning-container flex items-center justify-center">
+                  <span className="material-symbols-outlined text-warning-dim text-lg">warning</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-on-surface">{t.name}</p>

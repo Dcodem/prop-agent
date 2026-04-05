@@ -86,9 +86,11 @@ export function TenantsPageClient({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <StatCard icon="groups" value={totalTenants} label="Total Tenants" />
+        <StatCard icon="groups" iconBg="bg-info-container" iconColor="text-info" value={totalTenants} label="Total Tenants" />
         <StatCard
           icon="event_upcoming"
+          iconBg="bg-caution-container"
+          iconColor="text-caution"
           value={leasesByWindow.total}
           label="Leases Expiring"
           badge={
@@ -100,13 +102,13 @@ export function TenantsPageClient({
                   </span>
                 )}
                 {leasesByWindow.d60 > 0 && (
-                  <span className="text-[11px] font-bold text-on-surface bg-surface-container-high px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant" />{leasesByWindow.d60} within 60d
+                  <span className="text-[11px] font-bold text-caution bg-caution/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-caution" />{leasesByWindow.d60} within 60d
                   </span>
                 )}
                 {leasesByWindow.d90 > 0 && (
-                  <span className="text-[11px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-outline" />{leasesByWindow.d90} within 90d
+                  <span className="text-[11px] font-bold text-warning-dim bg-warning/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-warning" />{leasesByWindow.d90} within 90d
                   </span>
                 )}
               </div>
@@ -120,7 +122,7 @@ export function TenantsPageClient({
           value={totalTenants > 0 ? "100%" : "0%"}
           label="Occupancy"
         />
-        <StatCard icon="assignment" value={activeCases} label="Active Cases" />
+        <StatCard icon="assignment" iconBg="bg-purple-container" iconColor="text-purple" value={activeCases} label="Active Cases" />
       </div>
 
       {/* Search */}

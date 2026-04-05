@@ -30,12 +30,12 @@ function getInitials(name: string) {
 }
 
 const INITIAL_COLORS = [
-  "bg-surface-container-high text-on-surface",
-  "bg-surface-container text-on-surface-variant",
-  "bg-surface-container-highest text-on-surface",
-  "bg-surface-container-high text-on-surface",
-  "bg-surface-container text-on-surface-variant",
-  "bg-surface-container-highest text-on-surface",
+  "bg-info-container text-info",
+  "bg-purple-container text-purple",
+  "bg-caution-container text-caution",
+  "bg-success-container text-on-success-container",
+  "bg-warning-container text-on-warning-container",
+  "bg-error-container text-error",
 ];
 
 // Mock: some tenants are late on rent (by index for prototype)
@@ -56,10 +56,10 @@ function getLeaseStatusClasses(leaseEnd: Date | null) {
     return "bg-error-container text-error border-error/20";
   }
   if (daysUntilEnd <= 60) {
-    return "bg-surface-container-high text-on-surface border-outline-variant/30";
+    return "bg-caution-container text-on-caution-container border-caution-border";
   }
   if (daysUntilEnd <= 90) {
-    return "bg-surface-container text-on-surface-variant border-outline-variant/20";
+    return "bg-warning-container text-on-warning-container border-warning-border";
   }
   return "bg-surface-container-low text-on-surface-variant border-outline-variant/10";
 }

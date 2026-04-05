@@ -12,20 +12,22 @@ interface StatsBarProps {
 export function StatsBar({ totalCases, openCases, propertyCount, onOpenCasesClick }: StatsBarProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <StatCard icon="folder" value={totalCases} label="Total Cases" />
+      <StatCard icon="folder" iconBg="bg-info-container" iconColor="text-info" value={totalCases} label="Total Cases" />
       <StatCard
         icon="pending_actions"
+        iconBg="bg-caution-container"
+        iconColor="text-caution"
         value={openCases}
         label="Open Cases"
         onClick={onOpenCasesClick}
         badge={openCases > 0 ? (
-          <div className="flex items-center text-primary text-[11px] font-bold">
-            <span className="w-2 h-2 bg-primary rounded-full mr-1.5 animate-pulse" />
+          <div className="flex items-center text-caution text-[11px] font-bold">
+            <span className="w-2 h-2 bg-caution rounded-full mr-1.5 animate-pulse" />
             Active
           </div>
         ) : undefined}
       />
-      <StatCard icon="domain" iconBg="bg-primary-fixed-dim" iconColor="text-primary" value={propertyCount} label="Properties" />
+      <StatCard icon="domain" iconBg="bg-purple-container" iconColor="text-purple" value={propertyCount} label="Properties" />
     </div>
   );
 }
