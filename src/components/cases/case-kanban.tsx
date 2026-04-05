@@ -6,17 +6,17 @@ import { formatEnum, timeAgo } from "@/lib/utils";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 const URGENCY_DOT: Record<string, string> = {
-  critical: "bg-red-500",
-  high: "bg-red-500",
-  medium: "bg-amber-500",
-  low: "bg-blue-500",
+  critical: "bg-error",
+  high: "bg-error",
+  medium: "bg-on-surface-variant",
+  low: "bg-outline",
 };
 
 const URGENCY_BORDER: Record<string, string> = {
-  critical: "border-red-500",
-  high: "border-red-500",
-  medium: "border-amber-500",
-  low: "border-blue-500",
+  critical: "border-error",
+  high: "border-error",
+  medium: "border-on-surface-variant",
+  low: "border-outline",
 };
 
 const CATEGORIES = ["emergency", "plumbing", "electrical", "hvac", "general", "structural"];
@@ -34,10 +34,10 @@ function statusToColumn(status: string): string {
 }
 
 const COLUMNS = [
-  { key: "new", label: "New Cases", dot: "bg-blue-600" },
-  { key: "waiting_on_vendor", label: "Vendor Dispatched", dot: "bg-cyan-600" },
-  { key: "in_progress", label: "In Progress", dot: "bg-amber-400" },
-  { key: "resolved", label: "Resolved", dot: "bg-emerald-500" },
+  { key: "new", label: "New Cases", dot: "bg-on-surface" },
+  { key: "waiting_on_vendor", label: "Vendor Dispatched", dot: "bg-on-surface-variant" },
+  { key: "in_progress", label: "In Progress", dot: "bg-primary" },
+  { key: "resolved", label: "Resolved", dot: "bg-outline" },
 ] as const;
 
 interface CaseKanbanProps {
@@ -144,7 +144,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                         {isResolved ? (
                           <>
                             <div className={`w-3 h-3 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`}></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                               <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
@@ -155,7 +155,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                             {c.confidenceScore != null && (
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                                 (c.urgency === "critical" || c.urgency === "high")
-                                  ? "bg-red-50 text-red-700"
+                                  ? "bg-error/10 text-error"
                                   : "bg-surface-container-low text-on-surface-variant"
                               }`}>
                                 {Math.round(c.confidenceScore * 100)}% Confidence

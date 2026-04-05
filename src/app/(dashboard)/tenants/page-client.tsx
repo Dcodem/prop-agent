@@ -105,18 +105,18 @@ export function TenantsPageClient({
             </span>
             <div className="flex flex-col gap-0.5">
               {leasesByWindow.d30 > 0 && (
-                <span className="text-[10px] font-bold text-red-700 bg-red-50 px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />{leasesByWindow.d30} within 30d
+                <span className="text-[10px] font-bold text-error bg-error/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-error" />{leasesByWindow.d30} within 30d
                 </span>
               )}
               {leasesByWindow.d60 > 0 && (
-                <span className="text-[10px] font-bold text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />{leasesByWindow.d60} within 60d
+                <span className="text-[10px] font-bold text-on-surface bg-surface-container-high px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-on-surface-variant" />{leasesByWindow.d60} within 60d
                 </span>
               )}
               {leasesByWindow.d90 > 0 && (
-                <span className="text-[10px] font-bold text-yellow-700 bg-yellow-50 px-1.5 py-0.5 rounded flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" />{leasesByWindow.d90} within 90d
+                <span className="text-[10px] font-bold text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-outline" />{leasesByWindow.d90} within 90d
                 </span>
               )}
               {leasesByWindow.total === 0 && (

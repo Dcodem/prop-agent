@@ -91,12 +91,12 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
         {/* Card 3 */}
         <div className="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between group hover:border-primary/30 transition-all">
           <div className="flex justify-between items-start mb-6">
-            <div className="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined">
                 pending_actions
               </span>
             </div>
-            <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-[0.5rem]">
+            <span className="text-xs font-bold text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-[0.5rem]">
               {new Set(vendors.map((v) => v.trade)).size} Trades
             </span>
           </div>

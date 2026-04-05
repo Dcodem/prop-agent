@@ -52,7 +52,7 @@ function getMockResolutionDetail(c: Case) {
 function getUrgencyColor(urgency: string | null) {
   switch (urgency) {
     case "critical": return "bg-error text-white";
-    case "high": return "bg-amber-600 text-white";
+    case "high": return "bg-on-surface text-white";
     case "medium": return "bg-primary text-white";
     case "low": return "bg-outline text-white";
     default: return "bg-outline text-white";
@@ -63,12 +63,12 @@ function getStatusBadge(status: string) {
   switch (status) {
     case "resolved":
     case "closed":
-      return "bg-emerald-100 text-emerald-800";
+      return "bg-surface-container-low text-on-surface-variant";
     case "in_progress":
       return "bg-primary-fixed text-primary";
     case "waiting_on_vendor":
     case "waiting_on_tenant":
-      return "bg-amber-100 text-amber-900";
+      return "bg-surface-container-high text-on-surface";
     default:
       return "bg-surface-container-high text-on-surface-variant";
   }
@@ -80,7 +80,7 @@ function StarRating({ value }: { value: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={`material-symbols-outlined text-xs ${star <= Math.floor(value) ? "text-amber-500" : star - 0.5 <= value ? "text-amber-400" : "text-outline/30"}`}
+          className={`material-symbols-outlined text-xs ${star <= Math.floor(value) ? "text-primary" : star - 0.5 <= value ? "text-primary/70" : "text-outline/30"}`}
           style={{ fontVariationSettings: "'FILL' 1", fontSize: "14px" }}
         >
           {star <= Math.floor(value) ? "star" : star - 0.5 <= value ? "star_half" : "star"}
@@ -294,7 +294,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         {/* Top row: urgency, category, status, date */}
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${c.urgency === "critical" ? "bg-error" : c.urgency === "high" ? "bg-amber-600" : c.urgency === "medium" ? "bg-primary" : "bg-outline"}`} />
+                            <span className={`w-2 h-2 rounded-full ${c.urgency === "critical" ? "bg-error" : c.urgency === "high" ? "bg-on-surface" : c.urgency === "medium" ? "bg-primary" : "bg-outline"}`} />
                             <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${getUrgencyColor(c.urgency)}`}>
                               {c.urgency ?? "Unknown"}
                             </span>
@@ -356,10 +356,10 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         {/* Total resolution time bar */}
                         {isResolved && (
                           <div className="mt-3 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-xs text-emerald-600">check_circle</span>
-                            <span className="text-xs font-bold text-emerald-700">Resolved in {detail.totalResolution}</span>
+                            <span className="material-symbols-outlined text-xs text-primary">check_circle</span>
+                            <span className="text-xs font-bold text-primary">Resolved in {detail.totalResolution}</span>
                             <div className="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden ml-2">
-                              <div className="h-full bg-emerald-500 rounded-full" style={{ width: "100%" }} />
+                              <div className="h-full bg-primary rounded-full" style={{ width: "100%" }} />
                             </div>
                           </div>
                         )}

@@ -27,10 +27,10 @@ function getCaseStatusColor(status: string) {
       return "bg-primary-fixed text-primary";
     case "waiting_on_vendor":
     case "waiting_on_tenant":
-      return "bg-amber-100 text-amber-900";
+      return "bg-surface-container-high text-on-surface";
     case "resolved":
     case "closed":
-      return "bg-primary-fixed text-primary";
+      return "bg-surface-container-low text-on-surface-variant";
     default:
       return "bg-primary-fixed text-primary";
   }
@@ -41,7 +41,7 @@ function getCaseUrgencyColor(urgency: string | null) {
     case "critical":
       return "bg-error border-white ring-error/10";
     case "high":
-      return "bg-amber-600 border-white ring-amber-600/10";
+      return "bg-on-surface border-white ring-on-surface/10";
     case "medium":
       return "bg-primary border-white ring-primary/10";
     case "low":
@@ -56,7 +56,7 @@ function getCaseUrgencyBadge(urgency: string | null) {
     case "critical":
       return "bg-error-container text-on-error-container";
     case "high":
-      return "bg-amber-100 text-amber-900";
+      return "bg-surface-container-high text-on-surface";
     default:
       return "bg-primary-fixed text-primary";
   }
@@ -328,7 +328,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                     leaseBadgeClass = "bg-error-container text-on-error-container";
                   } else if (daysUntilEnd !== null && daysUntilEnd <= 90) {
                     leaseLabel = `Ends ${leaseEnd.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-                    leaseBadgeClass = "bg-amber-100 text-amber-900";
+                    leaseBadgeClass = "bg-surface-container-high text-on-surface";
                   } else {
                     leaseLabel = `Renews ${leaseEnd.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`;
                     leaseBadgeClass = "bg-primary-fixed text-primary";

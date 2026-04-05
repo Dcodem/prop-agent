@@ -9,8 +9,8 @@ type Property = {
 };
 
 const TYPE_GRADIENTS: Record<string, string> = {
-  residential: "from-blue-900/80 via-blue-800/60 to-slate-900/80",
-  commercial: "from-emerald-900/80 via-emerald-800/60 to-slate-900/80",
+  residential: "from-surface-container-highest via-on-surface/60 to-on-surface/80",
+  commercial: "from-on-surface/80 via-surface-container-highest to-on-surface/70",
 };
 
 const TYPE_ICONS: Record<string, string> = {
@@ -61,7 +61,7 @@ export function PropertyCard({
               {activeCases} Active {activeCases === 1 ? "Case" : "Cases"}
             </span>
           ) : (
-            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-bold uppercase tracking-wider shadow-sm">
+            <span className="px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant text-[11px] font-bold uppercase tracking-wider shadow-sm">
               No Issues
             </span>
           )}
@@ -89,7 +89,7 @@ export function PropertyCard({
         </div>
         {/* Activity summary */}
         <div className={`pt-2 border-t border-outline-variant/10 flex items-center gap-1.5 ${
-          activeCases > 0 ? "text-amber-600" : "text-emerald-600"
+          activeCases > 0 ? "text-on-surface-variant" : "text-on-surface-variant"
         }`}>
           <span className="material-symbols-outlined text-sm">
             {activeCases > 0 ? "build" : "check_circle"}

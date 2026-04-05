@@ -9,10 +9,10 @@ export function ConfidenceGauge({ score, className }: ConfidenceGaugeProps) {
   const percentage = Math.round(score * 100);
   const fillColor =
     score >= 0.85
-      ? "bg-green-500"
+      ? "bg-primary"
       : score >= 0.5
-        ? "bg-amber-500"
-        : "bg-red-500";
+        ? "bg-on-surface-variant"
+        : "bg-error";
 
   return (
     <div className={cn("flex items-center gap-2", className)}>

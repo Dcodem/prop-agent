@@ -47,8 +47,8 @@ export function PropertyEditForm({ property }: { property: Property }) {
 
           {/* Success toast */}
           {saved && (
-            <div className="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg px-4 py-3 flex items-center gap-2 text-sm font-medium animate-in">
-              <span className="material-symbols-outlined text-emerald-600">check_circle</span>
+            <div className="mb-6 bg-primary/10 border border-primary/20 text-primary rounded-lg px-4 py-3 flex items-center gap-2 text-sm font-medium animate-in">
+              <span className="material-symbols-outlined text-primary">check_circle</span>
               Property saved successfully. Redirecting...
             </div>
           )}

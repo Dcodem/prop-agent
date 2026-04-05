@@ -49,11 +49,11 @@ function getStageBadge(entry: CaseTimelineEntry): string | null {
 }
 
 const STAGE_COLORS: Record<string, string> = {
-  open: "bg-blue-100 text-blue-800",
-  in_progress: "bg-amber-100 text-amber-800",
-  waiting_on_vendor: "bg-orange-100 text-orange-800",
-  waiting_on_tenant: "bg-purple-100 text-purple-800",
-  resolved: "bg-emerald-100 text-emerald-800",
+  open: "bg-surface-container-high text-on-surface",
+  in_progress: "bg-primary/10 text-primary",
+  waiting_on_vendor: "bg-surface-container text-on-surface-variant",
+  waiting_on_tenant: "bg-surface-container text-on-surface-variant",
+  resolved: "bg-surface-container-low text-on-surface-variant",
   closed: "bg-surface-container-high text-on-surface-variant",
 };
 

@@ -135,9 +135,9 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
 
       {/* AI takeover banner */}
       {!aiActive && (
-        <div className="mb-4 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center gap-2 shrink-0">
-          <span className="material-symbols-outlined text-amber-600 text-lg">info</span>
-          <p className="text-sm font-medium text-amber-800">You are now managing this conversation directly</p>
+        <div className="mb-4 px-4 py-3 bg-surface-container-high border border-outline-variant/20 rounded-lg flex items-center gap-2 shrink-0">
+          <span className="material-symbols-outlined text-on-surface-variant text-lg">info</span>
+          <p className="text-sm font-medium text-on-surface">You are now managing this conversation directly</p>
         </div>
       )}
 

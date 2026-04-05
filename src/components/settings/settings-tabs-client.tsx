@@ -12,23 +12,23 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 const STAGES = [
-  { name: "Open", color: "bg-blue-500", enabled: true },
-  { name: "In Progress", color: "bg-amber-500", enabled: true },
-  { name: "Waiting on Vendor", color: "bg-orange-500", enabled: true },
-  { name: "Waiting on Tenant", color: "bg-purple-500", enabled: true },
-  { name: "Resolved", color: "bg-green-500", enabled: true },
-  { name: "Closed", color: "bg-gray-500", enabled: true },
+  { name: "Open", color: "bg-on-surface", enabled: true },
+  { name: "In Progress", color: "bg-primary", enabled: true },
+  { name: "Waiting on Vendor", color: "bg-on-surface-variant", enabled: true },
+  { name: "Waiting on Tenant", color: "bg-on-surface-variant", enabled: true },
+  { name: "Resolved", color: "bg-outline", enabled: true },
+  { name: "Closed", color: "bg-outline-variant", enabled: true },
 ];
 
 const LABELS = [
-  { name: "Plumbing", color: "bg-blue-500", count: 24 },
-  { name: "Electrical", color: "bg-amber-500", count: 18 },
-  { name: "HVAC", color: "bg-red-500", count: 12 },
-  { name: "Appliance", color: "bg-emerald-500", count: 9 },
-  { name: "Structural", color: "bg-orange-500", count: 6 },
-  { name: "Pest Control", color: "bg-purple-500", count: 3 },
-  { name: "General", color: "bg-slate-500", count: 15 },
-  { name: "Other", color: "bg-gray-400", count: 7 },
+  { name: "Plumbing", color: "bg-on-surface", count: 24 },
+  { name: "Electrical", color: "bg-primary", count: 18 },
+  { name: "HVAC", color: "bg-error", count: 12 },
+  { name: "Appliance", color: "bg-on-surface-variant", count: 9 },
+  { name: "Structural", color: "bg-outline", count: 6 },
+  { name: "Pest Control", color: "bg-on-surface-variant", count: 3 },
+  { name: "General", color: "bg-outline-variant", count: 15 },
+  { name: "Other", color: "bg-outline", count: 7 },
 ];
 
 const TEAM = [
@@ -94,21 +94,21 @@ export function SettingsTabsClient({
 
   // Form states
   const [newStageName, setNewStageName] = useState("");
-  const [newStageColor, setNewStageColor] = useState("bg-blue-500");
+  const [newStageColor, setNewStageColor] = useState("bg-on-surface");
   const [newLabelName, setNewLabelName] = useState("");
-  const [newLabelColor, setNewLabelColor] = useState("bg-blue-500");
+  const [newLabelColor, setNewLabelColor] = useState("bg-on-surface");
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("Front Desk");
 
   const COLOR_OPTIONS = [
-    { value: "bg-blue-500", label: "Blue" },
-    { value: "bg-amber-500", label: "Amber" },
-    { value: "bg-red-500", label: "Red" },
-    { value: "bg-emerald-500", label: "Green" },
-    { value: "bg-purple-500", label: "Purple" },
-    { value: "bg-orange-500", label: "Orange" },
-    { value: "bg-slate-500", label: "Slate" },
-    { value: "bg-pink-500", label: "Pink" },
+    { value: "bg-on-surface", label: "Dark" },
+    { value: "bg-primary", label: "Primary" },
+    { value: "bg-error", label: "Error" },
+    { value: "bg-on-surface-variant", label: "Medium" },
+    { value: "bg-outline", label: "Muted" },
+    { value: "bg-outline-variant", label: "Light" },
+    { value: "bg-surface-container-highest", label: "Subtle" },
+    { value: "bg-surface-container-high", label: "Faint" },
   ];
 
   function toggleStage(index: number) {
@@ -123,7 +123,7 @@ export function SettingsTabsClient({
     if (!newStageName.trim()) return;
     setStages((prev) => [...prev, { name: newStageName.trim(), color: newStageColor, enabled: true }]);
     setNewStageName("");
-    setNewStageColor("bg-blue-500");
+    setNewStageColor("bg-on-surface");
     setShowAddStage(false);
   }
 
@@ -131,7 +131,7 @@ export function SettingsTabsClient({
     if (!newLabelName.trim()) return;
     setLabels((prev) => [...prev, { name: newLabelName.trim(), color: newLabelColor, count: 0 }]);
     setNewLabelName("");
-    setNewLabelColor("bg-blue-500");
+    setNewLabelColor("bg-on-surface");
     setShowCreateLabel(false);
   }
 
@@ -263,10 +263,10 @@ export function SettingsTabsClient({
               <button
                 onClick={() => {
                   setAiLabelSuggestions([
-                    { name: "Water Damage", color: "bg-blue-500", reason: "3 recent cases mention water/flooding but aren't categorized" },
-                    { name: "Parking", color: "bg-slate-500", reason: "Detected 2 cases about parking disputes with no matching label" },
-                    { name: "Landscaping", color: "bg-emerald-500", reason: "Vendor ClearView Landscaping assigned but no label exists" },
-                    { name: "Security", color: "bg-red-500", reason: "Lockout and access cases could benefit from a dedicated label" },
+                    { name: "Water Damage", color: "bg-on-surface", reason: "3 recent cases mention water/flooding but aren't categorized" },
+                    { name: "Parking", color: "bg-outline", reason: "Detected 2 cases about parking disputes with no matching label" },
+                    { name: "Landscaping", color: "bg-on-surface-variant", reason: "Vendor ClearView Landscaping assigned but no label exists" },
+                    { name: "Security", color: "bg-error", reason: "Lockout and access cases could benefit from a dedicated label" },
                   ]);
                   setShowAiLabels(true);
                 }}
@@ -388,18 +388,18 @@ export function SettingsTabsClient({
                 Full access to all features. Can manage properties, tenants, vendors, cases, billing, and team members. Can configure AI settings and automation rules.
               </p>
             </div>
-            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-amber-500">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-on-surface-variant">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-amber-600 text-lg">engineering</span>
+                <span className="material-symbols-outlined text-on-surface-variant text-lg">engineering</span>
                 <h4 className="text-sm font-bold text-on-surface">Maintenance Coordinator</h4>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
                 Can manage cases and dispatch vendors. Can view properties and tenants. Cannot modify billing, team members, or AI settings.
               </p>
             </div>
-            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-emerald-500">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-outline">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-emerald-600 text-lg">support_agent</span>
+                <span className="material-symbols-outlined text-outline text-lg">support_agent</span>
                 <h4 className="text-sm font-bold text-on-surface">Front Desk</h4>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -452,15 +452,15 @@ export function SettingsTabsClient({
                       <span
                         className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full ${
                           member.status === "Active"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-amber-100 text-amber-700"
+                            ? "bg-primary/10 text-primary"
+                            : "bg-surface-container-high text-on-surface-variant"
                         }`}
                       >
                         <span
                           className={`w-1.5 h-1.5 rounded-full ${
                             member.status === "Active"
-                              ? "bg-green-500"
-                              : "bg-amber-500"
+                              ? "bg-primary"
+                              : "bg-on-surface-variant"
                           }`}
                         />
                         {member.status}
@@ -494,7 +494,7 @@ export function SettingsTabsClient({
                             </button>
                             <button
                               onClick={() => handleRemoveUser(member.email)}
-                              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+                              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-error hover:bg-error/5 transition-colors"
                             >
                               <span className="material-symbols-outlined text-lg">person_remove</span>
                               Remove User

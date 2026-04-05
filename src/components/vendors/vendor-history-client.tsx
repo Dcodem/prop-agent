@@ -101,7 +101,7 @@ export function VendorHistoryClient({
                   ? `$${(c.spendingAuthorized / 100).toFixed(2)}`
                   : "—"}
               </span>
-              <span className="text-green-600 font-bold flex items-center gap-1">
+              <span className="text-primary font-bold flex items-center gap-1">
                 <span
                   className="material-symbols-outlined text-xs"
                   style={{ fontVariationSettings: "'FILL' 1" }}

@@ -140,7 +140,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
                     <span className="text-xs font-bold uppercase text-primary">Lease Agreement</span>
-                    <span className="material-symbols-outlined text-green-600">verified_user</span>
+                    <span className="material-symbols-outlined text-primary">verified_user</span>
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Document Reference</label>

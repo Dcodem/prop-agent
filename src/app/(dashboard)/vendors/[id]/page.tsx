@@ -89,7 +89,7 @@ export default async function VendorDetailPage({
             <div className="mt-4">
               <span className="text-4xl font-extrabold text-primary tracking-tighter">42m</span>
               <div className="text-xs text-on-surface-variant mt-1 flex items-center gap-1">
-                <span className="material-symbols-outlined text-xs text-green-600">trending_down</span>
+                <span className="material-symbols-outlined text-xs text-primary">trending_down</span>
                 12% faster than last month
               </div>
             </div>
@@ -105,7 +105,7 @@ export default async function VendorDetailPage({
             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Compliance</span>
             <div className="mt-4">
               <span className="text-4xl font-extrabold text-on-surface tracking-tighter">100%</span>
-              <div className="text-xs text-on-surface-variant mt-1 text-green-600 font-semibold uppercase tracking-tighter">Fully Insured</div>
+              <div className="text-xs text-on-surface-variant mt-1 text-primary font-semibold uppercase tracking-tighter">Fully Insured</div>
             </div>
           </div>
           <div className="bg-primary p-6 rounded-xl shadow-lg flex flex-col justify-between text-white">
