@@ -2,12 +2,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0F766E;
-  --color-primary-container: #14B8A6;
-  --color-primary-fixed: #CCFBF1;
-  --color-primary-fixed-dim: #5EEAD4;
+  --color-primary: #1C1917;
+  --color-primary-container: #44403C;
+  --color-primary-fixed: #F5F5F4;
+  --color-primary-fixed-dim: #D6D3D1;
   --color-on-primary: #ffffff;
-  --color-on-primary-container: #F0FDFA;
+  --color-on-primary-container: #F5F5F4;
   --color-secondary: #1C1917;
   --color-secondary-container: #A8A29E;
   --color-secondary-fixed-dim: #D6D3D1;
@@ -20,7 +20,7 @@
   --color-surface: #FAFAF9;
   --color-surface-dim: #D6D3D1;
   --color-surface-bright: #FAFAF9;
-  --color-surface-container: #F0FDFA;
+  --color-surface-container: #F5F5F4;
   --color-surface-container-low: #F5F5F4;
   --color-surface-container-high: #E7E5E4;
   --color-surface-container-highest: #D6D3D1;
@@ -32,7 +32,7 @@
   --color-outline-variant: #D6D3D1;
   --color-inverse-surface: #1C1917;
   --color-inverse-on-surface: #F5F5F4;
-  --color-inverse-primary: #5EEAD4;
+  --color-inverse-primary: #D6D3D1;
   --color-background: #FAFAF9;
   --color-on-background: #0C0A09;
   --color-success: #10B981;
@@ -54,7 +54,7 @@
   --color-info: #1E40AF;
   --color-info-container: #EFF6FF;
   --color-on-info-container: #1E40AF;
-  --color-info-dot: #006872;
+  --color-info-dot: #1E40AF;
   --color-info-border: #BFDBFE;
   --color-purple: #7C3AED;
   --color-purple-container: #F5F3FF;
@@ -65,6 +65,32 @@
   --color-on-neutral-container: #4B5563;
   --color-neutral-border: #E5E7EB;
   --color-gold: #A16207;
+}
+
+/* shadcn CSS variable bridge — maps to existing MD3 tokens */
+@layer base {
+  :root {
+    --background: 30 6% 97%;      /* stone-50 / surface */
+    --foreground: 20 14% 4%;      /* stone-950 / on-surface */
+    --card: 0 0% 100%;            /* white / surface-container-lowest */
+    --card-foreground: 20 14% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 4%;
+    --primary: 24 10% 10%;        /* stone-900 / primary — monochrome */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 6% 97%;       /* stone-50 */
+    --secondary-foreground: 24 10% 10%;
+    --muted: 30 6% 96%;           /* stone-100 */
+    --muted-foreground: 25 6% 34%;/* stone-600 */
+    --accent: 30 6% 96%;
+    --accent-foreground: 24 10% 10%;
+    --destructive: 0 72% 51%;     /* red-600 / error */
+    --destructive-foreground: 0 0% 100%;
+    --border: 24 6% 83%;          /* stone-300 / outline-variant */
+    --input: 24 6% 83%;
+    --ring: 24 10% 10%;           /* stone-900 */
+    --radius: 0.75rem;
+  }
 }
 
 body {
