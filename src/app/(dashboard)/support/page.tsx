@@ -100,21 +100,21 @@ export default function SupportPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 text-center">
             <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary mx-auto mb-3">
-              <span className="material-symbols-outlined">mail</span>
+              <span className="material-symbols-outlined text-accent">mail</span>
             </div>
             <h3 className="text-sm font-bold text-on-surface mb-1">Email</h3>
             <p className="text-xs text-on-surface-variant">support@propagent.com</p>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 text-center">
             <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary mx-auto mb-3">
-              <span className="material-symbols-outlined">call</span>
+              <span className="material-symbols-outlined text-success">call</span>
             </div>
             <h3 className="text-sm font-bold text-on-surface mb-1">Phone</h3>
             <p className="text-xs text-on-surface-variant">(888) 555-PROP</p>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 text-center">
             <div className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant mx-auto mb-3">
-              <span className="material-symbols-outlined">chat</span>
+              <span className="material-symbols-outlined text-purple">chat</span>
             </div>
             <h3 className="text-sm font-bold text-on-surface mb-1">Live Chat</h3>
             <p className="text-xs text-on-surface-variant">Coming Soon</p>

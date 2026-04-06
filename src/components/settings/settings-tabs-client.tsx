@@ -284,12 +284,12 @@ export function SettingsTabsClient({
 
           {/* AI Label Suggestions */}
           {showAiLabels && aiLabelSuggestions.length > 0 && (
-            <div className="bg-primary/5 border border-primary/10 rounded-2xl p-6 space-y-4">
+            <div className="bg-purple/5 border border-purple/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">auto_awesome</span>
+                  <span className="material-symbols-outlined text-purple">auto_awesome</span>
                   <h3 className="text-sm font-bold text-on-surface">AI-Suggested Labels</h3>
-                  <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase">
+                  <span className="text-[10px] font-bold text-purple bg-purple/10 px-2 py-0.5 rounded-full uppercase">
                     Based on your cases
                   </span>
                 </div>
@@ -379,27 +379,27 @@ export function SettingsTabsClient({
           </div>
           {/* Role Description Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-accent">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-primary text-lg">admin_panel_settings</span>
+                <span className="material-symbols-outlined text-accent text-lg">admin_panel_settings</span>
                 <h4 className="text-sm font-bold text-on-surface">Property Manager</h4>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
                 Full access to all features. Can manage properties, tenants, vendors, cases, billing, and team members. Can configure AI settings and automation rules.
               </p>
             </div>
-            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-on-surface-variant">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-warning-dim">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-on-surface-variant text-lg">engineering</span>
+                <span className="material-symbols-outlined text-warning-dim text-lg">engineering</span>
                 <h4 className="text-sm font-bold text-on-surface">Maintenance Coordinator</h4>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">
                 Can manage cases and dispatch vendors. Can view properties and tenants. Cannot modify billing, team members, or AI settings.
               </p>
             </div>
-            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-outline">
+            <div className="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-purple">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-outline text-lg">support_agent</span>
+                <span className="material-symbols-outlined text-purple text-lg">support_agent</span>
                 <h4 className="text-sm font-bold text-on-surface">Front Desk</h4>
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed">

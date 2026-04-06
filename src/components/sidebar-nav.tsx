@@ -9,6 +9,7 @@ interface NavItem {
   label: string;
   href: string;
   icon: string;
+  iconColor?: string;
   badge?: number;
   badgeColor?: string;
   exact?: boolean;
@@ -23,17 +24,17 @@ const navSections: NavSection[] = [
   {
     heading: "Overview",
     items: [
-      { label: "Dashboard", href: "/overview", icon: "dashboard", exact: true },
-      { label: "Cases", href: "/cases", icon: "assignment" },
-      { label: "Properties", href: "/properties", icon: "domain" },
-      { label: "Tenants", href: "/tenants", icon: "groups" },
-      { label: "Vendors", href: "/vendors", icon: "engineering" },
+      { label: "Dashboard", href: "/overview", icon: "dashboard", iconColor: "text-accent", exact: true },
+      { label: "Cases", href: "/cases", icon: "assignment", iconColor: "text-caution" },
+      { label: "Properties", href: "/properties", icon: "domain", iconColor: "text-info" },
+      { label: "Tenants", href: "/tenants", icon: "groups", iconColor: "text-purple" },
+      { label: "Vendors", href: "/vendors", icon: "engineering", iconColor: "text-warning-dim" },
     ],
   },
   {
     heading: "System",
     items: [
-      { label: "Settings", href: "/settings", icon: "settings" },
+      { label: "Settings", href: "/settings", icon: "settings", iconColor: "text-on-surface-variant" },
     ],
   },
 ];
@@ -146,7 +147,7 @@ export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps)
                   >
                     <span
                       aria-hidden="true"
-                      className="material-symbols-outlined text-[20px]"
+                      className={`material-symbols-outlined text-[20px] ${item.iconColor ?? ""}`}
                       style={active ? { fontVariationSettings: "'FILL' 1" } : undefined}
                     >
                       {item.icon}

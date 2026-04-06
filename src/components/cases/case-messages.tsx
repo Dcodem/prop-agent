@@ -114,7 +114,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
               : "text-on-surface-variant hover:bg-primary-fixed"
           }`}
         >
-          <span className="material-symbols-outlined text-xl">person</span>
+          <span className="material-symbols-outlined text-xl text-purple">person</span>
           Tenant Thread
         </button>
         <button
@@ -125,7 +125,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
               : "text-on-surface-variant hover:bg-primary-fixed"
           }`}
         >
-          <span className="material-symbols-outlined text-xl">engineering</span>
+          <span className="material-symbols-outlined text-xl text-warning-dim">engineering</span>
           Contractor Thread
           {activeThread !== "contractor" && (
             <span className="w-2 h-2 rounded-full bg-error animate-pulse"></span>
@@ -183,7 +183,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
               <div className="max-w-[75%] space-y-2 text-right">
                 <div className="flex items-center justify-end gap-3 mb-1 px-1">
                   <span className="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">
-                    {isAI && <span className="material-symbols-outlined text-xs">smart_toy</span>}
+                    {isAI && <span className="material-symbols-outlined text-xs text-purple">smart_toy</span>}
                     {isAI ? "PropAgent AI" : "Property Management"} &bull; {formatTime(msg.createdAt)}
                   </span>
                   <span className={`text-sm font-extrabold ${isAI ? "text-primary" : "text-on-surface-variant"}`}>
@@ -291,7 +291,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
                 className="bg-primary text-on-primary px-8 py-3.5 rounded-full font-extrabold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
               >
                 <span>Send Message</span>
-                <span className="material-symbols-outlined text-lg">send</span>
+                <span className="material-symbols-outlined text-lg text-accent">send</span>
               </button>
             </div>
           </div>

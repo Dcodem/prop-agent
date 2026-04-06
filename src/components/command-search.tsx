@@ -91,27 +91,27 @@ export function CommandSearch({ searchEntities }: CommandSearchProps) {
 
         <CommandGroup heading="Pages">
           <CommandItem onSelect={() => handleSelect("/overview")}>
-            <span className="material-symbols-outlined text-base mr-2">dashboard</span>
+            <span className="material-symbols-outlined text-base mr-2 text-accent">dashboard</span>
             Dashboard
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/cases")}>
-            <span className="material-symbols-outlined text-base mr-2">assignment</span>
+            <span className="material-symbols-outlined text-base mr-2 text-caution">assignment</span>
             Cases
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/properties")}>
-            <span className="material-symbols-outlined text-base mr-2">domain</span>
+            <span className="material-symbols-outlined text-base mr-2 text-info">domain</span>
             Properties
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/tenants")}>
-            <span className="material-symbols-outlined text-base mr-2">groups</span>
+            <span className="material-symbols-outlined text-base mr-2 text-purple">groups</span>
             Tenants
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/vendors")}>
-            <span className="material-symbols-outlined text-base mr-2">engineering</span>
+            <span className="material-symbols-outlined text-base mr-2 text-warning-dim">engineering</span>
             Vendors
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/settings")}>
-            <span className="material-symbols-outlined text-base mr-2">settings</span>
+            <span className="material-symbols-outlined text-base mr-2 text-on-surface-variant">settings</span>
             Settings
           </CommandItem>
         </CommandGroup>
@@ -120,15 +120,15 @@ export function CommandSearch({ searchEntities }: CommandSearchProps) {
 
         <CommandGroup heading="Actions">
           <CommandItem onSelect={() => handleSelect("/cases/new")}>
-            <span className="material-symbols-outlined text-base mr-2">add_circle</span>
+            <span className="material-symbols-outlined text-base mr-2 text-accent">add_circle</span>
             New Case
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/properties/new")}>
-            <span className="material-symbols-outlined text-base mr-2">add_circle</span>
+            <span className="material-symbols-outlined text-base mr-2 text-accent">add_circle</span>
             New Property
           </CommandItem>
           <CommandItem onSelect={() => handleSelect("/tenants/new")}>
-            <span className="material-symbols-outlined text-base mr-2">add_circle</span>
+            <span className="material-symbols-outlined text-base mr-2 text-accent">add_circle</span>
             New Tenant
           </CommandItem>
         </CommandGroup>

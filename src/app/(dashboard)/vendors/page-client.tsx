@@ -42,9 +42,9 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
 
       {/* Stats — above table */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <StatCard icon="engineering" value={vendors.length} label="Total Vendors" />
+        <StatCard icon="engineering" iconBg="bg-warning-container" iconColor="text-warning-dim" value={vendors.length} label="Total Vendors" />
         <StatCard icon="verified" iconBg="bg-success-container" iconColor="text-on-success-container" value={`${complianceRate}%`} label="Compliance Rate" />
-        <StatCard icon="pending_actions" value={tradeCount} label="Trade Categories" />
+        <StatCard icon="pending_actions" iconBg="bg-info-container" iconColor="text-info" value={tradeCount} label="Trade Categories" />
       </div>
 
       {/* Vendor Table */}

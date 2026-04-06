@@ -86,7 +86,7 @@ export function TenantsPageClient({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <StatCard icon="groups" value={totalTenants} label="Total Tenants" />
+        <StatCard icon="groups" iconBg="bg-purple-container" iconColor="text-purple" value={totalTenants} label="Total Tenants" />
         <StatCard
           icon="event_upcoming"
           iconBg="bg-caution-container"
@@ -122,7 +122,7 @@ export function TenantsPageClient({
           value={totalTenants > 0 ? "100%" : "0%"}
           label="Occupancy"
         />
-        <StatCard icon="assignment" value={activeCases} label="Active Cases" />
+        <StatCard icon="assignment" iconBg="bg-caution-container" iconColor="text-caution" value={activeCases} label="Active Cases" />
       </div>
 
       {/* Search */}

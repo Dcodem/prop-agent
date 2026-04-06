@@ -87,7 +87,7 @@ export function TenantForm({
             <div className="bg-primary-fixed/40 border border-primary/10 rounded-xl p-4 mb-2">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary text-lg">upload_file</span>
+                  <span className="material-symbols-outlined text-accent text-lg">upload_file</span>
                 </div>
                 <div>
                   <p className="text-sm font-bold text-on-surface">Upload Lease Document</p>

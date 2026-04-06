@@ -304,7 +304,7 @@ export function TenantTable({
 
             {caseSent ? (
               <div className="py-8 text-center">
-                <span className="material-symbols-outlined text-4xl text-primary mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                <span className="material-symbols-outlined text-4xl text-success mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                 <p className="text-lg font-bold text-on-surface">Case Created</p>
                 <p className="text-sm text-on-surface-variant mt-1">A rent collection case has been created for {selectedTenant.name}.</p>
               </div>

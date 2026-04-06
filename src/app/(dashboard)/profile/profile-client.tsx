@@ -90,7 +90,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                   </div>
                 )}
               </div>
-              <div className="absolute -bottom-2 -right-2 bg-primary p-2 rounded-lg text-on-primary shadow-lg">
+              <div className="absolute -bottom-2 -right-2 bg-success p-2 rounded-lg text-white shadow-lg">
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
               <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-xl">
@@ -155,16 +155,16 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-4 bg-surface-container-low rounded-lg">
                     <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-on-surface-variant">mail</span>
+                      <span className="material-symbols-outlined text-accent">mail</span>
                       <span className="text-sm font-medium">Critical Performance Alerts</span>
                     </div>
-                    <div className="w-10 h-5 bg-primary rounded-full relative">
+                    <div className="w-10 h-5 bg-accent rounded-full relative">
                       <div className="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between p-4 bg-surface-container-low rounded-lg">
                     <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-on-surface-variant">sms</span>
+                      <span className="material-symbols-outlined text-purple">sms</span>
                       <span className="text-sm font-medium">Tenant Communication Summaries</span>
                     </div>
                     <div className="w-10 h-5 bg-surface-container-highest rounded-full relative">
@@ -204,17 +204,17 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                   {resetting ? "Sending..." : "Reset Password"}
                 </button>
               </div>
-              <div className="flex items-center justify-between p-6 bg-primary/5 rounded-xl border border-primary/10">
+              <div className="flex items-center justify-between p-6 bg-success/5 rounded-xl border border-success/10">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                  <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center text-success">
                     <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
                   </div>
                   <div>
                     <p className="text-sm font-bold">Two-Factor Authentication</p>
-                    <p className="text-xs text-primary font-medium">Enabled &amp; Secure</p>
+                    <p className="text-xs text-success font-medium">Enabled &amp; Secure</p>
                   </div>
                 </div>
-                <span className="text-xs font-bold text-primary px-4 py-2 rounded-lg border border-primary/20">Enabled</span>
+                <span className="text-xs font-bold text-success px-4 py-2 rounded-lg border border-success/20">Enabled</span>
               </div>
             </div>
             {resetMsg && (

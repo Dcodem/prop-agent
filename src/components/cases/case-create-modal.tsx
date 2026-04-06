@@ -36,7 +36,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
 
         {submitted ? (
           <div className="py-12 text-center">
-            <span className="material-symbols-outlined text-4xl text-primary mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            <span className="material-symbols-outlined text-4xl text-success mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
             <p className="text-lg font-bold text-on-surface">Case Created</p>
             <p className="text-sm text-on-surface-variant mt-1">Your maintenance case has been logged successfully.</p>
           </div>

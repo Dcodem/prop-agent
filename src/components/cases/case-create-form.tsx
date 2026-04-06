@@ -41,7 +41,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
         <section className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
-              <span className="material-symbols-outlined text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
+              <span className="material-symbols-outlined text-sm text-accent" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
             </div>
             <h2 className="text-xl font-bold font-headline">Basic Information</h2>
           </div>
@@ -91,7 +91,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
         <section className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
-              <span className="material-symbols-outlined text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>description</span>
+              <span className="material-symbols-outlined text-sm text-info" style={{ fontVariationSettings: "'FILL' 1" }}>description</span>
             </div>
             <h2 className="text-xl font-bold font-headline">Detailed Description</h2>
           </div>
@@ -106,7 +106,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
         <section className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
-              <span className="material-symbols-outlined text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+              <span className="material-symbols-outlined text-sm text-caution" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
             </div>
             <h2 className="text-xl font-bold font-headline">Location</h2>
           </div>
@@ -130,13 +130,13 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
         <section className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
-              <span className="material-symbols-outlined text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+              <span className="material-symbols-outlined text-sm text-purple" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
             </div>
             <h2 className="text-xl font-bold font-headline">Media</h2>
           </div>
           <div className="bg-surface-container-lowest p-8 rounded-2xl border-2 border-dashed border-outline-variant text-center space-y-4 hover:bg-primary-fixed transition-colors cursor-pointer">
             <div className="mx-auto w-12 h-12 rounded-full bg-primary-fixed/50 flex items-center justify-center mb-2">
-              <span className="material-symbols-outlined text-primary text-2xl">cloud_upload</span>
+              <span className="material-symbols-outlined text-accent text-2xl">cloud_upload</span>
             </div>
             <div>
               <p className="font-bold text-on-surface">Click to upload or drag and drop</p>
@@ -149,7 +149,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
         <section className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
-              <span className="material-symbols-outlined text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>assignment_ind</span>
+              <span className="material-symbols-outlined text-sm text-warning-dim" style={{ fontVariationSettings: "'FILL' 1" }}>assignment_ind</span>
             </div>
             <h2 className="text-xl font-bold font-headline">Assignment (Optional)</h2>
           </div>

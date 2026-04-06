@@ -43,7 +43,7 @@ export function SpendingLimitsForm({
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-primary text-2xl">payments</span>
+            <span className="material-symbols-outlined text-success text-2xl">payments</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Spending Limits</h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Establish maximum budgets for autonomous agent spending on vendor services.</p>

@@ -169,14 +169,14 @@ export function TenantDetailClient({
             onClick={() => setShowEditModal(true)}
             className="px-6 py-3 bg-surface-container-lowest text-on-surface rounded-lg font-bold shadow-sm flex items-center gap-2 hover:bg-surface-container-low transition-colors h-fit"
           >
-            <span className="material-symbols-outlined text-sm">edit</span>
+            <span className="material-symbols-outlined text-sm text-accent">edit</span>
             Edit Tenant
           </button>
           <button
             onClick={() => setShowDeleteDialog(true)}
             className="px-4 py-3 bg-surface-container-lowest text-error rounded-lg font-bold shadow-sm flex items-center gap-2 hover:bg-error-container transition-colors h-fit"
           >
-            <span className="material-symbols-outlined text-sm">delete</span>
+            <span className="material-symbols-outlined text-sm text-error">delete</span>
           </button>
         </div>
       </section>
@@ -205,7 +205,7 @@ export function TenantDetailClient({
             Payment Status
           </p>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">
+            <span className="material-symbols-outlined text-success">
               check_circle
             </span>
             <p className="text-3xl font-extrabold text-on-surface">Paid</p>
@@ -240,14 +240,14 @@ export function TenantDetailClient({
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
                   className="group flex items-center gap-1.5 text-primary font-semibold text-sm"
                 >
-                  <span className="material-symbols-outlined text-base">description</span>
+                  <span className="material-symbols-outlined text-base text-info">description</span>
                   <span className="group-hover:underline underline-offset-4 decoration-2">View Lease</span>
                 </button>
                 <button
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
                   className="group flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-primary transition-colors"
                 >
-                  <span className="material-symbols-outlined text-base">download</span>
+                  <span className="material-symbols-outlined text-base text-accent">download</span>
                   <span className="group-hover:underline underline-offset-4 decoration-2">Download</span>
                 </button>
               </div>

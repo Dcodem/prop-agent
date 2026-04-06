@@ -91,7 +91,7 @@ export default async function VendorDetailPage({
             <div className="mt-4">
               <span className="text-4xl font-extrabold text-primary tracking-tighter">42m</span>
               <div className="text-xs text-on-surface-variant mt-1 flex items-center gap-1">
-                <span className="material-symbols-outlined text-xs text-primary">trending_down</span>
+                <span className="material-symbols-outlined text-xs text-error">trending_down</span>
                 12% faster than last month
               </div>
             </div>
@@ -187,11 +187,11 @@ export default async function VendorDetailPage({
             <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
               <div className="h-32 bg-surface-container relative">
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-4xl text-primary/40">map</span>
+                  <span className="material-symbols-outlined text-4xl text-accent/40">map</span>
                 </div>
                 <div className="absolute inset-0 bg-black/10"></div>
                 <div className="absolute bottom-4 left-4 bg-white px-3 py-1 rounded shadow-lg text-xs font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-xs text-primary">location_on</span>
+                  <span className="material-symbols-outlined text-xs text-caution">location_on</span>
                   Headquarters
                 </div>
               </div>

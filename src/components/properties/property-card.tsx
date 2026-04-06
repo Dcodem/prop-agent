@@ -73,7 +73,7 @@ export function PropertyCard({
             {property.address}
           </h4>
           <div className="flex items-center gap-1 text-on-surface-variant mt-1">
-            <span className="material-symbols-outlined text-sm">location_on</span>
+            <span className="material-symbols-outlined text-sm text-caution">location_on</span>
             <span className="text-sm capitalize">{property.type}</span>
           </div>
         </div>

@@ -31,7 +31,7 @@ export function ConfidenceThresholdsForm({
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-primary text-2xl">psychology</span>
+            <span className="material-symbols-outlined text-purple text-2xl">psychology</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Confidence Thresholds</h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions. Higher scores increase accuracy but may require more manual intervention.</p>

@@ -53,7 +53,7 @@ export default function AddVendorPage() {
             </div>
             <div className="lg:col-span-2">
               <div className="border-2 border-dashed border-primary/30 rounded-xl p-10 text-center bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group">
-                <span className="material-symbols-outlined text-5xl text-primary mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
+                <span className="material-symbols-outlined text-5xl text-accent mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
                 <h3 className="text-lg font-bold text-on-surface mb-2">Create Vendor by Uploading Receipt or Document</h3>
                 <p className="text-sm text-on-surface-variant mb-6">Our AI will automatically extract company details, tax ID, and contact information for you.</p>
                 <button className="bg-primary text-on-primary px-8 py-2.5 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl transition-all" type="button">Browse Local Files</button>
@@ -170,7 +170,7 @@ export default function AddVendorPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
                     <span className="text-xs font-bold uppercase text-primary">General Liability Insurance</span>
-                    <span className="material-symbols-outlined text-primary">verified_user</span>
+                    <span className="material-symbols-outlined text-success">verified_user</span>
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Policy Number</label>

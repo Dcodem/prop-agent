@@ -72,7 +72,7 @@ export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }:
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-sm">person</span>
+                    <span className="material-symbols-outlined text-purple text-sm">person</span>
                   </div>
                   <span className="text-xs font-bold text-on-surface">{note.author}</span>
                 </div>

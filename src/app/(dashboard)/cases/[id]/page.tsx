@@ -107,14 +107,14 @@ export default async function CaseDetailPage({
                 <h2 className="text-2xl font-extrabold text-on-surface tracking-tight font-headline">
                   {tenant?.name ?? "Unknown Tenant"}
                 </h2>
-                <span className="px-3 py-1 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest rounded-full border border-primary/10">
+                <span className="px-3 py-1 bg-accent/5 text-accent text-[10px] font-black uppercase tracking-widest rounded-full border border-accent/10">
                   Primary Tenant
                 </span>
               </div>
               <div className="flex items-center gap-4 text-on-surface-variant font-medium">
                 {tenant?.unitNumber && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-lg text-primary">
+                    <span className="material-symbols-outlined text-lg text-info">
                       apartment
                     </span>
                     <span className="text-sm tracking-tight">
@@ -127,7 +127,7 @@ export default async function CaseDetailPage({
                 )}
                 {tenant?.leaseStart && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-lg text-primary">
+                    <span className="material-symbols-outlined text-lg text-success">
                       verified_user
                     </span>
                     <span className="text-sm tracking-tight">
@@ -142,7 +142,7 @@ export default async function CaseDetailPage({
               {tenant?.phone && (
                 <a
                   href={`tel:${tenant.phone}`}
-                  className="p-3 text-primary hover:bg-primary/5 rounded-full transition-all border border-primary/20"
+                  className="p-3 text-accent hover:bg-accent/5 rounded-full transition-all border border-accent/20"
                 >
                   <span className="material-symbols-outlined">call</span>
                 </a>
@@ -150,7 +150,7 @@ export default async function CaseDetailPage({
               {tenant?.email && (
                 <a
                   href={`mailto:${tenant.email}`}
-                  className="p-3 text-primary hover:bg-primary/5 rounded-full transition-all border border-primary/20"
+                  className="p-3 text-accent hover:bg-accent/5 rounded-full transition-all border border-accent/20"
                 >
                   <span className="material-symbols-outlined">mail</span>
                 </a>

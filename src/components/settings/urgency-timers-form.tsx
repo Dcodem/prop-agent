@@ -49,7 +49,7 @@ export function UrgencyTimersForm({
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-primary text-2xl">timer</span>
+            <span className="material-symbols-outlined text-caution text-2xl">timer</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Urgency Response Timers</h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Define follow-up intervals (in minutes) for vendor management based on priority.</p>

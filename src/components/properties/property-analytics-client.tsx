@@ -80,7 +80,7 @@ function StarRating({ value }: { value: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={`material-symbols-outlined text-xs ${star <= Math.floor(value) ? "text-primary" : star - 0.5 <= value ? "text-primary/70" : "text-outline/30"}`}
+          className={`material-symbols-outlined text-xs ${star <= Math.floor(value) ? "text-warning" : star - 0.5 <= value ? "text-warning/70" : "text-outline/30"}`}
           style={{ fontVariationSettings: "'FILL' 1", fontSize: "14px" }}
         >
           {star <= Math.floor(value) ? "star" : star - 0.5 <= value ? "star_half" : "star"}
@@ -270,7 +270,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                 {/* Month Header */}
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-lg">calendar_today</span>
+                    <span className="material-symbols-outlined text-accent text-lg">calendar_today</span>
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-on-surface">{group.label}</h3>
@@ -356,7 +356,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         {/* Total resolution time bar */}
                         {isResolved && (
                           <div className="mt-3 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-xs text-primary">check_circle</span>
+                            <span className="material-symbols-outlined text-xs text-success">check_circle</span>
                             <span className="text-xs font-bold text-primary">Resolved in {detail.totalResolution}</span>
                             <div className="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden ml-2">
                               <div className="h-full bg-primary rounded-full" style={{ width: "100%" }} />

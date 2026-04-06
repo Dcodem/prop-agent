@@ -158,7 +158,7 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
                 </div>
                 <div className="relative h-64 w-full rounded-xl overflow-hidden grayscale contrast-125 opacity-80 bg-surface-container">
                   <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-6xl text-primary/30">map</span>
+                    <span className="material-symbols-outlined text-6xl text-accent/30">map</span>
                   </div>
                   <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

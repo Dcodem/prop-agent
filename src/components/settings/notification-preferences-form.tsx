@@ -35,7 +35,7 @@ export function NotificationPreferencesForm({
       <form action={formAction}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-primary text-2xl">notifications_active</span>
+            <span className="material-symbols-outlined text-caution text-2xl">notifications_active</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Notification Preferences</h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Manage how and when you receive agent activity updates and system alerts.</p>
