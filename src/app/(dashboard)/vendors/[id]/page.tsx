@@ -52,7 +52,7 @@ export default async function VendorDetailPage({
           <div className="flex items-center gap-8">
             <div className="relative group">
               <div className="w-32 h-32 rounded-xl overflow-hidden bg-surface-container-high ring-4 ring-white shadow-xl flex items-center justify-center">
-                <span className="text-4xl font-extrabold text-primary">{initials}</span>
+                <span className="text-4xl font-extrabold text-accent">{initials}</span>
               </div>
               <div className="absolute -bottom-2 -right-2 bg-primary text-white p-1 rounded-full border-2 border-white">
                 <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
@@ -89,7 +89,7 @@ export default async function VendorDetailPage({
           <div className="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm flex flex-col justify-between">
             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Avg Response</span>
             <div className="mt-4">
-              <span className="text-4xl font-extrabold text-primary tracking-tighter">42m</span>
+              <span className="text-4xl font-extrabold text-accent tracking-tighter">42m</span>
               <div className="text-xs text-on-surface-variant mt-1 flex items-center gap-1">
                 <span className="material-symbols-outlined text-xs text-error">trending_down</span>
                 12% faster than last month
@@ -107,7 +107,7 @@ export default async function VendorDetailPage({
             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Compliance</span>
             <div className="mt-4">
               <span className="text-4xl font-extrabold text-on-surface tracking-tighter">100%</span>
-              <div className="text-xs text-on-surface-variant mt-1 text-primary font-semibold uppercase tracking-tighter">Fully Insured</div>
+              <div className="text-xs text-on-surface-variant mt-1 text-success font-semibold uppercase tracking-tighter">Fully Insured</div>
             </div>
           </div>
           <div className="bg-primary p-6 rounded-xl shadow-lg flex flex-col justify-between text-white">
@@ -142,7 +142,7 @@ export default async function VendorDetailPage({
                   <div key={c.id} className="px-8 py-6 hover:bg-surface-container-low transition-colors group">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex flex-col">
-                        <span className="text-xs font-bold text-primary uppercase tracking-wider mb-1">{formatEnum(c.status)}</span>
+                        <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1">{formatEnum(c.status)}</span>
                         <h4 className="text-base font-bold text-on-surface">{c.category ? formatEnum(c.category) : "Case"}: #{c.id.slice(0, 8).toUpperCase()}</h4>
                       </div>
                       <span className="text-sm text-on-surface-variant font-medium">{timeAgo(c.createdAt)}</span>
@@ -157,7 +157,7 @@ export default async function VendorDetailPage({
                           +{Math.max(1, activeCases.length - 1)}
                         </div>
                       </div>
-                      <Link href={`/cases/${c.id}`} className="text-primary font-bold text-sm flex items-center gap-1 group">
+                      <Link href={`/cases/${c.id}`} className="text-accent font-bold text-sm flex items-center gap-1 group">
                         <span className="group-hover:underline underline-offset-4 decoration-2">View Details</span> <span className="material-symbols-outlined text-base">chevron_right</span>
                       </Link>
                     </div>
@@ -218,7 +218,7 @@ export default async function VendorDetailPage({
                     <span className="material-symbols-outlined text-on-surface-variant">mail</span>
                     <div>
                       <div className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Email</div>
-                      <div className="text-sm font-medium text-primary">{vendor.email}</div>
+                      <div className="text-sm font-medium text-accent">{vendor.email}</div>
                     </div>
                   </div>
                 )}

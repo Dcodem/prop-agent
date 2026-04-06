@@ -13,7 +13,7 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
     >
       <Link
         href="/overview"
-        className="hover:text-primary transition-colors"
+        className="hover:text-accent transition-colors"
         aria-label="Home"
       >
         <span aria-hidden="true" className="material-symbols-outlined text-base">home</span>
@@ -24,12 +24,12 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
           {item.href ? (
             <Link
               href={item.href}
-              className="hover:text-primary transition-colors uppercase tracking-wider"
+              className="hover:text-accent transition-colors uppercase tracking-wider"
             >
               {item.label}
             </Link>
           ) : (
-            <span className="text-primary font-bold uppercase tracking-wider">
+            <span className="text-accent font-bold uppercase tracking-wider">
               {item.label}
             </span>
           )}

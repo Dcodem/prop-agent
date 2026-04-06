@@ -16,7 +16,7 @@ export function LoadingSpinner({ size = "md", label, className }: LoadingSpinner
   return (
     <span role="status" aria-label={label || "Loading"}>
       <svg
-        className={cn("animate-spin text-primary", sizeStyles[size], className)}
+        className={cn("animate-spin text-accent", sizeStyles[size], className)}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

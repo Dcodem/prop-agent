@@ -53,12 +53,12 @@ export default function SupportPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {STEPS.map((step, i) => (
             <div key={i} className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-accent shrink-0">
                 <span className="material-symbols-outlined">{step.icon}</span>
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold text-primary">Step {i + 1}</span>
+                  <span className="text-xs font-bold text-accent">Step {i + 1}</span>
                 </div>
                 <h3 className="text-sm font-bold text-on-surface mb-1">{step.title}</h3>
                 <p className="text-xs text-on-surface-variant">{step.desc}</p>
@@ -99,14 +99,14 @@ export default function SupportPage() {
         <h2 className="text-2xl font-bold text-on-surface mb-6">Contact Support</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 text-center">
-            <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-accent mx-auto mb-3">
               <span className="material-symbols-outlined text-accent">mail</span>
             </div>
             <h3 className="text-sm font-bold text-on-surface mb-1">Email</h3>
             <p className="text-xs text-on-surface-variant">support@propagent.com</p>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 text-center">
-            <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-accent mx-auto mb-3">
               <span className="material-symbols-outlined text-success">call</span>
             </div>
             <h3 className="text-sm font-bold text-on-surface mb-1">Phone</h3>

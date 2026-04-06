@@ -118,7 +118,7 @@ export function TenantsPageClient({
         <StatCard
           icon="trending_up"
           iconBg="bg-primary-fixed-dim"
-          iconColor="text-primary"
+          iconColor="text-accent"
           value={totalTenants > 0 ? "100%" : "0%"}
           label="Occupancy"
         />

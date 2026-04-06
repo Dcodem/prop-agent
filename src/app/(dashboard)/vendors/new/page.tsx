@@ -35,7 +35,7 @@ export default function AddVendorPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header Section */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-widest mb-2 font-['Plus_Jakarta_Sans']">
+          <div className="flex items-center gap-2 text-accent font-semibold text-xs uppercase tracking-widest mb-2 font-['Plus_Jakarta_Sans']">
             <span>Vendors</span>
             <span className="material-symbols-outlined text-xs">chevron_right</span>
             <span>Registration</span>
@@ -153,7 +153,7 @@ export default function AddVendorPage() {
                     <span className="inline-flex items-center gap-1 bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-xs font-semibold">
                       West Industrial <span className="material-symbols-outlined text-[14px] cursor-pointer">close</span>
                     </span>
-                    <button className="text-primary font-bold text-xs px-2" type="button">+ Add Area</button>
+                    <button className="text-accent font-bold text-xs px-2" type="button">+ Add Area</button>
                   </div>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default function AddVendorPage() {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold uppercase text-primary">General Liability Insurance</span>
+                    <span className="text-xs font-bold uppercase text-accent">General Liability Insurance</span>
                     <span className="material-symbols-outlined text-success">verified_user</span>
                   </div>
                   <div>
@@ -183,7 +183,7 @@ export default function AddVendorPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold uppercase text-primary">Workers&apos; Compensation</span>
+                    <span className="text-xs font-bold uppercase text-accent">Workers&apos; Compensation</span>
                     <span className="material-symbols-outlined text-outline">upload_file</span>
                   </div>
                   <div>

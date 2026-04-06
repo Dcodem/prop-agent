@@ -70,7 +70,7 @@ export default function AddPropertyPage() {
           </p>
           <button
             onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
-            className="px-8 py-3 bg-on-surface text-surface font-bold rounded-lg shadow-lg hover:opacity-90 transition-all inline-flex items-center gap-2"
+            className="px-8 py-3 bg-accent text-on-accent font-bold rounded-lg shadow-lg hover:bg-accent/90 transition-all inline-flex items-center gap-2"
           >
             <span className="material-symbols-outlined">folder_open</span>
             Browse Files
@@ -98,7 +98,7 @@ export default function AddPropertyPage() {
             <button
               onClick={handleProcess}
               disabled={processing}
-              className="mt-4 px-10 py-3 bg-on-surface text-surface font-bold rounded-lg shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
+              className="mt-4 px-10 py-3 bg-accent text-on-accent font-bold rounded-lg shadow-xl hover:bg-accent/90 active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
             >
               {processing ? (
                 <>

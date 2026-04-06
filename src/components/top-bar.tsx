@@ -82,7 +82,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
                   <div className="px-5 py-4 border-b border-surface-variant flex items-center justify-between">
                     <h3 className="text-sm font-bold text-on-surface">Notifications</h3>
                     {unreadCount > 0 && (
-                      <span className="text-[11px] font-bold text-primary">{unreadCount} new</span>
+                      <span className="text-[11px] font-bold text-accent">{unreadCount} new</span>
                     )}
                   </div>
                   <div className="max-h-[360px] overflow-y-auto">
@@ -111,7 +111,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
                     <Link
                       href="/settings"
                       onClick={() => setShowNotifications(false)}
-                      className="text-xs font-bold text-primary hover:underline"
+                      className="text-xs font-bold text-accent hover:underline"
                     >
                       View All Notifications
                     </Link>

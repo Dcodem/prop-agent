@@ -96,7 +96,7 @@ export default function SignupPage() {
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-1.5" htmlFor="name">Your name</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-accent transition-colors">
                     <User className="h-5 w-5" />
                   </div>
                   <input
@@ -116,7 +116,7 @@ export default function SignupPage() {
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-1.5" htmlFor="companyName">Company name</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-accent transition-colors">
                     <Building2 className="h-5 w-5" />
                   </div>
                   <input
@@ -136,7 +136,7 @@ export default function SignupPage() {
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-1.5" htmlFor="email">Email address</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-accent transition-colors">
                     <Mail className="h-5 w-5" />
                   </div>
                   <input
@@ -159,7 +159,7 @@ export default function SignupPage() {
                   <span className="text-outline font-normal">(optional)</span>
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-accent transition-colors">
                     <Phone className="h-5 w-5" />
                   </div>
                   <input
@@ -178,7 +178,7 @@ export default function SignupPage() {
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-1.5" htmlFor="password">Password</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline group-focus-within:text-accent transition-colors">
                     <Lock className="h-5 w-5" />
                   </div>
                   <input
@@ -216,7 +216,7 @@ export default function SignupPage() {
             <div className="mt-8 pt-6 border-t border-outline-variant/10 text-center">
               <p className="text-sm text-on-surface-variant">
                 Already have an account?{" "}
-                <Link className="font-semibold text-primary hover:underline underline-offset-4 decoration-2 ml-1" href="/login">Log in</Link>
+                <Link className="font-semibold text-accent hover:underline underline-offset-4 decoration-2 ml-1" href="/login">Log in</Link>
               </p>
             </div>
           </div>

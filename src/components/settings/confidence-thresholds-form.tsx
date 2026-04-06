@@ -39,7 +39,7 @@ export function ConfidenceThresholdsForm({
             <div>
               <div className="flex justify-between items-center mb-6">
                 <label className="text-sm font-bold text-on-surface uppercase tracking-widest">High Confidence</label>
-                <span className="px-4 py-1.5 bg-primary-fixed text-primary border border-primary/20 rounded text-sm font-bold">{high.toFixed(2)}</span>
+                <span className="px-4 py-1.5 bg-primary-fixed text-accent border border-accent/20 rounded text-sm font-bold">{high.toFixed(2)}</span>
               </div>
               <input
                 className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-primary"

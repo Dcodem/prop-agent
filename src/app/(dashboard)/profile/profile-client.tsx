@@ -182,7 +182,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
               <h2 className="text-xl font-bold tracking-tight">Security &amp; Access</h2>
               <div className="bg-surface-container-low px-4 py-2 rounded-lg flex items-center gap-3">
                 <p className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">Current Active Session</p>
-                <span className="text-xs font-bold text-primary">Active Session</span>
+                <span className="text-xs font-bold text-success">Active Session</span>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -199,7 +199,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 <button
                   onClick={handleResetPassword}
                   disabled={resetting}
-                  className="text-xs font-bold text-primary hover:bg-primary/5 px-4 py-2 rounded-lg border border-primary/20 transition-colors disabled:opacity-50"
+                  className="text-xs font-bold text-error hover:bg-error/5 px-4 py-2 rounded-lg border border-error/20 transition-colors disabled:opacity-50"
                 >
                   {resetting ? "Sending..." : "Reset Password"}
                 </button>

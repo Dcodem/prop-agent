@@ -12,7 +12,7 @@ export function TradeFilter({ value, onChange }: TradeFilterProps) {
   return (
     <div className="relative">
       <button
-        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary-fixed transition-colors rounded-[0.5rem] cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent-container transition-colors rounded-[0.5rem] cursor-pointer"
         onClick={(e) => {
           const menu = (e.currentTarget.nextElementSibling as HTMLElement);
           menu.classList.toggle("hidden");
@@ -24,7 +24,7 @@ export function TradeFilter({ value, onChange }: TradeFilterProps) {
       <div className="hidden absolute top-full left-0 mt-1 z-20 bg-surface-container-lowest rounded-lg shadow-lg border border-outline-variant/30 py-1 min-w-[200px]">
         <button
           className={`w-full text-left px-4 py-2 text-sm hover:bg-primary-fixed transition-colors cursor-pointer ${
-            value === "all" ? "font-bold text-primary" : "text-on-surface"
+            value === "all" ? "font-bold text-accent" : "text-on-surface"
           }`}
           onClick={(e) => {
             onChange("all");
@@ -37,7 +37,7 @@ export function TradeFilter({ value, onChange }: TradeFilterProps) {
           <button
             key={trade}
             className={`w-full text-left px-4 py-2 text-sm hover:bg-primary-fixed transition-colors cursor-pointer ${
-              value === trade ? "font-bold text-primary" : "text-on-surface"
+              value === trade ? "font-bold text-accent" : "text-on-surface"
             }`}
             onClick={(e) => {
               onChange(trade);

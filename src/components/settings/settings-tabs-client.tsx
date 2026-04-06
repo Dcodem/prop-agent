@@ -342,7 +342,7 @@ export function SettingsTabsClient({
                       e.stopPropagation();
                       setEditingLabel({ originalName: label.name, name: label.name, color: label.color });
                     }}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-on-surface-variant hover:text-primary"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-on-surface-variant hover:text-accent"
                   >
                     <span className="material-symbols-outlined text-sm">edit</span>
                   </button>
@@ -427,7 +427,7 @@ export function SettingsTabsClient({
                   >
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                        <div className="w-9 h-9 rounded-full bg-accent/10 text-accent flex items-center justify-center font-bold text-xs">
                           {member.name
                             .split(" ")
                             .map((w) => w[0])
@@ -452,14 +452,14 @@ export function SettingsTabsClient({
                       <span
                         className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full ${
                           member.status === "Active"
-                            ? "bg-primary/10 text-primary"
+                            ? "bg-accent/10 text-accent"
                             : "bg-surface-container-high text-on-surface-variant"
                         }`}
                       >
                         <span
                           className={`w-1.5 h-1.5 rounded-full ${
                             member.status === "Active"
-                              ? "bg-primary"
+                              ? "bg-accent"
                               : "bg-on-surface-variant"
                           }`}
                         />
@@ -473,7 +473,7 @@ export function SettingsTabsClient({
                       <div className="relative inline-block" ref={openMenuEmail === member.email ? menuRef : undefined}>
                         <button
                           onClick={() => setOpenMenuEmail(openMenuEmail === member.email ? null : member.email)}
-                          className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-container-high"
+                          className="text-on-surface-variant hover:text-accent transition-colors p-1 rounded-lg hover:bg-surface-container-high"
                         >
                           <span className="material-symbols-outlined text-xl">
                             more_horiz

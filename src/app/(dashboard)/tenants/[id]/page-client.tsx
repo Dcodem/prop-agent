@@ -75,14 +75,14 @@ const paymentHistory = [
     description: "Monthly Rent - October",
     amount: "$3,200.00",
     status: "Paid",
-    statusColor: "bg-primary/10 text-primary",
+    statusColor: "bg-accent/10 text-accent",
   },
   {
     date: "Sep 01, 2023",
     description: "Monthly Rent - September",
     amount: "$3,200.00",
     status: "Paid",
-    statusColor: "bg-primary/10 text-primary",
+    statusColor: "bg-accent/10 text-accent",
   },
   {
     date: "Aug 03, 2023",
@@ -151,7 +151,7 @@ export function TenantDetailClient({
             <span className="bg-surface-container text-on-surface-variant px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
               Resident Status
             </span>
-            <span className="flex items-center gap-1.5 text-primary font-bold text-sm">
+            <span className="flex items-center gap-1.5 text-accent font-bold text-sm">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
               Active
             </span>
@@ -238,14 +238,14 @@ export function TenantDetailClient({
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                  className="group flex items-center gap-1.5 text-primary font-semibold text-sm"
+                  className="group flex items-center gap-1.5 text-accent font-semibold text-sm"
                 >
                   <span className="material-symbols-outlined text-base text-info">description</span>
                   <span className="group-hover:underline underline-offset-4 decoration-2">View Lease</span>
                 </button>
                 <button
                   onClick={() => setPreviewDoc("Lease Agreement — " + tenant.name)}
-                  className="group flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-primary transition-colors"
+                  className="group flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm hover:text-accent transition-colors"
                 >
                   <span className="material-symbols-outlined text-base text-accent">download</span>
                   <span className="group-hover:underline underline-offset-4 decoration-2">Download</span>
@@ -324,7 +324,7 @@ export function TenantDetailClient({
                       </span>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <button className="material-symbols-outlined text-on-surface-variant hover:text-primary">
+                      <button className="material-symbols-outlined text-on-surface-variant hover:text-error">
                         download
                       </button>
                     </td>
@@ -338,7 +338,7 @@ export function TenantDetailClient({
           <div className="bg-surface-container-lowest p-8 rounded-2xl space-y-6">
             <div className="flex justify-between items-end">
               <h3 className="text-2xl font-bold tracking-tight">Documents</h3>
-              <label className="group text-primary font-semibold text-sm cursor-pointer flex items-center gap-1">
+              <label className="group text-accent font-semibold text-sm cursor-pointer flex items-center gap-1">
                 <span className="material-symbols-outlined text-sm">upload_file</span>
                 <span className="group-hover:underline underline-offset-4 decoration-2">Upload</span>
                 <input type="file" className="hidden" onChange={(e) => {
@@ -356,11 +356,11 @@ export function TenantDetailClient({
                   className="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-primary-fixed transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-accent">
                       <span className="material-symbols-outlined">{doc.icon}</span>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">{doc.name}</p>
+                      <p className="text-sm font-bold text-on-surface group-hover:text-accent transition-colors">{doc.name}</p>
                       <p className="text-[10px] text-on-surface-variant uppercase">{doc.type} &middot; {doc.date}</p>
                     </div>
                   </div>
@@ -374,11 +374,11 @@ export function TenantDetailClient({
                   className="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-primary-fixed transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                    <div className="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-accent">
                       <span className="material-symbols-outlined">upload_file</span>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">{doc}</p>
+                      <p className="text-sm font-bold text-on-surface group-hover:text-accent transition-colors">{doc}</p>
                       <p className="text-[10px] text-on-surface-variant uppercase">Uploaded &middot; Just now</p>
                     </div>
                   </div>
@@ -410,7 +410,7 @@ export function TenantDetailClient({
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                       {c.category ? formatEnum(c.category) : "General"}
                     </span>
-                    <span className="bg-primary-fixed text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                    <span className="bg-primary-fixed text-accent text-[10px] font-bold px-2 py-0.5 rounded uppercase">
                       {formatEnum(c.status)}
                     </span>
                   </div>
@@ -440,7 +440,7 @@ export function TenantDetailClient({
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                       Plumbing
                     </span>
-                    <span className="bg-primary-fixed text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                    <span className="bg-primary-fixed text-accent text-[10px] font-bold px-2 py-0.5 rounded uppercase">
                       In Progress
                     </span>
                   </div>
