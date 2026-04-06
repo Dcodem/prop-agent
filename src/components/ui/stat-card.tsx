@@ -26,7 +26,7 @@ export function StatCard({
 }: StatCardProps) {
   const baseClasses = cn(
     "bg-surface-container-lowest rounded-2xl p-5 card-shadow border border-outline-variant/10 flex items-center gap-4 text-left",
-    (onClick || href) && "hover:ring-2 hover:ring-primary/30 transition-all cursor-pointer",
+    (onClick || href) && "hover:ring-2 hover:ring-accent/30 transition-all cursor-pointer",
     className
   );
 

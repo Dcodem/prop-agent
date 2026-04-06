@@ -83,7 +83,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       </div>
 
       {/* Open Cases Section */}
-      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
+      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-info card-shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-info">assignment</span>
@@ -143,7 +143,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       </section>
 
       {/* Lease Follow-ups Section */}
-      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-caution overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-caution">event_upcoming</span>
@@ -188,7 +188,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       </section>
 
       {/* Late on Rent Section */}
-      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-error overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-warning-dim">payments</span>
