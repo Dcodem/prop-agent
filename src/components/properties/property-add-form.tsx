@@ -181,7 +181,7 @@ export function PropertyAddForm() {
             </Link>
             <button
               disabled={isPending}
-              className="px-10 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-xl shadow-primary/10 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="px-10 py-3 bg-accent text-on-accent font-bold rounded-lg shadow-xl shadow-accent/10 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none"
               type="submit"
             >
               {isPending ? "Saving..." : "Add Property"}

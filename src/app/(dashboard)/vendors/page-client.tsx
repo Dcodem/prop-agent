@@ -62,7 +62,7 @@ export function VendorsPageClient({ vendors }: { vendors: Vendor[] }) {
             Management module.
           </p>
         </div>
-        <Link href="/settings" className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer inline-block shrink-0">
+        <Link href="/settings" className="bg-accent text-on-accent px-6 py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-accent/90 transition-colors cursor-pointer inline-block shrink-0">
           Configure Settings
         </Link>
       </div>

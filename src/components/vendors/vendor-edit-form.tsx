@@ -56,7 +56,7 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
         </div>
         <div className="flex gap-4">
           <Link href={`/vendors/${vendor.id}`} className="px-6 py-3 bg-surface-container-high text-on-surface font-bold text-sm rounded-lg hover:bg-surface-container-highest transition-colors">Cancel</Link>
-          <button form="vendor-edit-form" disabled={isPending} className="px-8 py-3 bg-primary text-on-primary font-bold text-sm rounded-lg shadow-lg active:scale-95 transition-transform disabled:opacity-50 disabled:pointer-events-none" type="submit">
+          <button form="vendor-edit-form" disabled={isPending} className="px-8 py-3 bg-accent text-on-accent font-bold text-sm rounded-lg shadow-lg active:scale-95 transition-transform disabled:opacity-50 disabled:pointer-events-none" type="submit">
             {isPending ? "Saving..." : "Save Changes"}
           </button>
         </div>

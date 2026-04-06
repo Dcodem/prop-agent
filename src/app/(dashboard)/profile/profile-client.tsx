@@ -85,7 +85,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 {profilePhoto ? (
                   <img src={profilePhoto} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-on-primary text-4xl font-extrabold">
+                  <div className="w-full h-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center text-on-accent text-4xl font-extrabold">
                     {initials}
                   </div>
                 )}
@@ -320,7 +320,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
               <button
                 onClick={handleSave}
                 disabled={saving || !editName.trim()}
-                className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all disabled:opacity-50"
+                className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg shadow-accent/10 hover:bg-accent/90 transition-all disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>

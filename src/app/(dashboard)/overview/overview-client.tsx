@@ -90,7 +90,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <h2 className="text-lg font-bold text-on-surface">Open Cases</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{openCases.length}</span>
           </div>
-          <Link href="/cases" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
+          <Link href="/cases" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
             View all cases
           </Link>
         </div>
@@ -135,7 +135,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
         )}
         {openCases.length > 5 && (
           <div className="px-6 py-3 border-t border-outline-variant/10 text-center">
-            <Link href="/cases" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
+            <Link href="/cases" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
               +{openCases.length - 5} more open cases
             </Link>
           </div>
@@ -150,7 +150,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <h2 className="text-lg font-bold text-on-surface">Lease Renewals</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{expiringLeases.length}</span>
           </div>
-          <Link href="/tenants" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
+          <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
             View all tenants
           </Link>
         </div>
@@ -195,7 +195,7 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
             <h2 className="text-lg font-bold text-on-surface">Late on Rent</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
           </div>
-          <Link href="/tenants" className="text-sm font-semibold text-primary hover:underline underline-offset-4 decoration-2">
+          <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
             View all tenants
           </Link>
         </div>
@@ -225,34 +225,34 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
       </section>
 
       {/* PropAgent Overview — moved from Profile */}
-      <section className="bg-surface-container-lowest rounded-xl p-8 border-l-4 border-primary relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-20 -mt-20 blur-3xl" />
+      <section className="bg-surface-container-lowest rounded-xl p-8 border-l-4 border-accent relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full -mr-20 -mt-20 blur-3xl" />
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-10">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">AI System Active</div>
+                <div className="px-3 py-1 bg-purple/10 text-purple rounded-full text-[10px] font-bold uppercase tracking-wider">AI System Active</div>
                 <h2 className="text-2xl font-bold tracking-tight">PropAgent Overview</h2>
               </div>
               <p className="text-on-surface-variant text-sm max-w-md italic">Autonomous property management assistant currently monitoring your active listings.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
+            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-accent/30">
               <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Status</span>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span className="text-lg font-bold">Active &amp; Learning</span>
               </div>
             </div>
-            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
+            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-accent/30">
               <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Confidence</span>
               <div className="flex items-end gap-1">
                 <span className="text-3xl font-extrabold leading-none"><AnimatedCounter value={94.8} decimals={1} /></span>
                 <span className="text-sm font-bold text-on-surface-variant mb-0.5">%</span>
               </div>
             </div>
-            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-primary-fixed-dim">
+            <div className="bg-surface-container-low p-5 rounded-lg border-l-2 border-accent/30">
               <span className="text-[11px] uppercase font-bold tracking-wider text-on-surface-variant block mb-3">Decision Speed</span>
               <div className="flex items-end gap-1">
                 <span className="text-3xl font-extrabold leading-none"><AnimatedCounter value={1.2} decimals={1} /></span>
@@ -265,23 +265,23 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
 
       {/* Performance Metrics — moved from Profile */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-48">
+        <div className="bg-accent-container/40 p-8 rounded-xl flex flex-col justify-between h-48">
           <span className="material-symbols-outlined text-accent text-3xl">bolt</span>
           <div>
             <h3 className="text-4xl font-black tracking-tighter"><AnimatedCounter value={1284} /></h3>
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Cases Automated</p>
           </div>
         </div>
-        <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-48">
-          <span className="material-symbols-outlined text-accent text-3xl">schedule</span>
+        <div className="bg-purple-container/40 p-8 rounded-xl flex flex-col justify-between h-48">
+          <span className="material-symbols-outlined text-purple text-3xl">schedule</span>
           <div>
             <h3 className="text-4xl font-black tracking-tighter"><AnimatedCounter value={312} suffix="h" /></h3>
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Time Saved</p>
           </div>
         </div>
-        <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-48">
+        <div className="bg-success-container/40 p-8 rounded-xl flex flex-col justify-between h-48">
           <div className="flex justify-between items-start">
-            <span className="material-symbols-outlined text-accent text-3xl">sentiment_very_satisfied</span>
+            <span className="material-symbols-outlined text-success text-3xl">sentiment_very_satisfied</span>
             <span className="bg-surface-container text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold">+4%</span>
           </div>
           <div>

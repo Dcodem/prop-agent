@@ -56,7 +56,7 @@ export default function AddVendorPage() {
                 <span className="material-symbols-outlined text-5xl text-accent mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
                 <h3 className="text-lg font-bold text-on-surface mb-2">Create Vendor by Uploading Receipt or Document</h3>
                 <p className="text-sm text-on-surface-variant mb-6">Our AI will automatically extract company details, tax ID, and contact information for you.</p>
-                <button className="bg-primary text-on-primary px-8 py-2.5 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl transition-all" type="button">Browse Local Files</button>
+                <button className="bg-accent text-on-accent px-8 py-2.5 rounded-lg font-bold text-sm shadow-lg shadow-accent/20 hover:shadow-xl transition-all" type="button">Browse Local Files</button>
                 <p className="text-[10px] text-outline mt-4 uppercase tracking-widest font-semibold">Supported: PDF, JPG, PNG (Max 20MB)</p>
               </div>
             </div>
@@ -215,7 +215,7 @@ export default function AddVendorPage() {
             <Link href="/vendors" className="px-8 py-3 bg-surface-container-high text-on-surface font-semibold rounded-lg hover:bg-surface-container-highest transition-colors active:scale-95">
               Cancel
             </Link>
-            <button disabled={isPending} className="px-10 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-xl shadow-primary/10 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none" type="submit">
+            <button disabled={isPending} className="px-10 py-3 bg-accent text-on-accent font-bold rounded-lg shadow-xl shadow-accent/10 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none" type="submit">
               {isPending ? "Saving..." : "Save Vendor"}
             </button>
           </div>

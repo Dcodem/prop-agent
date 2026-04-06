@@ -538,7 +538,7 @@ export function TenantDetailClient({
                 <span className="material-symbols-outlined text-sm">download</span>
                 Download
               </button>
-              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
+              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
                 Close
               </button>
             </div>

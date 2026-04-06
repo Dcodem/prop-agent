@@ -188,7 +188,7 @@ export function CaseSidebar({
               </button>
               <button
                 onClick={() => setShowWorkOrder(false)}
-                className="px-6 py-3 bg-primary text-on-primary rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all flex items-center gap-2"
+                className="px-6 py-3 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-lg">save</span>
                 Save to Case

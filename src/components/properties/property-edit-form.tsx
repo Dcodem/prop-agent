@@ -138,7 +138,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
               </button>
               <button
                 onClick={handleSave}
-                className="px-10 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-xl shadow-primary/10 active:scale-95 transition-all"
+                className="px-10 py-3 bg-accent text-on-accent font-bold rounded-lg shadow-xl shadow-accent/10 active:scale-95 transition-all"
               >
                 Save Changes
               </button>

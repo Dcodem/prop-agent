@@ -35,7 +35,7 @@ export default function LoginPage() {
     <main className="w-full max-w-[480px]">
       <div className="bg-surface-container-lowest rounded-2xl card-shadow p-8 md:p-12 flex flex-col items-center">
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-accent mb-4">
             <span
               className="material-symbols-outlined text-white text-3xl"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -64,10 +64,10 @@ export default function LoginPage() {
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-primary transition-colors">mail</span>
+                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-accent transition-colors">mail</span>
               </div>
               <input
-                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
+                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-accent focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
                 id="email"
                 name="email"
                 placeholder="agent@propagent.com"
@@ -84,16 +84,16 @@ export default function LoginPage() {
               <label className="block text-sm font-semibold text-on-surface" htmlFor="password">
                 Password
               </label>
-              <a className="text-xs font-bold text-primary hover:text-primary/80 transition-colors" href="#">
+              <a className="text-xs font-bold text-accent hover:text-accent/80 transition-colors" href="#">
                 Forgot Password?
               </a>
             </div>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-primary transition-colors">lock</span>
+                <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-accent transition-colors">lock</span>
               </div>
               <input
-                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
+                className="w-full pl-12 pr-4 py-4 bg-surface-container-high border-2 border-transparent focus:border-accent focus:ring-0 rounded-xl transition-all text-on-surface placeholder:text-outline/60"
                 id="password"
                 name="password"
                 placeholder="••••••••"
@@ -106,7 +106,7 @@ export default function LoginPage() {
           </div>
 
           <button
-            className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-accent text-on-accent py-4 rounded-lg font-bold text-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed"
             type="submit"
             disabled={loading}
           >
@@ -139,7 +139,7 @@ export default function LoginPage() {
 
         <p className="mt-12 text-sm text-on-surface-variant">
           New to the platform?{" "}
-          <a className="text-primary font-bold hover:underline decoration-2 underline-offset-4" href="/signup">
+          <a className="text-accent font-bold hover:underline decoration-2 underline-offset-4" href="/signup">
             Create an account
           </a>
         </p>

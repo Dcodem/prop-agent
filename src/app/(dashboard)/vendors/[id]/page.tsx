@@ -77,7 +77,7 @@ export default async function VendorDetailPage({
                 Message
               </a>
             )}
-            <Link href={`/vendors/${vendor.id}/edit`} className="px-6 py-2.5 bg-primary text-on-primary font-semibold text-sm rounded shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <Link href={`/vendors/${vendor.id}/edit`} className="px-6 py-2.5 bg-accent text-on-accent font-semibold text-sm rounded shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">edit</span>
               Edit Profile
             </Link>

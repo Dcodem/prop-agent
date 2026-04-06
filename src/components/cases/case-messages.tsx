@@ -288,7 +288,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
               <button
                 onClick={handleSend}
                 disabled={!inputText.trim() && !attachedFile}
-                className="bg-primary text-on-primary px-8 py-3.5 rounded-full font-extrabold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
+                className="bg-accent text-on-accent px-8 py-3.5 rounded-full font-extrabold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
               >
                 <span>Send Message</span>
                 <span className="material-symbols-outlined text-lg text-accent">send</span>

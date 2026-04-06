@@ -65,7 +65,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
             >
               <span aria-hidden="true" className="material-symbols-outlined">notifications</span>
               {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-primary text-on-primary text-[10px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 w-4 h-4 bg-error text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                   {unreadCount}
                 </span>
               )}

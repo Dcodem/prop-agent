@@ -174,7 +174,7 @@ export function CaseCreateForm({ properties, vendors }: CaseCreateFormProps) {
           <Link href="/cases" className="px-8 py-3 rounded-lg font-bold text-primary hover:bg-primary-fixed transition-all">
             Cancel
           </Link>
-          <button disabled={isPending} className="px-12 py-3 bg-primary text-on-primary rounded-lg font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50" type="submit">
+          <button disabled={isPending} className="px-12 py-3 bg-accent text-on-accent rounded-lg font-bold shadow-lg shadow-accent/20 hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50" type="submit">
             <span className="material-symbols-outlined">save</span>
             {isPending ? "Submitting..." : "Submit Log"}
           </button>

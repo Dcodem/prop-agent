@@ -177,7 +177,7 @@ export function VendorForm({ onSuccess }: VendorFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+          className="bg-accent text-on-accent px-6 py-3 rounded-lg font-bold shadow-lg shadow-accent/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
         >
           {isPending ? "Saving..." : "Save Vendor"}
         </button>

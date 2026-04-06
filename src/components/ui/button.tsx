@@ -15,11 +15,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-primary text-on-primary hover:bg-primary/90 focus-visible:ring-primary shadow-sm",
+    "bg-accent text-on-accent hover:bg-accent/90 focus-visible:ring-accent shadow-sm",
   secondary:
-    "border-2 border-primary text-primary bg-transparent hover:bg-primary-fixed focus-visible:ring-primary",
+    "border-2 border-accent text-accent bg-transparent hover:bg-accent-container focus-visible:ring-accent",
   ghost:
-    "bg-transparent text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface focus-visible:ring-primary",
+    "bg-transparent text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface focus-visible:ring-accent",
   destructive:
     "bg-error text-white hover:bg-error/90 focus-visible:ring-error shadow-sm",
 };
