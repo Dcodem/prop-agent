@@ -34,7 +34,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-10">
-            <div className="flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-widest mb-2">
+            <div className="flex items-center gap-2 text-accent font-semibold text-xs uppercase tracking-widest mb-2">
               <span>Properties</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
               <span>Edit</span>
@@ -55,7 +55,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                   <input
                     value={form.address}
                     onChange={(e) => handleChange("address", e.target.value)}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                     type="text"
                   />
                 </div>
@@ -64,7 +64,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                   <select
                     value={form.type}
                     onChange={(e) => handleChange("type", e.target.value)}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                   >
                     <option value="residential">Residential</option>
                     <option value="commercial">Commercial</option>
@@ -75,7 +75,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                   <input
                     value={form.unitCount}
                     onChange={(e) => handleChange("unitCount", parseInt(e.target.value) || 1)}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                     type="number"
                     min={1}
                   />
@@ -93,7 +93,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                     value={form.accessInstructions}
                     onChange={(e) => handleChange("accessInstructions", e.target.value)}
                     rows={3}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                   />
                 </div>
                 <div>
@@ -102,7 +102,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                     value={form.parkingInstructions}
                     onChange={(e) => handleChange("parkingInstructions", e.target.value)}
                     rows={2}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                   />
                 </div>
                 <div>
@@ -111,7 +111,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                     value={form.specialInstructions}
                     onChange={(e) => handleChange("specialInstructions", e.target.value)}
                     rows={2}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export function PropertyEditForm({ property }: { property: Property }) {
                 value={form.notes}
                 onChange={(e) => handleChange("notes", e.target.value)}
                 rows={4}
-                className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
               />
             </div>
 

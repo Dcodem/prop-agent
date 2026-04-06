@@ -36,7 +36,7 @@ function statusToColumn(status: string): string {
 const COLUMNS = [
   { key: "new", label: "New Cases", dot: "bg-on-surface" },
   { key: "waiting_on_vendor", label: "Vendor Dispatched", dot: "bg-on-surface-variant" },
-  { key: "in_progress", label: "In Progress", dot: "bg-primary" },
+  { key: "in_progress", label: "In Progress", dot: "bg-accent" },
   { key: "resolved", label: "Resolved", dot: "bg-outline" },
 ] as const;
 
@@ -101,7 +101,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
           <div
             key={col.key}
             className={`flex flex-col gap-4 min-h-[200px] rounded-xl p-3 transition-all ${
-              isDragOver ? "bg-primary/5 ring-2 ring-primary/30" : ""
+              isDragOver ? "bg-accent/5 ring-2 ring-accent/30" : ""
             }`}
             onDragOver={(e) => handleDragOver(e, col.key)}
             onDragLeave={handleDragLeave}
@@ -144,7 +144,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                         {isResolved ? (
                           <>
                             <div className={`w-3 h-3 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`}></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
                               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                               <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
@@ -173,7 +173,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                             e.stopPropagation();
                             setOpenCategoryDropdown(openCategoryDropdown === c.id ? null : c.id);
                           }}
-                          className="text-[10px] font-bold px-2 py-0.5 rounded bg-primary-fixed text-primary uppercase tracking-wider hover:bg-primary/10 transition-colors"
+                          className="text-[10px] font-bold px-2 py-0.5 rounded bg-accent-container text-accent uppercase tracking-wider hover:bg-accent/10 transition-colors"
                         >
                           {formatEnum(displayCategory)}
                         </button>
@@ -191,7 +191,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                                   handleCategoryChange(c.id, cat);
                                 }}
                                 className={`w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-primary-fixed transition-colors capitalize ${
-                                  displayCategory === cat ? "text-primary font-bold" : "text-on-surface"
+                                  displayCategory === cat ? "text-accent font-bold" : "text-on-surface"
                                 }`}
                               >
                                 {formatEnum(cat)}
@@ -234,7 +234,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
 
             {colCases.length === 0 && (
               <div className={`bg-surface-container-lowest/50 p-5 rounded-xl border border-dashed border-outline-variant/20 text-center ${
-                isDragOver ? "border-primary/50 bg-primary/5" : ""
+                isDragOver ? "border-accent/50 bg-accent/5" : ""
               }`}>
                 <p className="text-xs text-outline">{isDragOver ? "Drop here" : "No cases"}</p>
               </div>

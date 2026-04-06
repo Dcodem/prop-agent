@@ -55,7 +55,7 @@ export function VendorHistoryClient({
         </h2>
         <button
           onClick={handleExport}
-          className="text-sm font-bold text-primary hover:opacity-80 flex items-center gap-1"
+          className="text-sm font-bold text-accent hover:opacity-80 flex items-center gap-1"
         >
           <span className="material-symbols-outlined text-sm">download</span>
           Export Logs
@@ -71,10 +71,10 @@ export function VendorHistoryClient({
           <Link
             key={c.id}
             href={`/cases/${c.id}`}
-            className="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest hover:shadow-md transition-all border-l-2 border-transparent hover:border-primary group"
+            className="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest hover:shadow-md transition-all border-l-2 border-transparent hover:border-accent group"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+              <div className="w-10 h-10 rounded bg-surface-container-lowest flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">plumbing</span>
               </div>
               <div>
@@ -101,7 +101,7 @@ export function VendorHistoryClient({
                   ? `$${(c.spendingAuthorized / 100).toFixed(2)}`
                   : "—"}
               </span>
-              <span className="text-primary font-bold flex items-center gap-1">
+              <span className="text-accent font-bold flex items-center gap-1">
                 <span
                   className="material-symbols-outlined text-xs"
                   style={{ fontVariationSettings: "'FILL' 1" }}

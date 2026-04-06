@@ -69,7 +69,7 @@ export default async function CaseDetailPage({
           </div>
           <div className="flex gap-2 shrink-0">
             <span className="px-3 py-1.5 bg-surface-container-high text-on-surface rounded-full text-xs font-bold flex items-center gap-2 border border-outline-variant/10">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
               {statusLabel}
             </span>
             {isHighUrgency && (
@@ -93,7 +93,7 @@ export default async function CaseDetailPage({
           {/* Tenant Request Tile */}
           <section className="bg-surface-container-lowest rounded-full p-6 mb-8 shadow-sm border border-outline-variant/10 flex items-center gap-6">
             <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-extrabold border-4 border-primary/10 shadow-sm">
+              <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-accent text-2xl font-extrabold border-4 border-accent/10 shadow-sm">
                 {(tenant?.name ?? "?")
                   .split(" ")
                   .map((w) => w[0])

@@ -45,7 +45,7 @@ export function AssignVendorForm({
       <div ref={dropdownRef} className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-on-surface-variant hover:text-primary p-2 rounded-lg transition-colors bg-surface-container-lowest shadow-sm"
+          className="text-on-surface-variant hover:text-accent p-2 rounded-lg transition-colors bg-surface-container-lowest shadow-sm"
         >
           <span className="material-symbols-outlined text-xl">edit</span>
         </button>
@@ -58,7 +58,7 @@ export function AssignVendorForm({
                 disabled={isPending || v.id === currentVendorId}
                 className="w-full text-left px-4 py-3 rounded-lg hover:bg-primary-fixed transition-colors disabled:opacity-50 flex items-center gap-3"
               >
-                <div className="w-8 h-8 bg-primary/10 text-primary rounded-md flex items-center justify-center font-bold text-xs">
+                <div className="w-8 h-8 bg-accent/10 text-accent rounded-md flex items-center justify-center font-bold text-xs">
                   {v.name
                     .split(" ")
                     .map((w) => w[0])
@@ -90,7 +90,7 @@ export function AssignVendorForm({
             if (e.target.value) handleAssign(e.target.value);
           }}
           disabled={isPending}
-          className="w-full appearance-none bg-primary-fixed border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-primary transition-all disabled:opacity-50"
+          className="w-full appearance-none bg-primary-fixed border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-accent transition-all disabled:opacity-50"
         >
           <option value="" disabled>
             {isPending ? "Assigning..." : "Select a contractor..."}

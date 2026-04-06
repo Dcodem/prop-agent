@@ -40,7 +40,7 @@ export function CaseFilters({
       <div className="flex items-center gap-2">
         <label className="text-xs font-bold text-outline uppercase">Filters:</label>
         <select
-          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[120px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-accent focus:border-accent outline-none min-w-[120px]"
           value={statusFilter}
           onChange={(e) => onStatusFilterChange(e.target.value)}
         >
@@ -53,7 +53,7 @@ export function CaseFilters({
           ))}
         </select>
         <select
-          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[120px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-accent focus:border-accent outline-none min-w-[120px]"
           value={urgencyFilter}
           onChange={(e) => onUrgencyFilterChange(e.target.value)}
         >
@@ -65,7 +65,7 @@ export function CaseFilters({
           ))}
         </select>
         <select
-          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-primary focus:border-primary outline-none min-w-[140px]"
+          className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-accent focus:border-accent outline-none min-w-[140px]"
           value={propertyFilter}
           onChange={(e) => onPropertyFilterChange(e.target.value)}
         >
@@ -79,7 +79,7 @@ export function CaseFilters({
       </div>
       {hasFilters && (
         <button
-          className="text-primary text-sm font-medium hover:underline underline-offset-4 decoration-2 ml-auto"
+          className="text-accent text-sm font-medium hover:underline underline-offset-4 decoration-2 ml-auto"
           onClick={onClearFilters}
         >
           Clear filters
@@ -89,7 +89,7 @@ export function CaseFilters({
         <button
           className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
             viewMode === "table"
-              ? "bg-surface-container-lowest text-primary shadow-sm"
+              ? "bg-surface-container-lowest text-accent shadow-sm"
               : "text-on-surface-variant hover:text-on-surface"
           }`}
           onClick={() => onViewModeChange("table")}
@@ -99,7 +99,7 @@ export function CaseFilters({
         <button
           className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
             viewMode === "kanban"
-              ? "bg-surface-container-lowest text-primary shadow-sm"
+              ? "bg-surface-container-lowest text-accent shadow-sm"
               : "text-on-surface-variant hover:text-on-surface"
           }`}
           onClick={() => onViewModeChange("kanban")}

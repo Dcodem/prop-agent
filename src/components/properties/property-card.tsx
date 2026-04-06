@@ -41,7 +41,7 @@ export function PropertyCard({
   return (
     <Link
       href={`/properties/${property.id}`}
-      className="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/20 hover:shadow-lg transition-all duration-300 card-shadow"
+      className="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-accent/20 hover:shadow-lg transition-all duration-300 card-shadow"
     >
       <div className="h-48 overflow-hidden relative">
         {photo ? (
@@ -57,7 +57,7 @@ export function PropertyCard({
         )}
         <div className="absolute top-3 right-3">
           {activeCases > 0 ? (
-            <span className="px-3 py-1 rounded-full bg-primary-fixed text-primary text-[11px] font-bold uppercase tracking-wider shadow-sm">
+            <span className="px-3 py-1 rounded-full bg-primary-fixed text-accent text-[11px] font-bold uppercase tracking-wider shadow-sm">
               {activeCases} Active {activeCases === 1 ? "Case" : "Cases"}
             </span>
           ) : (
@@ -69,7 +69,7 @@ export function PropertyCard({
       </div>
       <div className="p-6 text-left space-y-3">
         <div>
-          <h4 className="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">
+          <h4 className="text-lg font-bold text-on-surface group-hover:text-accent transition-colors">
             {property.address}
           </h4>
           <div className="flex items-center gap-1 text-on-surface-variant mt-1">
@@ -84,7 +84,7 @@ export function PropertyCard({
           </div>
           <div className="text-right">
             <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Cases</p>
-            <p className="text-lg font-bold text-primary">{activeCases}</p>
+            <p className="text-lg font-bold text-accent">{activeCases}</p>
           </div>
         </div>
         {/* Activity summary */}

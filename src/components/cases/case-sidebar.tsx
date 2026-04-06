@@ -38,7 +38,7 @@ export function CaseSidebar({
             </label>
             {vendor ? (
               <div className="flex items-center gap-4 p-5 bg-primary-fixed rounded-lg border border-outline-variant/10 relative">
-                <div className="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center font-black text-lg">
+                <div className="w-12 h-12 bg-accent/10 text-accent rounded-lg flex items-center justify-center font-black text-lg">
                   {vendor.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-grow">
@@ -86,18 +86,18 @@ export function CaseSidebar({
           <div className="h-[2px] bg-outline-variant/20 my-4"></div>
           <div className="flex justify-between items-center text-2xl">
             <span className="font-black text-on-surface tracking-tighter">Total Est.</span>
-            <span className="font-black text-primary">$205.00</span>
+            <span className="font-black text-accent">$205.00</span>
           </div>
         </div>
-        <div className="mt-8 p-4 bg-surface-container-lowest/50 rounded-lg border border-primary/10">
+        <div className="mt-8 p-4 bg-surface-container-lowest/50 rounded-lg border border-accent/10">
           <p className="text-[10px] text-on-surface-variant font-bold leading-relaxed uppercase tracking-wider">
             Pre-approved budget:{" "}
-            <span className="text-primary font-black">
+            <span className="text-accent font-black">
               {spendingAuthorized > 0 ? formatCurrency(spendingAuthorized) : "$500.00"}
             </span>
           </p>
           <div className="w-full h-1.5 bg-outline-variant/20 rounded-full mt-2 overflow-hidden">
-            <div className="h-full bg-primary rounded-full" style={{ width: "41%" }}></div>
+            <div className="h-full bg-accent rounded-full" style={{ width: "41%" }}></div>
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@ export function CaseSidebar({
                 <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Assigned Contractor</p>
                 {vendor ? (
                   <div className="bg-surface-container-low p-4 rounded-lg flex items-center gap-4">
-                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 bg-accent/10 text-accent rounded-lg flex items-center justify-center font-bold text-sm">
                       {vendor.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
                     </div>
                     <div>
@@ -171,7 +171,7 @@ export function CaseSidebar({
                   <div className="flex justify-between text-sm"><span>Labor</span><span className="font-bold">$120.00</span></div>
                   <div className="flex justify-between text-sm"><span>Parts</span><span className="font-bold">$0.00</span></div>
                   <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-lg font-black">
-                    <span>Total</span><span className="text-primary">$205.00</span>
+                    <span>Total</span><span className="text-accent">$205.00</span>
                   </div>
                 </div>
               </div>

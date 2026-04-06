@@ -107,7 +107,7 @@ export function CaseIssueDescription({
     <section className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
       {/* AI Summary */}
       <div className="flex items-start gap-6 mb-8">
-        <div className="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+        <div className="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center text-accent shrink-0">
           <span
             className="material-symbols-outlined text-3xl"
             style={{ fontVariationSettings: "'FILL' 1" }}
@@ -120,7 +120,7 @@ export function CaseIssueDescription({
             <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">
               Issue Summary
             </h2>
-            <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider">
+            <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] font-bold rounded-full uppercase tracking-wider">
               AI Generated
             </span>
           </div>
@@ -133,7 +133,7 @@ export function CaseIssueDescription({
               {para.startsWith("**Current Status:**")
                 ? <>
                     <span className="text-on-surface-variant font-normal">Current Status: </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 text-accent text-xs font-bold">
                       {para.replace("**Current Status:** ", "")}
                     </span>
                   </>
@@ -164,7 +164,7 @@ export function CaseIssueDescription({
               <button
                 key={att.url}
                 onClick={() => setPreviewImage(att.url)}
-                className="relative w-32 h-24 rounded-xl overflow-hidden border-2 border-outline-variant/20 hover:border-primary/40 transition-all group"
+                className="relative w-32 h-24 rounded-xl overflow-hidden border-2 border-outline-variant/20 hover:border-accent/40 transition-all group"
               >
                 <Image
                   src={att.url}
@@ -208,9 +208,9 @@ export function CaseIssueDescription({
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
                       isInbound
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-accent/10 text-accent"
                         : isAI
-                        ? "bg-primary text-on-primary"
+                        ? "bg-accent text-on-accent"
                         : "bg-surface-container-high text-on-surface-variant"
                     }`}
                   >
@@ -227,7 +227,7 @@ export function CaseIssueDescription({
                       isInbound
                         ? "bg-surface-container-low text-on-surface"
                         : isAI
-                        ? "bg-primary/10 text-on-surface"
+                        ? "bg-accent/10 text-on-surface"
                         : "bg-outline-variant/10 text-on-surface"
                     }`}
                   >
@@ -248,7 +248,7 @@ export function CaseIssueDescription({
           {conversationMessages.length > 3 && (
             <button
               onClick={() => setShowAllUpdates(!showAllUpdates)}
-              className="group mt-4 text-sm font-bold text-primary flex items-center gap-1"
+              className="group mt-4 text-sm font-bold text-accent flex items-center gap-1"
             >
               <span className="material-symbols-outlined text-sm">
                 {showAllUpdates ? "expand_less" : "expand_more"}

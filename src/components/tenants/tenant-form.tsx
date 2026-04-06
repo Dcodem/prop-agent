@@ -84,9 +84,9 @@ export function TenantForm({
 
           {/* Lease Upload to Auto-Populate */}
           {!isEditing && (
-            <div className="bg-primary-fixed/40 border border-primary/10 rounded-xl p-4 mb-2">
+            <div className="bg-primary-fixed/40 border border-accent/10 rounded-xl p-4 mb-2">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center">
                   <span className="material-symbols-outlined text-accent text-lg">upload_file</span>
                 </div>
                 <div>
@@ -95,8 +95,8 @@ export function TenantForm({
                 </div>
               </div>
               <label className="block cursor-pointer">
-                <div className="border-2 border-dashed border-primary/20 rounded-lg p-3 text-center hover:border-primary/40 hover:bg-primary/5 transition-all">
-                  <span className="text-xs font-medium text-primary">Click to upload PDF or image</span>
+                <div className="border-2 border-dashed border-accent/20 rounded-lg p-3 text-center hover:border-accent/40 hover:bg-accent/5 transition-all">
+                  <span className="text-xs font-medium text-accent">Click to upload PDF or image</span>
                 </div>
                 <input
                   type="file"
@@ -120,7 +120,7 @@ export function TenantForm({
               type="text"
               required
               defaultValue={tenant?.name ?? ""}
-              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all placeholder:text-outline"
               placeholder="Full name"
             />
           </div>
@@ -134,7 +134,7 @@ export function TenantForm({
               name="email"
               type="email"
               defaultValue={tenant?.email ?? ""}
-              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all placeholder:text-outline"
               placeholder="email@example.com"
             />
           </div>
@@ -148,7 +148,7 @@ export function TenantForm({
               name="phone"
               type="tel"
               defaultValue={tenant?.phone ?? ""}
-              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all placeholder:text-outline"
               placeholder="555-0123"
             />
           </div>
@@ -162,7 +162,7 @@ export function TenantForm({
               name="propertyId"
               required
               defaultValue={tenant?.propertyId ?? ""}
-              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
             >
               <option value="">Select property...</option>
               {properties.map((p) => (
@@ -182,7 +182,7 @@ export function TenantForm({
               name="unitNumber"
               type="text"
               defaultValue={tenant?.unitNumber ?? ""}
-              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline"
+              className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all placeholder:text-outline"
               placeholder="e.g. 12B"
             />
           </div>
@@ -197,7 +197,7 @@ export function TenantForm({
                 name="leaseStart"
                 type="date"
                 defaultValue={formatDateForInput(tenant?.leaseStart ?? null)}
-                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
               />
             </div>
             <div>
@@ -208,7 +208,7 @@ export function TenantForm({
                 name="leaseEnd"
                 type="date"
                 defaultValue={formatDateForInput(tenant?.leaseEnd ?? null)}
-                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
               />
             </div>
           </div>
@@ -234,7 +234,7 @@ export function TenantForm({
             <button
               type="submit"
               disabled={isPending}
-              className="flex-1 bg-primary hover:opacity-90 text-on-primary font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+              className="flex-1 bg-accent hover:opacity-90 text-on-accent font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
             >
               {isPending ? (
                 "Saving..."

@@ -39,7 +39,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
       <div className="max-w-5xl mx-auto">
         {/* Header Section */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-widest mb-2">
+          <div className="flex items-center gap-2 text-accent font-semibold text-xs uppercase tracking-widest mb-2">
             <span>Tenants</span>
             <span className="material-symbols-outlined text-xs">chevron_right</span>
             <span>Registration</span>
@@ -56,7 +56,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <p className="text-sm text-on-surface-variant">Fast-track onboarding by uploading existing lease documentation.</p>
             </div>
             <div className="lg:col-span-2">
-              <div className="border-2 border-dashed border-primary/30 rounded-xl p-10 text-center bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group">
+              <div className="border-2 border-dashed border-accent/30 rounded-xl p-10 text-center bg-accent/5 hover:bg-accent/10 transition-colors cursor-pointer group">
                 <span className="material-symbols-outlined text-5xl text-accent mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
                 <h3 className="text-lg font-bold text-on-surface mb-2">Create Tenant by Uploading Lease or Document</h3>
                 <p className="text-sm text-on-surface-variant mb-6">Our AI will automatically extract tenant details, lease dates, and contact information for you.</p>
@@ -75,16 +75,16 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Tenant Name</label>
-                  <input name="name" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. John Smith" type="text" />
+                  <input name="name" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. John Smith" type="text" />
                   {errors?.name && <p className="text-xs text-error mt-1">{errors.name[0]}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Phone Number</label>
-                  <input name="phone" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="+1 (555) 000-0000" type="tel" />
+                  <input name="phone" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="+1 (555) 000-0000" type="tel" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Email Address</label>
-                  <input name="email" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="tenant@email.com" type="email" />
+                  <input name="email" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="tenant@email.com" type="email" />
                   {errors?.email && <p className="text-xs text-error mt-1">{errors.email[0]}</p>}
                 </div>
               </div>
@@ -100,7 +100,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Property</label>
-                  <select name="propertyId" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all">
+                  <select name="propertyId" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all">
                     <option value="">Select Property</option>
                     {properties.map((p) => (
                       <option key={p.id} value={p.id}>{p.address}</option>
@@ -110,7 +110,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
                 </div>
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Unit Number</label>
-                  <input name="unitNumber" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. 12B" type="text" />
+                  <input name="unitNumber" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. 12B" type="text" />
                 </div>
               </div>
             </div>
@@ -125,11 +125,11 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Lease Start Date</label>
-                  <input name="leaseStart" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
+                  <input name="leaseStart" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Lease End Date</label>
-                  <input name="leaseEnd" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
+                  <input name="leaseEnd" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
                 </div>
               </div>
             </div>
@@ -144,30 +144,30 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold uppercase text-primary">Lease Agreement</span>
+                    <span className="text-xs font-bold uppercase text-accent">Lease Agreement</span>
                     <span className="material-symbols-outlined text-success">verified_user</span>
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Document Reference</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" placeholder="LS-0012345" type="text" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" placeholder="LS-0012345" type="text" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Upload Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
                   <div className="col-span-2 flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold uppercase text-primary">Renter&apos;s Insurance</span>
+                    <span className="text-xs font-bold uppercase text-accent">Renter&apos;s Insurance</span>
                     <span className="material-symbols-outlined text-outline">upload_file</span>
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Policy Number</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" placeholder="RI-998877" type="text" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" placeholder="RI-998877" type="text" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Expiration Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
                   </div>
                 </div>
               </div>

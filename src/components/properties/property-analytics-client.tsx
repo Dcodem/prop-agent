@@ -53,7 +53,7 @@ function getUrgencyColor(urgency: string | null) {
   switch (urgency) {
     case "critical": return "bg-error text-white";
     case "high": return "bg-on-surface text-white";
-    case "medium": return "bg-primary text-white";
+    case "medium": return "bg-accent text-white";
     case "low": return "bg-outline text-white";
     default: return "bg-outline text-white";
   }
@@ -65,7 +65,7 @@ function getStatusBadge(status: string) {
     case "closed":
       return "bg-surface-container-low text-on-surface-variant";
     case "in_progress":
-      return "bg-primary-fixed text-primary";
+      return "bg-primary-fixed text-accent";
     case "waiting_on_vendor":
     case "waiting_on_tenant":
       return "bg-surface-container-high text-on-surface";
@@ -164,11 +164,11 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
       <div className="pt-8 px-8 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-on-surface-variant mb-6 font-medium">
-          <Link href="/properties" className="hover:text-primary transition-colors">Properties</Link>
+          <Link href="/properties" className="hover:text-accent transition-colors">Properties</Link>
           <span className="material-symbols-outlined text-base">chevron_right</span>
-          <Link href={`/properties/${property.id}`} className="hover:text-primary transition-colors">{property.address}</Link>
+          <Link href={`/properties/${property.id}`} className="hover:text-accent transition-colors">{property.address}</Link>
           <span className="material-symbols-outlined text-base">chevron_right</span>
-          <span className="text-primary font-bold">Analytics</span>
+          <span className="text-accent font-bold">Analytics</span>
         </div>
 
         {/* Header + Time Filter */}
@@ -223,7 +223,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                   </div>
                   <button
                     onClick={() => setShowCustomPicker(false)}
-                    className="w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-sm"
+                    className="w-full py-2 bg-accent text-on-accent rounded-lg font-bold text-sm"
                   >
                     Apply
                   </button>
@@ -242,7 +242,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
             <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-3">Avg Resolution Time</p>
-            <p className="text-4xl font-extrabold text-primary">{avgResolutionDays}<span className="text-xl font-bold ml-1">days</span></p>
+            <p className="text-4xl font-extrabold text-accent">{avgResolutionDays}<span className="text-xl font-bold ml-1">days</span></p>
             <p className="text-xs text-on-surface-variant mt-1">From open to resolved</p>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
@@ -289,12 +289,12 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                       <Link
                         key={c.id}
                         href={`/cases/${c.id}`}
-                        className="block bg-surface-container-lowest rounded-xl border border-outline-variant/10 p-5 hover:border-primary/30 hover:shadow-md transition-all group"
+                        className="block bg-surface-container-lowest rounded-xl border border-outline-variant/10 p-5 hover:border-accent/30 hover:shadow-md transition-all group"
                       >
                         {/* Top row: urgency, category, status, date */}
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${c.urgency === "critical" ? "bg-error" : c.urgency === "high" ? "bg-on-surface" : c.urgency === "medium" ? "bg-primary" : "bg-outline"}`} />
+                            <span className={`w-2 h-2 rounded-full ${c.urgency === "critical" ? "bg-error" : c.urgency === "high" ? "bg-on-surface" : c.urgency === "medium" ? "bg-accent" : "bg-outline"}`} />
                             <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${getUrgencyColor(c.urgency)}`}>
                               {c.urgency ?? "Unknown"}
                             </span>
@@ -313,7 +313,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         </div>
 
                         {/* Issue summary */}
-                        <p className="text-sm font-semibold text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                        <p className="text-sm font-semibold text-on-surface mb-1 group-hover:text-accent transition-colors line-clamp-2">
                           {c.rawMessage.length > 140 ? c.rawMessage.slice(0, 140) + "..." : c.rawMessage}
                         </p>
                         {tenant && (
@@ -357,9 +357,9 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         {isResolved && (
                           <div className="mt-3 flex items-center gap-2">
                             <span className="material-symbols-outlined text-xs text-success">check_circle</span>
-                            <span className="text-xs font-bold text-primary">Resolved in {detail.totalResolution}</span>
+                            <span className="text-xs font-bold text-accent">Resolved in {detail.totalResolution}</span>
                             <div className="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden ml-2">
-                              <div className="h-full bg-primary rounded-full" style={{ width: "100%" }} />
+                              <div className="h-full bg-accent rounded-full" style={{ width: "100%" }} />
                             </div>
                           </div>
                         )}

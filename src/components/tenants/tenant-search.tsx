@@ -13,7 +13,7 @@ export function TenantSearch({
         search
       </span>
       <input
-        className="w-full bg-surface-container-low border-none rounded py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline"
+        className="w-full bg-surface-container-low border-none rounded py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-accent/20 transition-all placeholder:text-outline"
         placeholder="Search tenants by name, email, or unit..."
         type="text"
         value={value}

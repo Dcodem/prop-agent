@@ -74,14 +74,14 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
               <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-2 group">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Company Name</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <input name="name" className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="text" defaultValue={vendor.name} />
                   </div>
                   {errors?.name && <p className="text-xs text-error">{errors.name[0]}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Trade Sector</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <select name="trade" className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium appearance-none" defaultValue={vendor.trade}>
                       {VENDOR_TRADES.map((trade) => (
                         <option key={trade} value={trade}>{formatEnum(trade)}</option>
@@ -92,19 +92,19 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Tax ID / EIN</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="text" defaultValue="XX-XXX4492" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Website</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
-                    <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium text-primary" type="url" placeholder="https://example.com" />
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
+                    <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium text-accent" type="url" placeholder="https://example.com" />
                   </div>
                 </div>
                 <div className="col-span-2 space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Business Phone</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <input name="phone" className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="tel" defaultValue={vendor.phone ?? ""} />
                   </div>
                 </div>
@@ -119,13 +119,13 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Primary Contact Name</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="text" placeholder="Contact name" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Email Address</label>
-                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-primary">
+                  <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
                     <input name="email" className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="email" defaultValue={vendor.email ?? ""} />
                   </div>
                   {errors?.email && <p className="text-xs text-error">{errors.email[0]}</p>}
@@ -157,13 +157,13 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
                   </button>
                 </div>
                 <div className="relative h-64 w-full rounded-xl overflow-hidden grayscale contrast-125 opacity-80 bg-surface-container">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
                     <span className="material-symbols-outlined text-6xl text-accent/30">map</span>
                   </div>
-                  <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+                  <div className="absolute inset-0 bg-accent/10 mix-blend-multiply"></div>
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="h-12 w-12 bg-primary/20 rounded-full animate-pulse flex items-center justify-center">
-                      <div className="h-4 w-4 bg-primary rounded-full ring-4 ring-white"></div>
+                    <div className="h-12 w-12 bg-accent/20 rounded-full animate-pulse flex items-center justify-center">
+                      <div className="h-4 w-4 bg-accent rounded-full ring-4 ring-white"></div>
                     </div>
                   </div>
                   <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm">
@@ -190,14 +190,14 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
                   <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">General Liability</p>
                   <p className="text-sm font-medium">Expires: Oct 2024</p>
                 </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-tighter">Active</span>
+                <span className="bg-success/10 text-success px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-tighter">Active</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Workers Comp</p>
                   <p className="text-sm font-medium">Expires: Dec 2024</p>
                 </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-tighter">Active</span>
+                <span className="bg-success/10 text-success px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-tighter">Active</span>
               </div>
               <div className="flex items-center justify-between">
                 <div>
@@ -217,7 +217,7 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
             <h3 className="font-bold text-sm uppercase tracking-[0.15em] mb-6 text-on-surface-variant">Modification History</h3>
             <div className="relative space-y-8 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-high">
               <div className="relative pl-8">
-                <div className="absolute left-0 top-1.5 h-4 w-4 rounded-full bg-primary border-4 border-surface"></div>
+                <div className="absolute left-0 top-1.5 h-4 w-4 rounded-full bg-accent border-4 border-surface"></div>
                 <p className="text-xs font-bold">Profile Details Updated</p>
                 <p className="text-[10px] text-on-surface-variant">By Admin (Sarah K.) &bull; 2h ago</p>
               </div>
@@ -234,7 +234,7 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
             </div>
           </div>
           {/* Quick Actions */}
-          <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-primary">
+          <div className="bg-surface-container-low p-6 rounded-lg border-l-4 border-accent">
             <p className="text-xs italic text-on-surface-variant mb-4">&ldquo;High-priority vendor for North Suburbs expansion project.&rdquo;</p>
             <div className="flex items-center gap-3">
               <div className="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">

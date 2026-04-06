@@ -48,7 +48,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
               <input
                 name="rawMessage"
                 required
-                className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent transition-all"
                 placeholder="e.g. Water leaking from kitchen ceiling"
                 type="text"
               />
@@ -58,7 +58,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-on-surface">Category</label>
-                <select name="category" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary appearance-none">
+                <select name="category" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent appearance-none">
                   <option value="">Select Category</option>
                   <option value="maintenance">Plumbing</option>
                   <option value="noise_complaint">Electrical</option>
@@ -78,10 +78,14 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
                         urgency === level
                           ? level === "critical"
                             ? "border-error bg-error text-white"
-                            : "border-primary bg-primary text-on-primary"
+                            : level === "high"
+                              ? "border-error bg-error text-on-error"
+                              : level === "medium"
+                                ? "border-warning bg-warning text-white"
+                                : "border-accent bg-accent text-on-accent"
                           : level === "critical"
                             ? "border-error/30 text-error"
-                            : "border-outline-variant/20 hover:border-primary/40"
+                            : "border-outline-variant/20 hover:border-accent/40"
                       }`}
                     >
                       {level === "critical" ? "Urgent" : level.charAt(0).toUpperCase() + level.slice(1)}
@@ -96,7 +100,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
               <label className="block text-sm font-semibold text-on-surface">Description</label>
               <textarea
                 name="description"
-                className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary transition-all resize-none"
+                className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent transition-all resize-none"
                 placeholder="Describe the issue in detail..."
                 rows={3}
               />
@@ -106,7 +110,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-on-surface">Property</label>
-                <select name="propertyId" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary appearance-none">
+                <select name="propertyId" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent appearance-none">
                   <option value="">Select Property</option>
                   {properties.map((p) => (
                     <option key={p.id} value={p.id}>{p.address}</option>
@@ -117,7 +121,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
                 <label className="block text-sm font-semibold text-on-surface">Unit Number</label>
                 <input
                   name="unitNumber"
-                  className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary transition-all"
+                  className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent transition-all"
                   placeholder="e.g. 402B"
                   type="text"
                 />
@@ -127,7 +131,7 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
             {/* Vendor */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-on-surface">Assign Vendor <span className="text-on-surface-variant font-normal">(optional)</span></label>
-              <select name="vendorId" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-primary appearance-none">
+              <select name="vendorId" className="w-full px-4 py-3 bg-primary-fixed border-none rounded-xl focus:ring-2 focus:ring-accent appearance-none">
                 <option value="">Auto-assign based on category</option>
                 {vendors.map((v) => (
                   <option key={v.id} value={v.id}>{v.name}</option>

@@ -245,7 +245,7 @@ export function TenantTable({
             <select
               value={itemsPerPage}
               onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
-              className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
+              className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-accent"
             >
               <option value={5}>5 per page</option>
               <option value={10}>10 per page</option>
@@ -333,7 +333,7 @@ export function TenantTable({
                       onChange={(e) => setCaseNote(e.target.value)}
                       placeholder="Add any notes about this rent collection..."
                       rows={3}
-                      className="w-full p-3 bg-surface-container-low rounded-lg border border-outline-variant/20 text-on-surface placeholder:text-on-surface-variant/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                      className="w-full p-3 bg-surface-container-low rounded-lg border border-outline-variant/20 text-on-surface placeholder:text-on-surface-variant/50 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 resize-none"
                     />
                   </div>
                 </div>

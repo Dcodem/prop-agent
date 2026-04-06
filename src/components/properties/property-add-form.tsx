@@ -36,7 +36,7 @@ export function PropertyAddForm() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-primary font-semibold text-xs uppercase tracking-widest mb-2">
+          <div className="flex items-center gap-2 text-accent font-semibold text-xs uppercase tracking-widest mb-2">
             <span>Properties</span>
             <span className="material-symbols-outlined text-xs">chevron_right</span>
             <span>New Property</span>
@@ -65,7 +65,7 @@ export function PropertyAddForm() {
                   <input
                     name="address"
                     required
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                     placeholder="e.g. 123 Main Street, Toronto, ON"
                     type="text"
                   />
@@ -77,7 +77,7 @@ export function PropertyAddForm() {
                   <select
                     name="type"
                     required
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                   >
                     <option value="residential">Residential</option>
                     <option value="commercial">Commercial</option>
@@ -92,7 +92,7 @@ export function PropertyAddForm() {
                     type="number"
                     min={1}
                     defaultValue={1}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                   />
                 </div>
               </div>
@@ -114,7 +114,7 @@ export function PropertyAddForm() {
                   <textarea
                     name="accessInstructions"
                     rows={3}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                     placeholder="e.g. Lockbox code 4521, enter through side entrance"
                   />
                 </div>
@@ -125,7 +125,7 @@ export function PropertyAddForm() {
                   <textarea
                     name="parkingInstructions"
                     rows={2}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                     placeholder="e.g. Park in visitor spots at the rear of the building"
                   />
                 </div>
@@ -136,7 +136,7 @@ export function PropertyAddForm() {
                   <textarea
                     name="unitAccessNotes"
                     rows={2}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                     placeholder="e.g. Master key in office, unit keys labelled by number"
                   />
                 </div>
@@ -147,7 +147,7 @@ export function PropertyAddForm() {
                   <textarea
                     name="specialInstructions"
                     rows={2}
-                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                    className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                     placeholder="e.g. Alarm system, pet on premises, etc."
                   />
                 </div>
@@ -165,7 +165,7 @@ export function PropertyAddForm() {
               <textarea
                 name="notes"
                 rows={4}
-                className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
+                className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all resize-none"
                 placeholder="General notes about the property..."
               />
             </div>

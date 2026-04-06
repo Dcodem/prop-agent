@@ -93,8 +93,8 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
           onClick={() => setAiActive(!aiActive)}
           className={`border-2 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-sm ${
             aiActive
-              ? "bg-surface-container-lowest/50 border-primary/20 text-primary hover:bg-primary hover:text-on-primary"
-              : "bg-primary border-primary text-on-primary hover:opacity-90"
+              ? "bg-surface-container-lowest/50 border-accent/20 text-accent hover:bg-accent hover:text-on-accent"
+              : "bg-accent border-accent text-on-accent hover:opacity-90"
           }`}
         >
           <span className="material-symbols-outlined text-lg">
@@ -110,7 +110,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
           onClick={() => setActiveThread("tenant")}
           className={`flex-1 py-3 px-6 rounded-full text-sm font-black transition-all flex items-center justify-center gap-2 ${
             activeThread === "tenant"
-              ? "text-on-primary bg-primary shadow-lg"
+              ? "text-on-accent bg-accent shadow-lg"
               : "text-on-surface-variant hover:bg-primary-fixed"
           }`}
         >
@@ -121,7 +121,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
           onClick={() => setActiveThread("contractor")}
           className={`flex-1 py-3 px-6 rounded-full text-sm font-black transition-all flex items-center justify-center gap-2 ${
             activeThread === "contractor"
-              ? "text-on-primary bg-primary shadow-lg"
+              ? "text-on-accent bg-accent shadow-lg"
               : "text-on-surface-variant hover:bg-primary-fixed"
           }`}
         >
@@ -186,12 +186,12 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
                     {isAI && <span className="material-symbols-outlined text-xs text-purple">smart_toy</span>}
                     {isAI ? "PropAgent AI" : "Property Management"} &bull; {formatTime(msg.createdAt)}
                   </span>
-                  <span className={`text-sm font-extrabold ${isAI ? "text-primary" : "text-on-surface-variant"}`}>
+                  <span className={`text-sm font-extrabold ${isAI ? "text-accent" : "text-on-surface-variant"}`}>
                     {isAI ? "PropAgent Support" : msg.fromAddress}
                   </span>
                 </div>
                 <div className={`p-7 rounded-tl-2xl rounded-bl-2xl rounded-br-2xl rounded-tr-md text-left ${
-                  isAI ? "bg-primary text-on-primary shadow-lg" : "bg-outline-variant/20 text-on-surface shadow-sm border border-outline-variant/20"
+                  isAI ? "bg-accent text-on-accent shadow-lg" : "bg-outline-variant/20 text-on-surface shadow-sm border border-outline-variant/20"
                 }`}>
                   <p className="text-base leading-relaxed">{msg.body}</p>
                 </div>
@@ -215,7 +215,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
         {/* Attached file pill */}
         {attachedFile && (
           <div className="mb-2 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-bold">
               <span className="material-symbols-outlined text-sm">attach_file</span>
               {attachedFile}
               <button onClick={() => setAttachedFile(null)} className="hover:text-error transition-colors">
@@ -243,11 +243,11 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
           </div>
         )}
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 border-2 border-primary/20 focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary transition-all shadow-md">
+        <div className="bg-surface-container-lowest rounded-xl p-4 border-2 border-accent/20 focus-within:ring-2 focus-within:ring-accent/40 focus-within:border-accent transition-all shadow-md">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between px-2">
-              <span className="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              <span className="text-[10px] font-black text-accent uppercase tracking-widest flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
                 Replying to {activeThread === "tenant" ? "Tenant" : "Contractor"} Thread
               </span>
               <div className="flex gap-4">
@@ -263,13 +263,13 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-1 text-on-surface-variant hover:text-primary transition-colors"
+                  className="p-1 text-on-surface-variant hover:text-accent transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg">attach_file</span>
                 </button>
                 <button
                   onClick={() => setShowEmoji(!showEmoji)}
-                  className={`p-1 transition-colors ${showEmoji ? "text-primary" : "text-on-surface-variant hover:text-primary"}`}
+                  className={`p-1 transition-colors ${showEmoji ? "text-accent" : "text-on-surface-variant hover:text-accent"}`}
                 >
                   <span className="material-symbols-outlined text-lg">mood</span>
                 </button>

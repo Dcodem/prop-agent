@@ -43,7 +43,7 @@ export function StatusUpdateForm({
           value={currentStatus}
           onChange={handleChange}
           disabled={isPending}
-          className="w-full appearance-none bg-primary-fixed border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-primary transition-all disabled:opacity-50"
+          className="w-full appearance-none bg-primary-fixed border-2 border-transparent rounded-lg px-5 py-4 text-sm font-bold focus:ring-0 focus:border-accent transition-all disabled:opacity-50"
         >
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>

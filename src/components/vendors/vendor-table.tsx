@@ -44,7 +44,7 @@ function renderStars(score: number) {
         <span
           key={i}
           className={`material-symbols-outlined text-sm ${
-            i < filled ? "text-primary" : "text-outline-variant"
+            i < filled ? "text-warning" : "text-outline-variant"
           }`}
           style={
             i < filled
@@ -104,7 +104,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
               search
             </span>
             <input
-              className="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-lg pl-12 pr-4 py-2 w-80 text-sm focus:ring-2 focus:ring-primary transition-all"
+              className="bg-surface-container-lowest border-0 ring-1 ring-outline-variant/30 rounded-lg pl-12 pr-4 py-2 w-80 text-sm focus:ring-2 focus:ring-accent transition-all"
               placeholder="Search by name or trade..."
               type="text"
               value={search}
@@ -211,7 +211,7 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
           <select
             value={itemsPerPage}
             onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
-            className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-primary"
+            className="text-xs bg-surface-container-lowest border border-outline-variant/20 rounded px-2 py-1 text-on-surface-variant focus:ring-1 focus:ring-accent"
           >
             <option value={5}>5 per page</option>
             <option value={10}>10 per page</option>

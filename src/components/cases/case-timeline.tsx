@@ -50,7 +50,7 @@ function getStageBadge(entry: CaseTimelineEntry): string | null {
 
 const STAGE_COLORS: Record<string, string> = {
   open: "bg-surface-container-high text-on-surface",
-  in_progress: "bg-primary/10 text-primary",
+  in_progress: "bg-accent/10 text-accent",
   waiting_on_vendor: "bg-surface-container text-on-surface-variant",
   waiting_on_tenant: "bg-surface-container text-on-surface-variant",
   resolved: "bg-surface-container-low text-on-surface-variant",
@@ -73,13 +73,13 @@ export function CaseTimeline({
           <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">System of Record</h2>
           <p className="text-sm text-on-surface-variant font-medium mt-1">At-a-glance roll call of case interactions</p>
         </div>
-        <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/5 px-4 py-2 rounded-full border border-primary/10">
+        <span className="text-xs font-black text-accent uppercase tracking-widest bg-accent/5 px-4 py-2 rounded-full border border-accent/10">
           Audit Ready
         </span>
       </div>
       <div className="relative pl-6">
         {/* Vertical Line - centered on the icon column */}
-        <div className="absolute left-[23px] top-4 bottom-4 w-px bg-gradient-to-b from-primary via-primary/30 to-outline-variant/20"></div>
+        <div className="absolute left-[23px] top-4 bottom-4 w-px bg-gradient-to-b from-accent via-accent/30 to-outline-variant/20"></div>
 
         <div className="space-y-0">
           {timeline.map((entry, idx) => {
@@ -92,10 +92,10 @@ export function CaseTimeline({
                 <div
                   className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ring-[5px] ring-surface-container-lowest ${
                     isFirst
-                      ? "bg-primary text-on-primary shadow-lg"
+                      ? "bg-accent text-on-accent shadow-lg"
                       : isLast
-                        ? "bg-primary text-on-primary shadow-md animate-pulse"
-                        : "bg-surface-container-high text-primary"
+                        ? "bg-accent text-on-accent shadow-md animate-pulse"
+                        : "bg-surface-container-high text-accent"
                   }`}
                 >
                   <span className="material-symbols-outlined text-[18px]">{getIcon(entry.type)}</span>
@@ -104,7 +104,7 @@ export function CaseTimeline({
                 <div className="flex-grow pt-2 min-w-0">
                   <div className="flex justify-between items-start mb-1 gap-4">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className={`font-bold text-sm ${isLast ? "text-primary" : "text-on-surface"}`}>
+                      <h4 className={`font-bold text-sm ${isLast ? "text-accent" : "text-on-surface"}`}>
                         {isLast ? `Current Stage: ${formatType(caseStatus)}` : formatType(entry.type)}
                       </h4>
                       {(() => {
@@ -118,7 +118,7 @@ export function CaseTimeline({
                       })()}
                     </div>
                     <span className={`text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${
-                      isLast ? "text-primary" : "text-on-surface-variant"
+                      isLast ? "text-accent" : "text-on-surface-variant"
                     }`}>
                       {isLast ? "Now" : `${formatDate(entry.createdAt)} ${formatTime(entry.createdAt)}`}
                     </span>
@@ -133,13 +133,13 @@ export function CaseTimeline({
 
           {timeline.length === 0 && (
             <div className="relative flex gap-6">
-              <div className="relative z-10 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-md ring-[5px] ring-surface-container-lowest animate-pulse shrink-0">
+              <div className="relative z-10 w-10 h-10 rounded-full bg-accent flex items-center justify-center text-on-accent shadow-md ring-[5px] ring-surface-container-lowest animate-pulse shrink-0">
                 <span className="material-symbols-outlined text-[18px]">pending</span>
               </div>
               <div className="flex-grow pt-2">
                 <div className="flex justify-between items-start mb-1">
-                  <h4 className="font-bold text-primary">No activity yet</h4>
-                  <span className="text-[10px] font-black text-primary uppercase tracking-wider">Now</span>
+                  <h4 className="font-bold text-accent">No activity yet</h4>
+                  <span className="text-[10px] font-black text-accent uppercase tracking-wider">Now</span>
                 </div>
                 <p className="text-sm text-on-surface-variant">This case has no timeline entries yet.</p>
               </div>
