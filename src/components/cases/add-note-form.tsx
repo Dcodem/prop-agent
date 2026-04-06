@@ -87,7 +87,10 @@ export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }:
       )}
 
       {allNotes.length === 0 && (
-        <p className="text-sm text-on-surface-variant mb-6">No notes yet.</p>
+        <div className="flex items-center gap-2 mb-6">
+          <span className="material-symbols-outlined text-lg text-outline">edit_note</span>
+          <p className="text-sm text-on-surface-variant">No internal notes yet. Add a note to keep your team in the loop.</p>
+        </div>
       )}
 
       <form ref={formRef} action={handleSubmit}>

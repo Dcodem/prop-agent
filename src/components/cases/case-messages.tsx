@@ -201,9 +201,10 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
         })}
 
         {displayMessages.length === 0 && (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex flex-col justify-center items-center h-full gap-2">
+            <span className="material-symbols-outlined text-3xl text-outline">forum</span>
             <p className="text-on-surface-variant text-sm font-medium">
-              No messages yet in this thread.
+              No messages in this thread yet. Start the conversation below.
             </p>
           </div>
         )}

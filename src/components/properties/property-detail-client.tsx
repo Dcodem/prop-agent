@@ -376,8 +376,10 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                   );
                 })
               ) : (
-                <div className="px-6 py-8 text-center text-outline text-sm">
-                  No tenants assigned to this property yet.
+                <div className="px-6 py-8 text-center">
+                  <span className="material-symbols-outlined text-2xl text-outline mb-1 block">group_off</span>
+                  <p className="text-on-surface-variant text-sm font-medium">No tenants assigned yet.</p>
+                  <p className="text-outline text-xs mt-1">Add tenants from the <Link href="/tenants" className="text-accent hover:underline underline-offset-2">Tenants page</Link> to track occupancy.</p>
                 </div>
               )}
             </div>
@@ -477,8 +479,10 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                   </div>
                 </label>
                 {!property.accessInstructions && !property.parkingInstructions && !property.specialInstructions && uploadedDocs.length === 0 && (
-                  <div className="col-span-full text-center text-outline text-sm py-4">
-                    No documents or instructions added yet.
+                  <div className="col-span-full text-center py-4">
+                    <span className="material-symbols-outlined text-2xl text-outline mb-1 block">folder_open</span>
+                    <p className="text-on-surface-variant text-sm font-medium">No documents added yet.</p>
+                    <p className="text-outline text-xs mt-1">Upload building docs, access instructions, or parking details.</p>
                   </div>
                 )}
               </div>

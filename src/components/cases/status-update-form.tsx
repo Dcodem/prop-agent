@@ -1,8 +1,9 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { updateCaseStatusAction } from "@/app/(dashboard)/cases/actions";
 import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 const STATUS_OPTIONS = [
   { value: "open", label: "Open" },
@@ -21,16 +22,29 @@ export function StatusUpdateForm({
   currentStatus: string;
 }) {
   const [isPending, startTransition] = useTransition();
+  const [pendingStatus, setPendingStatus] = useState<string | null>(null);
+
+  const pendingLabel = STATUS_OPTIONS.find((o) => o.value === pendingStatus)?.label ?? pendingStatus;
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newStatus = e.target.value;
     if (newStatus === currentStatus) return;
-    const label = STATUS_OPTIONS.find((o) => o.value === newStatus)?.label ?? newStatus;
+    setPendingStatus(newStatus);
+  }
+
+  function handleConfirm() {
+    if (!pendingStatus) return;
+    const label = STATUS_OPTIONS.find((o) => o.value === pendingStatus)?.label ?? pendingStatus;
 
     startTransition(async () => {
-      await updateCaseStatusAction(caseId, newStatus);
+      await updateCaseStatusAction(caseId, pendingStatus);
       toast.success(`Status updated to ${label}.`);
+      setPendingStatus(null);
     });
+  }
+
+  function handleCancel() {
+    setPendingStatus(null);
   }
 
   return (
@@ -55,6 +69,17 @@ export function StatusUpdateForm({
           expand_more
         </span>
       </div>
+
+      <ConfirmDialog
+        open={pendingStatus !== null}
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+        title={`Change status to ${pendingLabel}?`}
+        description="This will be recorded in the case timeline and visible to your team."
+        confirmLabel="Update Status"
+        confirmVariant="primary"
+        loading={isPending}
+      />
     </div>
   );
 }

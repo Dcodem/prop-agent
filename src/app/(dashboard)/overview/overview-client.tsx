@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import { StatCard } from "@/components/ui/stat-card";
@@ -56,6 +56,10 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
     [sortedTenants]
   );
 
+  const [casesOpen, setCasesOpen] = useState(openCases.length > 0);
+  const [leasesOpen, setLeasesOpen] = useState(expiringLeases.length > 0);
+  const [lateRentOpen, setLateRentOpen] = useState(lateOnRent.length > 0);
+
   function getLeaseUrgencyColor(days: number) {
     if (days <= 30) return { bg: "bg-error/10", text: "text-error", dot: "bg-error", label: "Critical" };
     if (days <= 60) return { bg: "bg-caution/10", text: "text-caution", dot: "bg-caution", label: "Soon" };
@@ -84,144 +88,236 @@ export function OverviewClient({ cases, properties, tenants }: OverviewClientPro
 
       {/* Open Cases Section */}
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-info card-shadow overflow-hidden">
-        <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
+        <button
+          onClick={() => setCasesOpen(!casesOpen)}
+          className="w-full px-6 py-4 flex items-center justify-between cursor-pointer select-none hover:bg-surface-container-low/50 transition-colors text-left"
+        >
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-info">assignment</span>
             <h2 className="text-lg font-bold text-on-surface">Open Cases</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{openCases.length}</span>
+            {openCases.length === 0 && !casesOpen && (
+              <span className="text-sm text-on-surface-variant">— All clear</span>
+            )}
           </div>
-          <Link href="/cases" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
-            View all cases
-          </Link>
-        </div>
-        {openCases.length === 0 ? (
-          <div className="px-6 py-8 text-center text-on-surface-variant text-sm">No open cases. All clear.</div>
-        ) : (
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-surface-container-low border-b border-outline-variant/30">
-                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-32">Urgency</th>
-                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Subject</th>
-                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Property</th>
-                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-44">Status</th>
-                <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-24">Time</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-outline-variant/30">
-              {openCases.slice(0, 5).map((c) => (
-                <tr key={c.id} onClick={() => window.location.href = `/cases/${c.id}`} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`} />
-                      <span className="text-sm font-medium text-on-surface">{formatEnum(c.urgency ?? "low")}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <p className="text-sm text-on-surface font-semibold">
-                      {generateCaseSummary(c.rawMessage, c.category)}
-                    </p>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-on-surface-variant">
-                    {propertyMap.get(c.propertyId ?? "") ?? "—"}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm font-medium">{formatEnum(c.status)}</span>
-                  </td>
-                  <td className="px-6 py-4 text-xs text-outline">{timeAgo(c.createdAt)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-        {openCases.length > 5 && (
-          <div className="px-6 py-3 border-t border-outline-variant/10 text-center">
-            <Link href="/cases" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
-              +{openCases.length - 5} more open cases
+          <div className="flex items-center gap-3">
+            <Link href="/cases" onClick={(e) => e.stopPropagation()} className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+              View all cases
             </Link>
+            <span
+              className={`material-symbols-outlined text-on-surface-variant transition-transform duration-300 ${
+                casesOpen ? "rotate-180" : ""
+              }`}
+            >
+              expand_more
+            </span>
           </div>
-        )}
+        </button>
+        <div
+          className="overflow-hidden transition-all duration-300 ease-out"
+          style={{
+            maxHeight: casesOpen ? "1000px" : "0px",
+          }}
+        >
+          {openCases.length === 0 ? (
+            <div className="px-6 py-6 text-center border-t border-outline-variant/10 text-on-surface-variant text-sm">No open cases. All clear.</div>
+          ) : (
+            <>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-surface-container-low border-b border-outline-variant/30 border-t border-t-outline-variant/10">
+                    <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-32">Urgency</th>
+                    <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Subject</th>
+                    <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Property</th>
+                    <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-44">Status</th>
+                    <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-24">Time</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-outline-variant/30">
+                  {openCases.slice(0, 3).map((c) => (
+                    <tr key={c.id} onClick={() => window.location.href = `/cases/${c.id}`} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`} />
+                          <span className="text-sm font-medium text-on-surface">{formatEnum(c.urgency ?? "low")}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm text-on-surface font-semibold">
+                          {generateCaseSummary(c.rawMessage, c.category)}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-on-surface-variant">
+                        {propertyMap.get(c.propertyId ?? "") ?? "\u2014"}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm font-medium">{formatEnum(c.status)}</span>
+                      </td>
+                      <td className="px-6 py-4 text-xs text-outline">{timeAgo(c.createdAt)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {openCases.length > 3 && (
+                <div className="px-6 py-3 border-t border-outline-variant/10 text-center">
+                  <Link href="/cases" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+                    +{openCases.length - 3} more open cases
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </section>
 
       {/* Lease Follow-ups Section */}
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-caution overflow-hidden">
-        <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
+        <button
+          onClick={() => setLeasesOpen(!leasesOpen)}
+          className="w-full px-6 py-4 flex items-center justify-between cursor-pointer select-none hover:bg-surface-container-low/50 transition-colors text-left"
+        >
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-caution">event_upcoming</span>
             <h2 className="text-lg font-bold text-on-surface">Lease Renewals</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{expiringLeases.length}</span>
+            {expiringLeases.length === 0 && !leasesOpen && (
+              <span className="text-sm text-on-surface-variant">— All on track</span>
+            )}
           </div>
-          <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
-            View all tenants
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/tenants" onClick={(e) => e.stopPropagation()} className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+              View all tenants
+            </Link>
+            <span
+              className={`material-symbols-outlined text-on-surface-variant transition-transform duration-300 ${
+                leasesOpen ? "rotate-180" : ""
+              }`}
+            >
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div
+          className="overflow-hidden transition-all duration-300 ease-out"
+          style={{
+            maxHeight: leasesOpen ? "1000px" : "0px",
+          }}
+        >
+          {expiringLeases.length === 0 ? (
+            <div className="px-6 py-6 text-center border-t border-outline-variant/10">
+              <span className="material-symbols-outlined text-2xl text-success mb-1 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              <p className="text-on-surface-variant text-sm font-medium">No leases expiring soon — all renewals are on track.</p>
+            </div>
+          ) : (
+            <>
+              <div className="divide-y divide-outline-variant/10 border-t border-outline-variant/10">
+                {expiringLeases.slice(0, 3).map((t) => {
+                  const colors = getLeaseUrgencyColor(t.daysLeft);
+                  return (
+                    <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
+                      <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
+                        <span className={`material-symbols-outlined ${colors.text} text-lg`}>calendar_today</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-on-surface">{t.name}</p>
+                        <p className="text-xs text-on-surface-variant truncate">
+                          {propertyMap.get(t.propertyId) ?? "Unknown"} — Unit {t.unitNumber ?? "N/A"}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-bold ${colors.bg} ${colors.text}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${colors.dot}`} />
+                          {t.daysLeft}d left
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant mt-0.5">
+                          Expires {t.leaseEnd!.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              {expiringLeases.length > 3 && (
+                <div className="px-6 py-3 border-t border-outline-variant/10 text-center">
+                  <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+                    +{expiringLeases.length - 3} more lease renewals
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
         </div>
-        {expiringLeases.length === 0 ? (
-          <div className="px-6 py-8 text-center text-on-surface-variant text-sm">No leases expiring in the next 90 days.</div>
-        ) : (
-          <div className="divide-y divide-outline-variant/10">
-            {expiringLeases.map((t) => {
-              const colors = getLeaseUrgencyColor(t.daysLeft);
-              return (
-                <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
-                  <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
-                    <span className={`material-symbols-outlined ${colors.text} text-lg`}>calendar_today</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-on-surface">{t.name}</p>
-                    <p className="text-xs text-on-surface-variant truncate">
-                      {propertyMap.get(t.propertyId) ?? "Unknown"} — Unit {t.unitNumber ?? "N/A"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-bold ${colors.bg} ${colors.text}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${colors.dot}`} />
-                      {t.daysLeft}d left
-                    </div>
-                    <p className="text-[10px] text-on-surface-variant mt-0.5">
-                      Expires {t.leaseEnd!.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
       </section>
 
       {/* Late on Rent Section */}
       <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 border-l-4 border-l-error overflow-hidden">
-        <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between">
+        <button
+          onClick={() => setLateRentOpen(!lateRentOpen)}
+          className="w-full px-6 py-4 flex items-center justify-between cursor-pointer select-none hover:bg-surface-container-low/50 transition-colors text-left"
+        >
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-warning-dim">payments</span>
             <h2 className="text-lg font-bold text-on-surface">Late on Rent</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
+            {lateOnRent.length === 0 && !lateRentOpen && (
+              <span className="text-sm text-on-surface-variant">— All current</span>
+            )}
           </div>
-          <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
-            View all tenants
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/tenants" onClick={(e) => e.stopPropagation()} className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+              View all tenants
+            </Link>
+            <span
+              className={`material-symbols-outlined text-on-surface-variant transition-transform duration-300 ${
+                lateRentOpen ? "rotate-180" : ""
+              }`}
+            >
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div
+          className="overflow-hidden transition-all duration-300 ease-out"
+          style={{
+            maxHeight: lateRentOpen ? "1000px" : "0px",
+          }}
+        >
+          {lateOnRent.length === 0 ? (
+            <div className="px-6 py-6 text-center border-t border-outline-variant/10">
+              <span className="material-symbols-outlined text-2xl text-success mb-1 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              <p className="text-on-surface-variant text-sm font-medium">All tenants are current on rent — nothing to follow up on.</p>
+            </div>
+          ) : (
+            <>
+              <div className="divide-y divide-outline-variant/10 border-t border-outline-variant/10">
+                {lateOnRent.slice(0, 3).map((t) => (
+                  <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-warning-container flex items-center justify-center">
+                      <span className="material-symbols-outlined text-warning-dim text-lg">warning</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-on-surface">{t.name}</p>
+                      <p className="text-xs text-on-surface-variant truncate">
+                        {propertyMap.get(t.propertyId) ?? "Unknown"} — Unit {t.unitNumber ?? "N/A"}
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-error/10 text-error border border-error/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-error" />
+                      Late
+                    </span>
+                  </Link>
+                ))}
+              </div>
+              {lateOnRent.length > 3 && (
+                <div className="px-6 py-3 border-t border-outline-variant/10 text-center">
+                  <Link href="/tenants" className="text-sm font-semibold text-accent hover:underline underline-offset-4 decoration-2">
+                    +{lateOnRent.length - 3} more late tenants
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
         </div>
-        {lateOnRent.length === 0 ? (
-          <div className="px-6 py-8 text-center text-on-surface-variant text-sm">All tenants are current on rent.</div>
-        ) : (
-          <div className="divide-y divide-outline-variant/10">
-            {lateOnRent.map((t) => (
-              <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-warning-container flex items-center justify-center">
-                  <span className="material-symbols-outlined text-warning-dim text-lg">warning</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-on-surface">{t.name}</p>
-                  <p className="text-xs text-on-surface-variant truncate">
-                    {propertyMap.get(t.propertyId) ?? "Unknown"} — Unit {t.unitNumber ?? "N/A"}
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-error/10 text-error border border-error/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-error" />
-                  Late
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* PropAgent Overview — moved from Profile */}

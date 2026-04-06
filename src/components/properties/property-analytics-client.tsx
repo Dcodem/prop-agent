@@ -258,8 +258,8 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
 
           {groupedByMonth.length === 0 && (
             <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-outline-variant/10">
-              <span className="material-symbols-outlined text-4xl text-outline mb-3">event_available</span>
-              <p className="text-on-surface-variant font-medium">No cases in this time period.</p>
+              <span className="material-symbols-outlined text-4xl text-success mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              <p className="text-on-surface font-semibold">No cases reported during this period — that&apos;s a good sign.</p>
             </div>
           )}
 

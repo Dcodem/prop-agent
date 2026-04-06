@@ -227,9 +227,11 @@ export function TenantTable({
                 <tr>
                   <td
                     colSpan={6}
-                    className="px-8 py-12 text-center text-outline text-sm"
+                    className="px-8 py-12 text-center"
                   >
-                    No tenants found.
+                    <span className="material-symbols-outlined text-2xl text-outline mb-1 block">search_off</span>
+                    <p className="text-on-surface-variant text-sm font-medium">No tenants match your search.</p>
+                    <p className="text-outline text-xs mt-1">Try adjusting your filters or add a new tenant.</p>
                   </td>
                 </tr>
               )}

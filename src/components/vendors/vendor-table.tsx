@@ -135,9 +135,11 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
               <tr>
                 <td
                   colSpan={5}
-                  className="px-8 py-12 text-center text-on-surface-variant"
+                  className="px-8 py-12 text-center"
                 >
-                  No vendors found.
+                  <span className="material-symbols-outlined text-2xl text-outline mb-1 block">search_off</span>
+                  <p className="text-on-surface-variant text-sm font-medium">No vendors match your search.</p>
+                  <p className="text-outline text-xs mt-1">Try adjusting your filters or add a new vendor.</p>
                 </td>
               </tr>
             )}

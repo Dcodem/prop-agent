@@ -80,7 +80,9 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
     return (
       <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
         <div className="px-6 py-16 text-center">
-          <p className="text-on-surface-variant text-sm">No cases found.</p>
+          <span className="material-symbols-outlined text-3xl text-success mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+          <p className="text-on-surface font-semibold text-sm">All clear — no cases match your filters.</p>
+          <p className="text-on-surface-variant text-xs mt-1">Try adjusting your filters or create a new case.</p>
         </div>
       </div>
     );

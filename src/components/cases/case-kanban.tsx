@@ -236,7 +236,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
               <div className={`bg-surface-container-lowest/50 p-5 rounded-xl border border-dashed border-outline-variant/20 text-center ${
                 isDragOver ? "border-accent/50 bg-accent/5" : ""
               }`}>
-                <p className="text-xs text-outline">{isDragOver ? "Drop here" : "No cases"}</p>
+                <p className="text-xs text-outline">{isDragOver ? "Drop here" : "No cases in this stage"}</p>
               </div>
             )}
           </div>
