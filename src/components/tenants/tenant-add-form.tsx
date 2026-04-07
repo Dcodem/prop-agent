@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createTenantAction } from "@/app/(dashboard)/tenants/actions";
 import { toast } from "sonner";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Property = { id: string; address: string };
 type FormState = { success?: boolean; error?: Record<string, string[]> | null };
@@ -33,6 +34,10 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
   }, [state, router]);
 
   const errors = state?.error;
+  const [leaseStart, setLeaseStart] = useState<Date | null>(null);
+  const [leaseEnd, setLeaseEnd] = useState<Date | null>(null);
+  const [uploadDate, setUploadDate] = useState<Date | null>(null);
+  const [expirationDate, setExpirationDate] = useState<Date | null>(null);
 
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:p-12">
@@ -125,11 +130,11 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Lease Start Date</label>
-                  <input name="leaseStart" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
+                  <DatePicker name="leaseStart" value={leaseStart} onChange={setLeaseStart} placeholder="Select start date" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Lease End Date</label>
-                  <input name="leaseEnd" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" type="date" />
+                  <DatePicker name="leaseEnd" value={leaseEnd} onChange={setLeaseEnd} placeholder="Select end date" minValue={leaseStart ?? undefined} />
                 </div>
               </div>
             </div>
@@ -153,7 +158,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Upload Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <DatePicker value={uploadDate} onChange={setUploadDate} placeholder="Select date" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
@@ -167,7 +172,7 @@ export function TenantAddForm({ properties }: { properties: Property[] }) {
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Expiration Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <DatePicker value={expirationDate} onChange={setExpirationDate} placeholder="Select date" />
                   </div>
                 </div>
               </div>

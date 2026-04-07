@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Property, Case, Tenant } from "@/lib/db/schema";
 import { formatEnum, timeAgo } from "@/lib/utils";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Props = {
   property: Property;
@@ -95,8 +96,8 @@ type TimeFilter = "6m" | "12m" | "custom";
 
 export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("12m");
-  const [customFrom, setCustomFrom] = useState("");
-  const [customTo, setCustomTo] = useState("");
+  const [customFrom, setCustomFrom] = useState<Date | null>(null);
+  const [customTo, setCustomTo] = useState<Date | null>(null);
   const [showCustomPicker, setShowCustomPicker] = useState(false);
 
   // Filter cases by time period
@@ -108,8 +109,8 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
     } else if (timeFilter === "12m") {
       cutoff = new Date(now.getFullYear() - 1, now.getMonth(), 1);
     } else {
-      cutoff = customFrom ? new Date(customFrom) : new Date(0);
-      const end = customTo ? new Date(customTo) : now;
+      cutoff = customFrom ?? new Date(0);
+      const end = customTo ?? now;
       return cases
         .filter((c) => new Date(c.createdAt) >= cutoff && new Date(c.createdAt) <= end)
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -205,20 +206,22 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                 <div className="space-y-3">
                   <div>
                     <label className="text-xs font-medium text-on-surface-variant">From</label>
-                    <input
-                      type="date"
+                    <DatePicker
                       value={customFrom}
-                      onChange={(e) => setCustomFrom(e.target.value)}
-                      className="mt-1 w-full px-3 py-2 bg-surface-container-low rounded-lg border border-outline-variant/20 text-sm text-on-surface"
+                      onChange={setCustomFrom}
+                      placeholder="Start date"
+                      maxValue={customTo ?? undefined}
+                      className="mt-1"
                     />
                   </div>
                   <div>
                     <label className="text-xs font-medium text-on-surface-variant">To</label>
-                    <input
-                      type="date"
+                    <DatePicker
                       value={customTo}
-                      onChange={(e) => setCustomTo(e.target.value)}
-                      className="mt-1 w-full px-3 py-2 bg-surface-container-low rounded-lg border border-outline-variant/20 text-sm text-on-surface"
+                      onChange={setCustomTo}
+                      placeholder="End date"
+                      minValue={customFrom ?? undefined}
+                      className="mt-1"
                     />
                   </div>
                   <button

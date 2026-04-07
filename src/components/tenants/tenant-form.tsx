@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useState, useActionState, useEffect, useRef } from "react";
 import { createTenantAction, updateTenantAction } from "@/app/(dashboard)/tenants/actions";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Property = {
   id: string;
@@ -51,6 +52,8 @@ export function TenantForm({
     null
   );
   const formRef = useRef<HTMLFormElement>(null);
+  const [leaseStart, setLeaseStart] = useState<Date | null>(tenant?.leaseStart ?? null);
+  const [leaseEnd, setLeaseEnd] = useState<Date | null>(tenant?.leaseEnd ?? null);
 
   useEffect(() => {
     if (state && "success" in state && state.success) {
@@ -194,22 +197,23 @@ export function TenantForm({
               <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
                 Lease Start
               </label>
-              <input
+              <DatePicker
                 name="leaseStart"
-                type="date"
-                defaultValue={formatDateForInput(tenant?.leaseStart ?? null)}
-                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
+                value={leaseStart}
+                onChange={setLeaseStart}
+                placeholder="Select start date"
               />
             </div>
             <div>
               <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1.5">
                 Lease End
               </label>
-              <input
+              <DatePicker
                 name="leaseEnd"
-                type="date"
-                defaultValue={formatDateForInput(tenant?.leaseEnd ?? null)}
-                className="w-full bg-surface-container-low border border-outline-variant/20 rounded py-2 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
+                value={leaseEnd}
+                onChange={setLeaseEnd}
+                placeholder="Select end date"
+                minValue={leaseStart ?? undefined}
               />
             </div>
           </div>
