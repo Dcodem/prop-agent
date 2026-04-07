@@ -42,7 +42,6 @@ const COLUMNS = [
   { key: "resolved", label: "Resolved", dot: "bg-outline" },
 ] as const;
 
-// 1x1 transparent PNG for hiding the native drag image
 const TRANSPARENT_IMG = typeof document !== "undefined" ? (() => {
   const img = new Image();
   img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
@@ -60,22 +59,40 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
   const tenantMap = new Map(tenants.map((t) => [t.id, t]));
 
   const [columnOverrides, setColumnOverrides] = useState<Record<string, string>>({});
+  const [columnOrder, setColumnOrder] = useState<Record<string, string[]>>({});
   const [categoryOverrides, setCategoryOverrides] = useState<Record<string, string>>({});
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [justDroppedId, setJustDroppedId] = useState<string | null>(null);
   const [ghostPos, setGhostPos] = useState<{ x: number; y: number } | null>(null);
+  const [hoverCardId, setHoverCardId] = useState<string | null>(null);
+  const [hoverPosition, setHoverPosition] = useState<"above" | "below">("below");
   const [openCategoryDropdown, setOpenCategoryDropdown] = useState<string | null>(null);
   const draggedCaseId = useRef<string | null>(null);
   const dropTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Build columns from cases + overrides
   const columns: Record<string, Case[]> = { new: [], waiting_on_vendor: [], in_progress: [], resolved: [] };
   for (const c of cases) {
     const col = columnOverrides[c.id] ?? statusToColumn(c.status);
     columns[col]?.push(c);
   }
 
-  // Track cursor position during drag via document-level listener
+  // Apply custom ordering per column
+  for (const colKey of Object.keys(columns)) {
+    const order = columnOrder[colKey];
+    if (order) {
+      const caseMap = new Map(columns[colKey].map((c) => [c.id, c]));
+      const ordered: Case[] = [];
+      for (const id of order) {
+        const c = caseMap.get(id);
+        if (c) { ordered.push(c); caseMap.delete(id); }
+      }
+      for (const c of caseMap.values()) ordered.push(c);
+      columns[colKey] = ordered;
+    }
+  }
+
   const handleDocDragOver = useCallback((e: DragEvent) => {
     setGhostPos({ x: e.clientX, y: e.clientY });
   }, []);
@@ -89,7 +106,6 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
     }
   }, [draggingId, handleDocDragOver]);
 
-  // Clear justDroppedId after the snap animation plays
   useEffect(() => {
     if (justDroppedId) {
       dropTimeoutRef.current = setTimeout(() => setJustDroppedId(null), 400);
@@ -100,48 +116,86 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
   function handleDragStart(e: React.DragEvent, caseId: string) {
     draggedCaseId.current = caseId;
     setDraggingId(caseId);
-    // Hide native drag image, we render our own ghost
-    if (TRANSPARENT_IMG) {
-      e.dataTransfer.setDragImage(TRANSPARENT_IMG, 0, 0);
-    }
+    if (TRANSPARENT_IMG) e.dataTransfer.setDragImage(TRANSPARENT_IMG, 0, 0);
     e.dataTransfer.effectAllowed = "move";
   }
 
   function handleDragEnd() {
     setDraggingId(null);
     setDragOverCol(null);
+    setHoverCardId(null);
     setGhostPos(null);
   }
 
-  function handleDragOver(e: React.DragEvent, colKey: string) {
+  function handleColDragOver(e: React.DragEvent, colKey: string) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     if (dragOverCol !== colKey) setDragOverCol(colKey);
   }
 
-  function handleDragLeave(e: React.DragEvent, colKey: string) {
+  function handleColDragLeave(e: React.DragEvent, colKey: string) {
     const relatedTarget = e.relatedTarget as HTMLElement | null;
     const currentTarget = e.currentTarget as HTMLElement;
     if (!relatedTarget || !currentTarget.contains(relatedTarget)) {
       if (dragOverCol === colKey) setDragOverCol(null);
+      setHoverCardId(null);
     }
+  }
+
+  function handleCardDragOver(e: React.DragEvent, cardId: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (cardId === draggingId) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    setHoverCardId(cardId);
+    setHoverPosition(e.clientY < midY ? "above" : "below");
   }
 
   function handleDrop(colKey: string) {
     const droppedId = draggedCaseId.current;
-    if (droppedId) {
-      const currentCol = columnOverrides[droppedId] ?? statusToColumn(
-        cases.find((c) => c.id === droppedId)?.status ?? "open"
-      );
-      // Only trigger snap if actually moved to a different column
-      if (currentCol !== colKey) {
-        setJustDroppedId(droppedId);
+    if (!droppedId) return;
+
+    const sourceCol = columnOverrides[droppedId] ?? statusToColumn(
+      cases.find((c) => c.id === droppedId)?.status ?? "open"
+    );
+
+    // Update column assignment
+    setColumnOverrides((prev) => ({ ...prev, [droppedId]: colKey }));
+
+    // Build new order for target column
+    const targetIds = (columns[colKey] ?? []).map((c) => c.id).filter((id) => id !== droppedId);
+
+    if (hoverCardId && hoverCardId !== droppedId) {
+      const hoverIdx = targetIds.indexOf(hoverCardId);
+      if (hoverIdx !== -1) {
+        const insertIdx = hoverPosition === "above" ? hoverIdx : hoverIdx + 1;
+        targetIds.splice(insertIdx, 0, droppedId);
+      } else {
+        targetIds.push(droppedId);
       }
-      setColumnOverrides((prev) => ({ ...prev, [droppedId]: colKey }));
+    } else {
+      // Dropped on column background — add to top
+      targetIds.unshift(droppedId);
     }
+
+    setColumnOrder((prev) => ({ ...prev, [colKey]: targetIds }));
+
+    // Update source column order if cross-column move
+    if (sourceCol !== colKey) {
+      const sourceIds = (columns[sourceCol] ?? []).map((c) => c.id).filter((id) => id !== droppedId);
+      setColumnOrder((prev) => ({ ...prev, [sourceCol]: sourceIds }));
+    }
+
+    // Snap animation if something actually moved
+    if (sourceCol !== colKey || (hoverCardId && hoverCardId !== droppedId)) {
+      setJustDroppedId(droppedId);
+    }
+
     draggedCaseId.current = null;
     setDraggingId(null);
     setDragOverCol(null);
+    setHoverCardId(null);
     setGhostPos(null);
   }
 
@@ -150,7 +204,6 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
     setOpenCategoryDropdown(null);
   }
 
-  // Find the dragged case data for the ghost preview
   const draggedCase = draggingId ? cases.find((c) => c.id === draggingId) : null;
   const draggedTenant = draggedCase?.tenantId ? tenantMap.get(draggedCase.tenantId) : null;
   const draggedProperty = draggedCase?.propertyId ? propertyMap.get(draggedCase.propertyId) : null;
@@ -172,8 +225,8 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                   ? "bg-accent/[0.06] ring-2 ring-accent/30 ring-offset-2 ring-offset-surface-container-lowest"
                   : "bg-transparent"
               }`}
-              onDragOver={(e) => handleDragOver(e as unknown as React.DragEvent, col.key)}
-              onDragLeave={(e) => handleDragLeave(e as unknown as React.DragEvent, col.key)}
+              onDragOver={(e) => handleColDragOver(e as unknown as React.DragEvent, col.key)}
+              onDragLeave={(e) => handleColDragLeave(e as unknown as React.DragEvent, col.key)}
               onDrop={() => handleDrop(col.key)}
             >
               {/* Column Header */}
@@ -192,9 +245,9 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                 </motion.span>
               </div>
 
-              {/* Drop placeholder */}
+              {/* Drop placeholder when column is empty and being dragged over */}
               <AnimatePresence>
-                {isDragOver && draggingId && (
+                {isDragOver && draggingId && colCases.length === 0 && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 48 }}
@@ -215,6 +268,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                   const displayCategory = categoryOverrides[c.id] ?? c.category ?? "general";
                   const isDragging = draggingId === c.id;
                   const isJustDropped = justDroppedId === c.id;
+                  const isHoverTarget = hoverCardId === c.id && draggingId !== c.id;
 
                   return (
                     <motion.div
@@ -224,38 +278,26 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                       initial={{ opacity: 0, scale: 0.95, y: -8 }}
                       animate={
                         isJustDropped
-                          ? {
-                              opacity: 1,
-                              scale: [1, 1.04, 0.98, 1],
-                              y: 0,
-                              rotate: 0,
-                            }
-                          : {
-                              opacity: isDragging ? 0.3 : 1,
-                              scale: isDragging ? 0.96 : 1,
-                              y: 0,
-                              rotate: isDragging ? 2 : 0,
-                            }
+                          ? { opacity: 1, scale: [1, 1.04, 0.98, 1], y: 0, rotate: 0 }
+                          : { opacity: isDragging ? 0.3 : 1, scale: isDragging ? 0.96 : 1, y: 0, rotate: isDragging ? 2 : 0 }
                       }
                       exit={{ opacity: 0, scale: 0.9, y: -12 }}
                       transition={
                         isJustDropped
-                          ? {
-                              layout: { type: "spring", stiffness: 400, damping: 28 },
-                              scale: { duration: 0.35, ease: "easeOut" },
-                              opacity: { duration: 0.1 },
-                            }
-                          : {
-                              layout: { type: "spring", stiffness: 350, damping: 30 },
-                              opacity: { duration: 0.15 },
-                              scale: { duration: 0.15 },
-                            }
+                          ? { layout: { type: "spring", stiffness: 400, damping: 28 }, scale: { duration: 0.35, ease: "easeOut" }, opacity: { duration: 0.1 } }
+                          : { layout: { type: "spring", stiffness: 350, damping: 30 }, opacity: { duration: 0.15 }, scale: { duration: 0.15 } }
                       }
                       draggable
                       onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent, c.id)}
                       onDragEnd={handleDragEnd}
+                      onDragOver={(e) => handleCardDragOver(e as unknown as React.DragEvent, c.id)}
                       className={`cursor-grab active:cursor-grabbing ${isDragging ? "z-50 relative" : ""}`}
                     >
+                      {/* Insertion indicator — above */}
+                      {isHoverTarget && hoverPosition === "above" && (
+                        <div className="h-1 bg-accent rounded-full mx-1 mb-2 animate-pulse" />
+                      )}
+
                       <Link href={`/cases/${c.id}`} className="block" draggable={false}>
                         <div
                           className={`bg-surface-container-lowest p-5 rounded-xl border-l-[3px] ${
@@ -361,6 +403,11 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                           </div>
                         </div>
                       </Link>
+
+                      {/* Insertion indicator — below */}
+                      {isHoverTarget && hoverPosition === "below" && (
+                        <div className="h-1 bg-accent rounded-full mx-1 mt-2 animate-pulse" />
+                      )}
                     </motion.div>
                   );
                 })}
@@ -376,15 +423,12 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
         })}
       </div>
 
-      {/* Floating drag ghost — rendered via portal so it's not clipped */}
+      {/* Floating drag ghost */}
       {draggingId && draggedCase && ghostPos && typeof document !== "undefined" &&
         createPortal(
           <div
             className="fixed pointer-events-none z-[9999]"
-            style={{
-              left: ghostPos.x + 12,
-              top: ghostPos.y - 16,
-            }}
+            style={{ left: ghostPos.x + 12, top: ghostPos.y - 16 }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
