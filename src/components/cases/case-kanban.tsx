@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { formatEnum, timeAgo } from "@/lib/utils";
@@ -41,6 +42,13 @@ const COLUMNS = [
   { key: "resolved", label: "Resolved", dot: "bg-outline" },
 ] as const;
 
+// 1x1 transparent PNG for hiding the native drag image
+const TRANSPARENT_IMG = typeof document !== "undefined" ? (() => {
+  const img = new Image();
+  img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
+  return img;
+})() : null;
+
 interface CaseKanbanProps {
   cases: Case[];
   properties: Property[];
@@ -55,8 +63,11 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
   const [categoryOverrides, setCategoryOverrides] = useState<Record<string, string>>({});
   const [dragOverCol, setDragOverCol] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [justDroppedId, setJustDroppedId] = useState<string | null>(null);
+  const [ghostPos, setGhostPos] = useState<{ x: number; y: number } | null>(null);
   const [openCategoryDropdown, setOpenCategoryDropdown] = useState<string | null>(null);
   const draggedCaseId = useRef<string | null>(null);
+  const dropTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const columns: Record<string, Case[]> = { new: [], waiting_on_vendor: [], in_progress: [], resolved: [] };
   for (const c of cases) {
@@ -64,18 +75,47 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
     columns[col]?.push(c);
   }
 
-  function handleDragStart(caseId: string) {
+  // Track cursor position during drag via document-level listener
+  const handleDocDragOver = useCallback((e: DragEvent) => {
+    setGhostPos({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  useEffect(() => {
+    if (draggingId) {
+      document.addEventListener("dragover", handleDocDragOver);
+      return () => document.removeEventListener("dragover", handleDocDragOver);
+    } else {
+      setGhostPos(null);
+    }
+  }, [draggingId, handleDocDragOver]);
+
+  // Clear justDroppedId after the snap animation plays
+  useEffect(() => {
+    if (justDroppedId) {
+      dropTimeoutRef.current = setTimeout(() => setJustDroppedId(null), 400);
+      return () => { if (dropTimeoutRef.current) clearTimeout(dropTimeoutRef.current); };
+    }
+  }, [justDroppedId]);
+
+  function handleDragStart(e: React.DragEvent, caseId: string) {
     draggedCaseId.current = caseId;
     setDraggingId(caseId);
+    // Hide native drag image, we render our own ghost
+    if (TRANSPARENT_IMG) {
+      e.dataTransfer.setDragImage(TRANSPARENT_IMG, 0, 0);
+    }
+    e.dataTransfer.effectAllowed = "move";
   }
 
   function handleDragEnd() {
     setDraggingId(null);
     setDragOverCol(null);
+    setGhostPos(null);
   }
 
   function handleDragOver(e: React.DragEvent, colKey: string) {
     e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
     if (dragOverCol !== colKey) setDragOverCol(colKey);
   }
 
@@ -88,18 +128,32 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
   }
 
   function handleDrop(colKey: string) {
-    if (draggedCaseId.current) {
-      setColumnOverrides((prev) => ({ ...prev, [draggedCaseId.current!]: colKey }));
+    const droppedId = draggedCaseId.current;
+    if (droppedId) {
+      const currentCol = columnOverrides[droppedId] ?? statusToColumn(
+        cases.find((c) => c.id === droppedId)?.status ?? "open"
+      );
+      // Only trigger snap if actually moved to a different column
+      if (currentCol !== colKey) {
+        setJustDroppedId(droppedId);
+      }
+      setColumnOverrides((prev) => ({ ...prev, [droppedId]: colKey }));
     }
     draggedCaseId.current = null;
     setDraggingId(null);
     setDragOverCol(null);
+    setGhostPos(null);
   }
 
   function handleCategoryChange(caseId: string, category: string) {
     setCategoryOverrides((prev) => ({ ...prev, [caseId]: category }));
     setOpenCategoryDropdown(null);
   }
+
+  // Find the dragged case data for the ghost preview
+  const draggedCase = draggingId ? cases.find((c) => c.id === draggingId) : null;
+  const draggedTenant = draggedCase?.tenantId ? tenantMap.get(draggedCase.tenantId) : null;
+  const draggedProperty = draggedCase?.propertyId ? propertyMap.get(draggedCase.propertyId) : null;
 
   return (
     <LayoutGroup>
@@ -138,7 +192,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                 </motion.span>
               </div>
 
-              {/* Drop placeholder at top when dragging over */}
+              {/* Drop placeholder */}
               <AnimatePresence>
                 {isDragOver && draggingId && (
                   <motion.div
@@ -160,6 +214,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                   const tenant = c.tenantId ? tenantMap.get(c.tenantId) : null;
                   const displayCategory = categoryOverrides[c.id] ?? c.category ?? "general";
                   const isDragging = draggingId === c.id;
+                  const isJustDropped = justDroppedId === c.id;
 
                   return (
                     <motion.div
@@ -167,20 +222,37 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                       layout
                       layoutId={c.id}
                       initial={{ opacity: 0, scale: 0.95, y: -8 }}
-                      animate={{
-                        opacity: isDragging ? 0.4 : 1,
-                        scale: isDragging ? 0.95 : 1,
-                        y: 0,
-                        rotate: isDragging ? 1.5 : 0,
-                      }}
+                      animate={
+                        isJustDropped
+                          ? {
+                              opacity: 1,
+                              scale: [1, 1.04, 0.98, 1],
+                              y: 0,
+                              rotate: 0,
+                            }
+                          : {
+                              opacity: isDragging ? 0.3 : 1,
+                              scale: isDragging ? 0.96 : 1,
+                              y: 0,
+                              rotate: isDragging ? 2 : 0,
+                            }
+                      }
                       exit={{ opacity: 0, scale: 0.9, y: -12 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 350, damping: 30 },
-                        opacity: { duration: 0.15 },
-                        scale: { duration: 0.15 },
-                      }}
+                      transition={
+                        isJustDropped
+                          ? {
+                              layout: { type: "spring", stiffness: 400, damping: 28 },
+                              scale: { duration: 0.35, ease: "easeOut" },
+                              opacity: { duration: 0.1 },
+                            }
+                          : {
+                              layout: { type: "spring", stiffness: 350, damping: 30 },
+                              opacity: { duration: 0.15 },
+                              scale: { duration: 0.15 },
+                            }
+                      }
                       draggable
-                      onDragStart={() => handleDragStart(c.id)}
+                      onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent, c.id)}
                       onDragEnd={handleDragEnd}
                       className={`cursor-grab active:cursor-grabbing ${isDragging ? "z-50 relative" : ""}`}
                     >
@@ -192,7 +264,7 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
                               : URGENCY_BORDER[c.urgency ?? "low"]
                           } flex flex-col gap-4 transition-shadow duration-200 hover:shadow-md ${
                             isDragging ? "shadow-xl" : ""
-                          }`}
+                          } ${isJustDropped ? "ring-2 ring-accent/20" : ""}`}
                         >
                           {/* Top row */}
                           <div className="flex justify-between items-start">
@@ -303,6 +375,43 @@ export function CaseKanban({ cases, properties, tenants }: CaseKanbanProps) {
           );
         })}
       </div>
+
+      {/* Floating drag ghost — rendered via portal so it's not clipped */}
+      {draggingId && draggedCase && ghostPos && typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed pointer-events-none z-[9999]"
+            style={{
+              left: ghostPos.x + 12,
+              top: ghostPos.y - 16,
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.12, ease: "easeOut" }}
+              className="w-56 bg-surface-container-lowest rounded-lg shadow-2xl border border-accent/20 p-3 rotate-[3deg]"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-2 h-2 rounded-full ${URGENCY_DOT[draggedCase.urgency ?? "low"]}`} />
+                <span className="text-[10px] font-bold text-accent uppercase tracking-wider">
+                  {formatEnum(categoryOverrides[draggedCase.id] ?? draggedCase.category ?? "general")}
+                </span>
+              </div>
+              <p className="text-xs font-bold text-on-surface line-clamp-2 leading-snug">
+                {draggedCase.rawMessage}
+              </p>
+              <p className="text-[10px] text-on-surface-variant mt-1.5 font-medium">
+                {draggedTenant?.unitNumber ? `Unit ${draggedTenant.unitNumber}` : ""}
+                {draggedTenant?.unitNumber && draggedProperty ? " \u2022 " : ""}
+                {draggedProperty?.address ?? ""}
+              </p>
+            </motion.div>
+          </div>,
+          document.body,
+        )
+      }
     </LayoutGroup>
   );
 }
