@@ -73,9 +73,10 @@ export function TenantForm({
           </h3>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="text-outline hover:text-on-surface-variant p-1"
           >
-            <span className="material-symbols-outlined">close</span>
+            <span aria-hidden="true" className="material-symbols-outlined">close</span>
           </button>
         </div>
 

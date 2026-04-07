@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getOrgId } from "@/lib/db/queries/helpers";
 import { listCases } from "@/lib/db/queries/cases";
 import { listProperties } from "@/lib/db/queries/properties";
@@ -16,11 +17,13 @@ export default async function CasesPage() {
   ]);
 
   return (
-    <CasesPageClient
-      cases={cases}
-      properties={properties}
-      tenants={tenants}
-      vendors={vendors}
-    />
+    <Suspense>
+      <CasesPageClient
+        cases={cases}
+        properties={properties}
+        tenants={tenants}
+        vendors={vendors}
+      />
+    </Suspense>
   );
 }

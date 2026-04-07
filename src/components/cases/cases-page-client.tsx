@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { StatsBar } from "@/components/cases/stats-bar";
 import { CaseFilters } from "@/components/cases/case-filters";
 import { CaseTable } from "@/components/cases/case-table";
@@ -16,10 +17,29 @@ interface CasesPageClientProps {
 }
 
 export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPageClientProps) {
-  const [viewMode, setViewMode] = useState<"table" | "kanban">("table");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [urgencyFilter, setUrgencyFilter] = useState("");
-  const [propertyFilter, setPropertyFilter] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [key, value] of Object.entries(updates)) {
+        if (value === null || value === "") params.delete(key);
+        else params.set(key, value);
+      }
+      const qs = params.toString();
+      router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+    },
+    [searchParams, router, pathname],
+  );
+
+  const [viewMode, setViewMode] = useState<"table" | "kanban">(
+    (searchParams.get("view") as "table" | "kanban") || "table",
+  );
+  const [statusFilter, setStatusFilter] = useState(searchParams.get("status") ?? "");
+  const [urgencyFilter, setUrgencyFilter] = useState(searchParams.get("urgency") ?? "");
+  const [propertyFilter, setPropertyFilter] = useState(searchParams.get("property") ?? "");
   const [showNewCaseModal, setShowNewCaseModal] = useState(false);
 
   const OPEN_STATUSES = new Set(["open", "in_progress", "waiting_on_vendor", "waiting_on_tenant"]);
@@ -44,7 +64,7 @@ export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPa
   const uniquePropertyIds = new Set(cases.map((c) => c.propertyId).filter(Boolean));
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 pt-8 pb-12">
+    <div className="max-w-7xl mx-auto space-y-6 py-12">
       {/* Page Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface">Cases</h1>
@@ -59,10 +79,12 @@ export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPa
         onOpenCasesClick={() => {
           if (statusFilter === "__open__") {
             setStatusFilter("");
+            updateParams({ status: null });
           } else {
             setStatusFilter("__open__");
             setUrgencyFilter("");
             setPropertyFilter("");
+            updateParams({ status: "__open__", urgency: null, property: null });
           }
         }}
       />
@@ -71,27 +93,30 @@ export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPa
       <CaseFilters
         properties={properties}
         viewMode={viewMode}
-        onViewModeChange={setViewMode}
+        onViewModeChange={(v) => { setViewMode(v); updateParams({ view: v === "table" ? null : v }); }}
         statusFilter={statusFilter}
-        onStatusFilterChange={setStatusFilter}
+        onStatusFilterChange={(v) => { setStatusFilter(v); updateParams({ status: v || null }); }}
         urgencyFilter={urgencyFilter}
-        onUrgencyFilterChange={setUrgencyFilter}
+        onUrgencyFilterChange={(v) => { setUrgencyFilter(v); updateParams({ urgency: v || null }); }}
         propertyFilter={propertyFilter}
-        onPropertyFilterChange={setPropertyFilter}
+        onPropertyFilterChange={(v) => { setPropertyFilter(v); updateParams({ property: v || null }); }}
         onClearFilters={() => {
           setStatusFilter("");
           setUrgencyFilter("");
           setPropertyFilter("");
+          updateParams({ status: null, urgency: null, property: null });
         }}
         onNewCase={() => setShowNewCaseModal(true)}
       />
 
       {/* View */}
-      {viewMode === "table" ? (
-        <CaseTable cases={filteredCases} properties={properties} tenants={tenants} />
-      ) : (
-        <CaseKanban cases={filteredCases} properties={properties} tenants={tenants} />
-      )}
+      <div aria-live="polite" aria-atomic="false">
+        {viewMode === "table" ? (
+          <CaseTable cases={filteredCases} properties={properties} tenants={tenants} />
+        ) : (
+          <CaseKanban cases={filteredCases} properties={properties} tenants={tenants} />
+        )}
+      </div>
 
       {/* New Case Modal */}
       {showNewCaseModal && (

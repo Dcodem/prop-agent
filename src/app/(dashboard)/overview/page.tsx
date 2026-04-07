@@ -2,6 +2,7 @@ import { getOrgId } from "@/lib/db/queries/helpers";
 import { listCases } from "@/lib/db/queries/cases";
 import { listProperties } from "@/lib/db/queries/properties";
 import { listTenants } from "@/lib/db/queries/tenants";
+import { listVendors } from "@/lib/db/queries/vendors";
 import { OverviewClient } from "./overview-client";
 
 export const metadata = { title: "Dashboard | PropAgent" };
@@ -9,10 +10,11 @@ export const metadata = { title: "Dashboard | PropAgent" };
 export default async function OverviewPage() {
   const orgId = await getOrgId();
 
-  const [cases, properties, tenants] = await Promise.all([
+  const [cases, properties, tenants, vendors] = await Promise.all([
     listCases(orgId),
     listProperties(orgId),
     listTenants(orgId),
+    listVendors(orgId),
   ]);
 
   return (
@@ -20,6 +22,7 @@ export default async function OverviewPage() {
       cases={cases}
       properties={properties}
       tenants={tenants}
+      hasVendors={vendors.length > 0}
     />
   );
 }

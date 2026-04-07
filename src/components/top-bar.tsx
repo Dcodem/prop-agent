@@ -76,7 +76,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
                   initial={{ opacity: 0, scale: 0.95, y: -8 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -8 }}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
+                  transition={{ type: "tween", ease: [0.25, 1, 0.5, 1], duration: 0.2 }}
                   className="absolute right-0 top-full mt-2 w-[380px] bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-variant overflow-hidden z-50"
                 >
                   <div className="px-5 py-4 border-b border-surface-variant flex items-center justify-between">
@@ -91,7 +91,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
                         key={n.id}
                         href={n.href}
                         onClick={() => setShowNotifications(false)}
-                        className={`flex items-start gap-3 px-5 py-4 hover:bg-surface-container-low transition-colors border-b border-surface ${n.unread ? "bg-primary/[0.02]" : ""}`}
+                        className={`flex items-start gap-3 px-5 py-4 hover:bg-surface-container-low transition-colors border-b border-surface ${n.unread ? "bg-accent/[0.02]" : ""}`}
                       >
                         <div className={`w-9 h-9 rounded-lg ${n.iconBg} flex items-center justify-center shrink-0 mt-0.5`}>
                           <span aria-hidden="true" className={`material-symbols-outlined text-[18px] ${n.iconColor}`}>{n.icon}</span>
@@ -99,7 +99,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <p className={`text-sm truncate ${n.unread ? "font-bold text-on-surface" : "font-medium text-on-surface-variant"}`}>{n.title}</p>
-                            {n.unread && <span className="w-1.5 h-1.5 bg-primary rounded-full shrink-0" />}
+                            {n.unread && <span className="w-1.5 h-1.5 bg-accent rounded-full shrink-0" />}
                           </div>
                           <p className="text-xs text-on-surface-variant mt-0.5 truncate">{n.desc}</p>
                           <p className="text-[11px] text-outline mt-1">{n.time}</p>
@@ -120,10 +120,17 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
               )}
             </AnimatePresence>
           </div>
-          <Link href="/settings" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+          <button
+            onClick={() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "?", bubbles: true }))}
+            aria-label="Keyboard shortcuts"
+            className="p-2 hover:bg-surface-container-low rounded-lg transition-colors"
+          >
+            <span aria-hidden="true" className="material-symbols-outlined">help_outline</span>
+          </button>
+          <Link href="/settings" aria-label="Settings" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
             <span aria-hidden="true" className="material-symbols-outlined">settings</span>
           </Link>
-          <Link href="/profile" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+          <Link href="/profile" aria-label="Profile" className="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
             <span aria-hidden="true" className="material-symbols-outlined">account_circle</span>
           </Link>
         </div>

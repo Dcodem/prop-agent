@@ -281,7 +281,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 <input
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                  className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                   type="text"
                 />
               </div>
@@ -297,7 +297,7 @@ export function ProfileClient({ user, orgName }: ProfileClientProps) {
                 <input
                   value={editPhone}
                   onChange={(e) => setEditPhone(e.target.value)}
-                  className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
+                  className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all"
                   type="tel"
                   placeholder="+1 (555) 000-0000"
                 />

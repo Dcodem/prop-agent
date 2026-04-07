@@ -2,7 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 const URGENCY_DOT: Record<string, string> = {
@@ -63,6 +65,8 @@ interface CaseTableProps {
 export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [pendingBulkAction, setPendingBulkAction] = useState<string | null>(null);
 
   const totalPages = Math.max(1, Math.ceil(cases.length / itemsPerPage));
   const paginatedCases = useMemo(() => {
@@ -75,6 +79,45 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
     setItemsPerPage(value);
     setCurrentPage(1);
   };
+
+  const allPageSelected = paginatedCases.length > 0 && paginatedCases.every((c) => selectedIds.has(c.id));
+  const somePageSelected = paginatedCases.some((c) => selectedIds.has(c.id));
+
+  function toggleAll() {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (allPageSelected) {
+        paginatedCases.forEach((c) => next.delete(c.id));
+      } else {
+        paginatedCases.forEach((c) => next.add(c.id));
+      }
+      return next;
+    });
+  }
+
+  function toggleOne(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function handleBulkAction(action: string) {
+    const count = selectedIds.size;
+    const previousSelection = new Set(selectedIds);
+    setSelectedIds(new Set());
+    toast.success(`${action} applied to ${count} case${count !== 1 ? "s" : ""}`, {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          setSelectedIds(previousSelection);
+          toast.info("Action undone — cases re-selected");
+        },
+      },
+    });
+  }
 
   if (cases.length === 0) {
     return (
@@ -93,9 +136,56 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
 
   return (
     <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow overflow-hidden">
+      {/* Bulk Action Bar */}
+      {selectedIds.size > 0 && (
+        <div className="px-6 py-3 bg-accent/[0.06] border-b border-accent/20 flex items-center gap-4 animate-fade-in-up">
+          <span className="text-sm font-bold text-accent">
+            {selectedIds.size} selected
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleBulkAction("Mark as Resolved")}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-success-container text-on-success-container hover:opacity-90 transition-opacity"
+            >
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">check_circle</span>
+              Resolve
+            </button>
+            <button
+              onClick={() => setPendingBulkAction("Closed")}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-on-surface-variant hover:opacity-90 transition-opacity"
+            >
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">archive</span>
+              Close
+            </button>
+            <button
+              onClick={() => setPendingBulkAction("Escalated")}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-caution-container text-on-caution-container hover:opacity-90 transition-opacity"
+            >
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">priority_high</span>
+              Escalate
+            </button>
+          </div>
+          <button
+            onClick={() => setSelectedIds(new Set())}
+            className="ml-auto text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors"
+          >
+            Clear selection
+          </button>
+        </div>
+      )}
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="bg-surface-container-low border-b border-outline-variant/30">
+            <th className="pl-6 pr-2 py-4 w-10">
+              <input
+                type="checkbox"
+                checked={allPageSelected}
+                ref={(el) => { if (el) el.indeterminate = somePageSelected && !allPageSelected; }}
+                onChange={toggleAll}
+                aria-label="Select all cases on this page"
+                className="w-4 h-4 rounded border-outline-variant accent-accent cursor-pointer"
+              />
+            </th>
             <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-32">Urgency</th>
             <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider">Subject</th>
             <th className="px-6 py-4 text-xs font-bold text-outline uppercase tracking-wider w-40">Category</th>
@@ -108,8 +198,18 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           {paginatedCases.map((c) => (
             <tr
               key={c.id}
-              className="hover:bg-surface-container-low/50 transition-colors group"
+              className={`hover:bg-surface-container-low/50 transition-colors group ${selectedIds.has(c.id) ? "bg-accent/[0.03]" : ""}`}
             >
+              <td className="pl-6 pr-2 py-4">
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(c.id)}
+                  onChange={() => toggleOne(c.id)}
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label={`Select case: ${generateCaseSummary(c.rawMessage, c.category)}`}
+                  className="w-4 h-4 rounded border-outline-variant accent-accent cursor-pointer"
+                />
+              </td>
               <td className="px-6 py-4">
                 <Link href={`/cases/${c.id}`} className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`}></span>
@@ -170,14 +270,17 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
+            aria-label="Previous page"
             className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
           >
-            <span className="material-symbols-outlined text-sm">chevron_left</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_left</span>
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
+              aria-label={`Page ${page}`}
+              aria-current={page === currentPage ? "page" : undefined}
               className={`w-8 h-8 text-xs font-bold rounded transition-colors ${
                 page === currentPage
                   ? "bg-primary text-on-primary"
@@ -190,12 +293,30 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
+            aria-label="Next page"
             className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
           >
-            <span className="material-symbols-outlined text-sm">chevron_right</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_right</span>
           </button>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={pendingBulkAction !== null}
+        onClose={() => setPendingBulkAction(null)}
+        onConfirm={() => {
+          if (pendingBulkAction) handleBulkAction(pendingBulkAction);
+          setPendingBulkAction(null);
+        }}
+        title={`${pendingBulkAction === "Closed" ? "Close" : "Escalate"} ${selectedIds.size} case${selectedIds.size !== 1 ? "s" : ""}?`}
+        description={
+          pendingBulkAction === "Closed"
+            ? "Closed cases will no longer appear in your active queue. You can undo this immediately after."
+            : "Escalated cases will be flagged for urgent review. You can undo this immediately after."
+        }
+        confirmLabel={pendingBulkAction === "Closed" ? "Close Cases" : "Escalate Cases"}
+        confirmVariant={pendingBulkAction === "Closed" ? "destructive" : "primary"}
+      />
     </div>
   );
 }

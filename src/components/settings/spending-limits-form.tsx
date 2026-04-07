@@ -19,6 +19,25 @@ export function SpendingLimitsForm({
   const [emergencyLimit, setEmergencyLimit] = useState(
     (emergencySpendingLimit / 100).toFixed(2),
   );
+  const [touched, setTouched] = useState(false);
+
+  const defaultNum = Number(defaultLimit);
+  const emergencyNum = Number(emergencyLimit);
+  const errors = touched
+    ? {
+        default:
+          isNaN(defaultNum) || defaultNum < 0
+            ? "Must be a positive number"
+            : undefined,
+        emergency:
+          isNaN(emergencyNum) || emergencyNum < 0
+            ? "Must be a positive number"
+            : !isNaN(defaultNum) && !isNaN(emergencyNum) && emergencyNum < defaultNum
+            ? "Must be ≥ default limit"
+            : undefined,
+      }
+    : { default: undefined, emergency: undefined };
+  const hasErrors = Boolean(errors.default || errors.emergency);
 
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
     async (_prev, formData) => {
@@ -53,33 +72,45 @@ export function SpendingLimitsForm({
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-bold">$</span>
                 <input
-                  className="w-full pl-10 pr-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                  className={`w-full pl-10 pr-4 py-3 bg-surface-container-low/50 border rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface ${errors.default ? "border-error" : "border-outline-variant/20"}`}
                   type="text"
                   name="spendingLimitDisplay"
                   value={defaultLimit}
-                  onChange={(e) => setDefaultLimit(e.target.value)}
+                  onChange={(e) => { setDefaultLimit(e.target.value); setTouched(true); }}
                 />
               </div>
+              {errors.default && (
+                <p className="text-xs text-error mt-1.5 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {errors.default}
+                </p>
+              )}
             </div>
             <div className="space-y-3">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Emergency Limit</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-bold">$</span>
                 <input
-                  className="w-full pl-10 pr-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                  className={`w-full pl-10 pr-4 py-3 bg-surface-container-low/50 border rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface ${errors.emergency ? "border-error" : "border-outline-variant/20"}`}
                   type="text"
                   name="emergencySpendingLimitDisplay"
                   value={emergencyLimit}
-                  onChange={(e) => setEmergencyLimit(e.target.value)}
+                  onChange={(e) => { setEmergencyLimit(e.target.value); setTouched(true); }}
                 />
               </div>
+              {errors.emergency && (
+                <p className="text-xs text-error mt-1.5 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {errors.emergency}
+                </p>
+              )}
             </div>
           </div>
         </div>
         <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || hasErrors}
             className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}

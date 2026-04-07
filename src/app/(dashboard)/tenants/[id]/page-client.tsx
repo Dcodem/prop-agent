@@ -142,7 +142,7 @@ export function TenantDetailClient({
   }
 
   return (
-    <div className="p-10 max-w-7xl mx-auto space-y-12">
+    <div className="py-12 max-w-7xl mx-auto space-y-12">
       {/* Hero Section: Asymmetric Editorial Style */}
       <section className="grid grid-cols-12 gap-8 items-end">
         <div className="col-span-12 lg:col-span-8 space-y-4">
@@ -393,8 +393,8 @@ export function TenantDetailClient({
             <h3 className="text-xl font-bold tracking-tight">
               Active Requests
             </h3>
-            <button className="bg-surface-container-high p-2 rounded-lg hover:bg-surface-container-highest transition-colors">
-              <span className="material-symbols-outlined text-sm">add</span>
+            <button aria-label="Add case" className="bg-surface-container-high p-2 rounded-lg hover:bg-surface-container-highest transition-colors">
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">add</span>
             </button>
           </div>
           <div className="space-y-4">
@@ -404,7 +404,7 @@ export function TenantDetailClient({
                 <Link
                   key={c.id}
                   href={`/cases/${c.id}`}
-                  className="block bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary hover:shadow-md hover:border-primary/80 transition-all"
+                  className="block bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-accent hover:shadow-md hover:border-accent/80 transition-all"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">

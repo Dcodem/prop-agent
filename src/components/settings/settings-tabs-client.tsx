@@ -12,22 +12,22 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 const STAGES = [
-  { name: "Open", color: "bg-on-surface", enabled: true },
-  { name: "In Progress", color: "bg-primary", enabled: true },
-  { name: "Waiting on Vendor", color: "bg-on-surface-variant", enabled: true },
-  { name: "Waiting on Tenant", color: "bg-on-surface-variant", enabled: true },
-  { name: "Resolved", color: "bg-outline", enabled: true },
-  { name: "Closed", color: "bg-outline-variant", enabled: true },
+  { name: "Open", color: "bg-info", enabled: true },
+  { name: "In Progress", color: "bg-accent", enabled: true },
+  { name: "Waiting on Vendor", color: "bg-caution", enabled: true },
+  { name: "Waiting on Tenant", color: "bg-warning", enabled: true },
+  { name: "Resolved", color: "bg-success", enabled: true },
+  { name: "Closed", color: "bg-outline", enabled: true },
 ];
 
 const LABELS = [
-  { name: "Plumbing", color: "bg-on-surface", count: 24 },
-  { name: "Electrical", color: "bg-primary", count: 18 },
-  { name: "HVAC", color: "bg-error", count: 12 },
-  { name: "Appliance", color: "bg-on-surface-variant", count: 9 },
-  { name: "Structural", color: "bg-outline", count: 6 },
-  { name: "Pest Control", color: "bg-on-surface-variant", count: 3 },
-  { name: "General", color: "bg-outline-variant", count: 15 },
+  { name: "Plumbing", color: "bg-info", count: 24 },
+  { name: "Electrical", color: "bg-warning", count: 18 },
+  { name: "HVAC", color: "bg-accent", count: 12 },
+  { name: "Appliance", color: "bg-purple", count: 9 },
+  { name: "Structural", color: "bg-error", count: 6 },
+  { name: "Pest Control", color: "bg-caution", count: 3 },
+  { name: "General", color: "bg-primary", count: 15 },
   { name: "Other", color: "bg-outline", count: 7 },
 ];
 
@@ -94,21 +94,21 @@ export function SettingsTabsClient({
 
   // Form states
   const [newStageName, setNewStageName] = useState("");
-  const [newStageColor, setNewStageColor] = useState("bg-on-surface");
+  const [newStageColor, setNewStageColor] = useState("bg-accent");
   const [newLabelName, setNewLabelName] = useState("");
-  const [newLabelColor, setNewLabelColor] = useState("bg-on-surface");
+  const [newLabelColor, setNewLabelColor] = useState("bg-accent");
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("Front Desk");
 
   const COLOR_OPTIONS = [
-    { value: "bg-on-surface", label: "Dark" },
-    { value: "bg-primary", label: "Primary" },
-    { value: "bg-error", label: "Error" },
-    { value: "bg-on-surface-variant", label: "Medium" },
-    { value: "bg-outline", label: "Muted" },
-    { value: "bg-outline-variant", label: "Light" },
-    { value: "bg-surface-container-highest", label: "Subtle" },
-    { value: "bg-surface-container-high", label: "Faint" },
+    { value: "bg-accent", label: "Blue" },
+    { value: "bg-info", label: "Sky" },
+    { value: "bg-success", label: "Green" },
+    { value: "bg-warning", label: "Amber" },
+    { value: "bg-caution", label: "Orange" },
+    { value: "bg-error", label: "Red" },
+    { value: "bg-purple", label: "Purple" },
+    { value: "bg-outline", label: "Gray" },
   ];
 
   function toggleStage(index: number) {
@@ -123,7 +123,7 @@ export function SettingsTabsClient({
     if (!newStageName.trim()) return;
     setStages((prev) => [...prev, { name: newStageName.trim(), color: newStageColor, enabled: true }]);
     setNewStageName("");
-    setNewStageColor("bg-on-surface");
+    setNewStageColor("bg-accent");
     setShowAddStage(false);
   }
 
@@ -131,7 +131,7 @@ export function SettingsTabsClient({
     if (!newLabelName.trim()) return;
     setLabels((prev) => [...prev, { name: newLabelName.trim(), color: newLabelColor, count: 0 }]);
     setNewLabelName("");
-    setNewLabelColor("bg-on-surface");
+    setNewLabelColor("bg-accent");
     setShowCreateLabel(false);
   }
 
@@ -263,9 +263,9 @@ export function SettingsTabsClient({
               <button
                 onClick={() => {
                   setAiLabelSuggestions([
-                    { name: "Water Damage", color: "bg-on-surface", reason: "3 recent cases mention water/flooding but aren't categorized" },
-                    { name: "Parking", color: "bg-outline", reason: "Detected 2 cases about parking disputes with no matching label" },
-                    { name: "Landscaping", color: "bg-on-surface-variant", reason: "Vendor ClearView Landscaping assigned but no label exists" },
+                    { name: "Water Damage", color: "bg-info", reason: "3 recent cases mention water/flooding but aren't categorized" },
+                    { name: "Parking", color: "bg-warning", reason: "Detected 2 cases about parking disputes with no matching label" },
+                    { name: "Landscaping", color: "bg-success", reason: "Vendor ClearView Landscaping assigned but no label exists" },
                     { name: "Security", color: "bg-error", reason: "Lockout and access cases could benefit from a dedicated label" },
                   ]);
                   setShowAiLabels(true);
@@ -326,7 +326,7 @@ export function SettingsTabsClient({
             {labels.map((label) => (
               <div
                 key={label.name}
-                className="bg-surface-container-lowest p-5 rounded-xl hover:shadow-md transition-all group cursor-pointer border border-transparent hover:border-primary/20"
+                className="bg-surface-container-lowest p-5 rounded-xl hover:shadow-md transition-all group cursor-pointer border border-transparent hover:border-accent/20"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -530,7 +530,7 @@ export function SettingsTabsClient({
                   value={newStageName}
                   onChange={(e) => setNewStageName(e.target.value)}
                   placeholder="e.g. Under Review"
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div>
@@ -540,7 +540,7 @@ export function SettingsTabsClient({
                     <button
                       key={c.value}
                       onClick={() => setNewStageColor(c.value)}
-                      className={`w-8 h-8 rounded-full ${c.value} ${newStageColor === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      className={`w-8 h-8 rounded-full ${c.value} ${newStageColor === c.value ? "ring-2 ring-accent ring-offset-2" : ""} transition-all`}
                       title={c.label}
                     />
                   ))}
@@ -578,7 +578,7 @@ export function SettingsTabsClient({
                   value={newLabelName}
                   onChange={(e) => setNewLabelName(e.target.value)}
                   placeholder="e.g. Landscaping"
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div>
@@ -588,7 +588,7 @@ export function SettingsTabsClient({
                     <button
                       key={c.value}
                       onClick={() => setNewLabelColor(c.value)}
-                      className={`w-8 h-8 rounded-full ${c.value} ${newLabelColor === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      className={`w-8 h-8 rounded-full ${c.value} ${newLabelColor === c.value ? "ring-2 ring-accent ring-offset-2" : ""} transition-all`}
                       title={c.label}
                     />
                   ))}
@@ -626,7 +626,7 @@ export function SettingsTabsClient({
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="colleague@company.com"
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div>
@@ -634,7 +634,7 @@ export function SettingsTabsClient({
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 >
                   <option value="Property Manager">Property Manager</option>
                   <option value="Maintenance Coordinator">Maintenance Coordinator</option>
@@ -675,7 +675,7 @@ export function SettingsTabsClient({
                 <select
                   value={editingRoleValue}
                   onChange={(e) => setEditingRoleValue(e.target.value)}
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 >
                   <option value="Property Manager">Property Manager</option>
                   <option value="Maintenance Coordinator">Maintenance Coordinator</option>
@@ -713,7 +713,7 @@ export function SettingsTabsClient({
                   type="text"
                   value={editingLabel.name}
                   onChange={(e) => setEditingLabel({ ...editingLabel, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-lg border-0 text-sm font-medium focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div>
@@ -723,7 +723,7 @@ export function SettingsTabsClient({
                     <button
                       key={c.value}
                       onClick={() => setEditingLabel({ ...editingLabel, color: c.value })}
-                      className={`w-8 h-8 rounded-full ${c.value} ${editingLabel.color === c.value ? "ring-2 ring-primary ring-offset-2" : ""} transition-all`}
+                      className={`w-8 h-8 rounded-full ${c.value} ${editingLabel.color === c.value ? "ring-2 ring-accent ring-offset-2" : ""} transition-all`}
                       title={c.label}
                     />
                   ))}

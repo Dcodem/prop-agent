@@ -14,6 +14,21 @@ type HistoryCase = {
   createdAt: string;
 };
 
+const CATEGORY_STYLE: Record<string, { icon: string; bg: string; text: string }> = {
+  plumbing: { icon: "plumbing", bg: "bg-info-container", text: "text-info" },
+  electrical: { icon: "bolt", bg: "bg-warning-container", text: "text-warning-dim" },
+  hvac: { icon: "ac_unit", bg: "bg-accent-container", text: "text-accent" },
+  appliance: { icon: "kitchen", bg: "bg-purple-container", text: "text-on-purple-container" },
+  structural: { icon: "foundation", bg: "bg-error-container", text: "text-on-error-container" },
+  pest_control: { icon: "pest_control", bg: "bg-caution-container", text: "text-on-caution-container" },
+  general: { icon: "handyman", bg: "bg-success-container", text: "text-on-success-container" },
+};
+
+function getCategoryStyle(category: string | null) {
+  if (!category) return CATEGORY_STYLE.general;
+  return CATEGORY_STYLE[category] ?? CATEGORY_STYLE.general;
+}
+
 export function VendorHistoryClient({
   closedCases,
   initials,
@@ -74,8 +89,8 @@ export function VendorHistoryClient({
             className="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest hover:shadow-md transition-all border-l-2 border-transparent hover:border-accent group"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded bg-surface-container-lowest flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
-                <span className="material-symbols-outlined">plumbing</span>
+              <div className={`w-10 h-10 rounded ${getCategoryStyle(c.category).bg} flex items-center justify-center ${getCategoryStyle(c.category).text} group-hover:bg-accent group-hover:text-white transition-colors`}>
+                <span className="material-symbols-outlined">{getCategoryStyle(c.category).icon}</span>
               </div>
               <div>
                 <div className="text-xs font-bold text-on-surface-variant uppercase">

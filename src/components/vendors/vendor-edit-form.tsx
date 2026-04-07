@@ -120,7 +120,7 @@ export function VendorEditForm({ vendor }: { vendor: Vendor }) {
                 <div className="space-y-2">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Primary Contact Name</label>
                   <div className="bg-surface-container-low p-0.5 transition-all focus-within:bg-surface-container-highest focus-within:border-l-2 focus-within:border-accent">
-                    <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="text" placeholder="Contact name" />
+                    <input className="w-full bg-transparent border-none focus:ring-0 py-3 px-4 font-medium" type="text" placeholder="e.g. Jane Doe" />
                   </div>
                 </div>
                 <div className="space-y-2">

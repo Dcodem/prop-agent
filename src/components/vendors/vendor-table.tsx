@@ -9,14 +9,14 @@ import { TradeFilter } from "./trade-filter";
 type Vendor = typeof vendors.$inferSelect;
 
 const AVATAR_COLORS = [
-  { bg: "bg-surface-container-high", text: "text-on-surface" },
-  { bg: "bg-surface-container", text: "text-on-surface-variant" },
-  { bg: "bg-surface-container-highest", text: "text-on-surface" },
-  { bg: "bg-surface-container-high", text: "text-on-surface" },
-  { bg: "bg-surface-container", text: "text-on-surface-variant" },
-  { bg: "bg-surface-container-highest", text: "text-on-surface" },
-  { bg: "bg-surface-container-high", text: "text-on-surface" },
-  { bg: "bg-surface-container", text: "text-on-surface-variant" },
+  { bg: "bg-accent-container", text: "text-accent" },
+  { bg: "bg-info-container", text: "text-info" },
+  { bg: "bg-success-container", text: "text-on-success-container" },
+  { bg: "bg-warning-container", text: "text-warning-dim" },
+  { bg: "bg-caution-container", text: "text-on-caution-container" },
+  { bg: "bg-error-container", text: "text-on-error-container" },
+  { bg: "bg-purple-container", text: "text-on-purple-container" },
+  { bg: "bg-neutral-container", text: "text-on-neutral-container" },
 ];
 
 function getInitials(name: string): string {
@@ -39,7 +39,7 @@ function getAvatarColor(name: string) {
 function renderStars(score: number) {
   const filled = Math.round(score * 5);
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1" role="img" aria-label={`${(score * 5).toFixed(1)} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <span
           key={i}
@@ -188,11 +188,12 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
                   </td>
                   <td className="px-8 py-6 text-right">
                     {vendor.availabilityNotes ? (
-                      <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider border border-outline-variant/10">
+                      <span className="text-sm text-on-surface-variant max-w-[180px] inline-block truncate" title={vendor.availabilityNotes}>
                         {vendor.availabilityNotes}
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider border border-outline-variant/10">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-success-container text-on-success-container rounded-full text-[10px] font-bold uppercase tracking-wider border border-success-border/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-success" />
                         Active
                       </span>
                     )}
@@ -225,14 +226,17 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
+            aria-label="Previous page"
             className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <span className="material-symbols-outlined text-sm">chevron_left</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_left</span>
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
+              aria-label={`Page ${page}`}
+              aria-current={page === currentPage ? "page" : undefined}
               className={`w-8 h-8 text-xs font-bold rounded transition-colors ${
                 page === currentPage
                   ? "bg-primary text-on-primary"
@@ -245,9 +249,10 @@ export function VendorTable({ vendors }: { vendors: Vendor[] }) {
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
+            aria-label="Next page"
             className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <span className="material-symbols-outlined text-sm">chevron_right</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_right</span>
           </button>
         </div>
       </div>

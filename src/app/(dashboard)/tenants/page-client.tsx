@@ -131,14 +131,16 @@ export function TenantsPageClient({
       </div>
 
       {/* Table */}
-      <TenantTable
-        tenants={filtered}
-        properties={properties}
-        onEdit={(tenant) => {
-          setEditingTenant(tenant);
-          setShowForm(true);
-        }}
-      />
+      <div aria-live="polite" aria-atomic="false">
+        <TenantTable
+          tenants={filtered}
+          properties={properties}
+          onEdit={(tenant) => {
+            setEditingTenant(tenant);
+            setShowForm(true);
+          }}
+        />
+      </div>
 
       {/* Add/Edit Modal */}
       {showForm && (

@@ -83,8 +83,8 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
   const recentCases = cases.slice(0, 3);
 
   return (
-    <div className="min-h-screen pb-12">
-      <div className="px-8 pt-4">
+    <div className="py-12 max-w-7xl mx-auto">
+      <div>
         <Breadcrumb items={[{ label: "Properties", href: "/properties" }, { label: property.address }]} />
       </div>
       {/* Hero Section */}

@@ -62,14 +62,37 @@ export default function OverviewLoading() {
         </div>
       </div>
 
-      {/* PropAgent Overview */}
-      <Skeleton className="h-64 w-full rounded-xl bg-surface-container-low" />
+      {/* Late on Rent */}
+      <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+        <div className="px-6 py-4 border-b border-outline-variant/10 flex items-center gap-3">
+          <Skeleton className="h-6 w-6 rounded bg-surface-container" />
+          <Skeleton className="h-5 w-32 bg-surface-container" />
+        </div>
+        <div className="divide-y divide-outline-variant/10">
+          {[1, 2].map((i) => (
+            <div key={i} className="px-6 py-4 flex items-center gap-4">
+              <Skeleton className="w-10 h-10 rounded-lg bg-surface-container" />
+              <div className="flex-1 space-y-1.5">
+                <Skeleton className="h-4 w-32 bg-surface-container" />
+                <Skeleton className="h-3 w-48 bg-surface-container-low" />
+              </div>
+              <Skeleton className="h-6 w-16 rounded bg-surface-container-low" />
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* Performance Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-48 rounded-xl bg-surface-container-low" />
-        ))}
+      {/* AI Status Bar */}
+      <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Skeleton className="w-2 h-2 rounded-full bg-surface-container" />
+          <Skeleton className="h-4 w-32 bg-surface-container" />
+          <Skeleton className="h-3 w-24 bg-surface-container-low" />
+        </div>
+        <div className="flex items-center gap-6">
+          <Skeleton className="h-3 w-24 bg-surface-container-low" />
+          <Skeleton className="h-3 w-20 bg-surface-container-low" />
+        </div>
       </div>
     </div>
   );

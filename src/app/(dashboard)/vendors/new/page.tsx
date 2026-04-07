@@ -52,7 +52,7 @@ export default function AddVendorPage() {
               <p className="text-sm text-on-surface-variant">Fast-track onboarding by uploading existing vendor documentation.</p>
             </div>
             <div className="lg:col-span-2">
-              <div className="border-2 border-dashed border-primary/30 rounded-xl p-10 text-center bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group">
+              <div className="border-2 border-dashed border-accent/30 rounded-xl p-10 text-center bg-accent/5 hover:bg-accent/10 transition-colors cursor-pointer group">
                 <span className="material-symbols-outlined text-5xl text-accent mb-4 block group-hover:scale-110 transition-transform">cloud_upload</span>
                 <h3 className="text-lg font-bold text-on-surface mb-2">Create Vendor by Uploading Receipt or Document</h3>
                 <p className="text-sm text-on-surface-variant mb-6">Our AI will automatically extract company details, tax ID, and contact information for you.</p>
@@ -71,12 +71,12 @@ export default function AddVendorPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Vendor Name</label>
-                  <input name="name" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. Apex Plumbing Solutions" type="text" />
+                  <input name="name" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. Apex Plumbing Solutions" type="text" />
                   {errors?.name && <p className="text-xs text-error mt-1">{errors.name[0]}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Trade Category</label>
-                  <select name="trade" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all">
+                  <select name="trade" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all">
                     <option value="">Select Trade</option>
                     {VENDOR_TRADES.map((trade) => (
                       <option key={trade} value={trade}>{formatEnum(trade)}</option>
@@ -86,7 +86,7 @@ export default function AddVendorPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Tax ID (EIN/SSN)</label>
-                  <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="XX-XXXXXXX" type="text" />
+                  <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="XX-XXXXXXX" type="text" />
                 </div>
               </div>
             </div>
@@ -101,20 +101,20 @@ export default function AddVendorPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Primary Contact Name</label>
-                  <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="Full Name" type="text" />
+                  <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. Jane Doe" type="text" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Phone Number</label>
-                  <input name="phone" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="+1 (555) 000-0000" type="tel" />
+                  <input name="phone" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="+1 (555) 000-0000" type="tel" />
                 </div>
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Email Address</label>
-                  <input name="email" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="contact@company.com" type="email" />
+                  <input name="email" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. contact@company.com" type="email" />
                   {errors?.email && <p className="text-xs text-error mt-1">{errors.email[0]}</p>}
                 </div>
                 <div className="col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Office Address</label>
-                  <textarea className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="123 Industry Blvd, Suite 400..." rows={3}></textarea>
+                  <textarea className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 text-on-surface transition-all" placeholder="e.g. 123 Industry Blvd, Suite 400" rows={3}></textarea>
                 </div>
               </div>
             </div>
@@ -131,14 +131,14 @@ export default function AddVendorPage() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Standard Hourly Rate ($)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-outline">$</span>
-                    <input name="rateNotes" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 pl-8 text-on-surface transition-all" placeholder="0.00" type="text" />
+                    <input name="rateNotes" className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 pl-8 text-on-surface transition-all" placeholder="0.00" type="text" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Emergency Rate ($)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-outline">$</span>
-                    <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-3 pl-8 text-on-surface transition-all" placeholder="0.00" type="text" />
+                    <input className="w-full bg-surface-container-low border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-3 pl-8 text-on-surface transition-all" placeholder="0.00" type="text" />
                   </div>
                 </div>
                 <div className="col-span-2">
@@ -174,11 +174,11 @@ export default function AddVendorPage() {
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Policy Number</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" placeholder="GL-9938221" type="text" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" placeholder="GL-9938221" type="text" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Expiration Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-surface-container-low rounded-lg">
@@ -188,11 +188,11 @@ export default function AddVendorPage() {
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Policy Number</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" placeholder="WC-442100" type="text" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" placeholder="WC-442100" type="text" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-on-surface-variant mb-1">Expiration Date</label>
-                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-2 text-sm" type="date" />
+                    <input className="w-full bg-surface-container-lowest border-0 border-l-2 border-transparent focus:border-accent focus:ring-0 rounded-lg p-2 text-sm" type="date" />
                   </div>
                 </div>
               </div>

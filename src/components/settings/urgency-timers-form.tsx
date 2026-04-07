@@ -22,9 +22,9 @@ type TimerDefaults = {
 
 const LEVELS = [
   { key: "critical", label: "Critical", dotColor: "bg-error" },
-  { key: "high", label: "High", dotColor: "bg-on-surface" },
-  { key: "medium", label: "Medium", dotColor: "bg-on-surface-variant" },
-  { key: "low", label: "Low", dotColor: "bg-outline" },
+  { key: "high", label: "High", dotColor: "bg-caution" },
+  { key: "medium", label: "Medium", dotColor: "bg-warning" },
+  { key: "low", label: "Low", dotColor: "bg-success" },
 ] as const;
 
 export function UrgencyTimersForm({
@@ -75,32 +75,36 @@ export function UrgencyTimersForm({
                     </td>
                     <td className="py-5">
                       <input
-                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30"
+                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30 invalid:border-error"
                         type="number"
+                        min={1}
                         name={`${level.key}.vendorResponse`}
                         defaultValue={defaults[level.key].vendorResponse}
                       />
                     </td>
                     <td className="py-5">
                       <input
-                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30"
+                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30 invalid:border-error"
                         type="number"
+                        min={1}
                         name={`${level.key}.reminder`}
                         defaultValue={defaults[level.key].reminder}
                       />
                     </td>
                     <td className="py-5">
                       <input
-                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30"
+                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30 invalid:border-error"
                         type="number"
+                        min={1}
                         name={`${level.key}.nextVendor`}
                         defaultValue={defaults[level.key].nextVendor}
                       />
                     </td>
                     <td className="py-5">
                       <input
-                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30"
+                        className="w-20 p-2 text-center text-xs font-bold border border-outline-variant/20 rounded bg-surface-container-low/30 invalid:border-error"
                         type="number"
+                        min={1}
                         name={`${level.key}.pmEscalation`}
                         defaultValue={defaults[level.key].pmEscalation}
                       />

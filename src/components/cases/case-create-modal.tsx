@@ -29,8 +29,8 @@ export function CaseCreateModal({ properties, vendors, onClose }: CaseCreateModa
             <h2 className="text-xl font-bold text-on-surface">Log New Case</h2>
             <p className="text-sm text-on-surface-variant mt-1">Record a new maintenance request</p>
           </div>
-          <button onClick={onClose} className="text-outline hover:text-on-surface transition-colors">
-            <span className="material-symbols-outlined">close</span>
+          <button onClick={onClose} aria-label="Close" className="text-outline hover:text-on-surface transition-colors">
+            <span aria-hidden="true" className="material-symbols-outlined">close</span>
           </button>
         </div>
 

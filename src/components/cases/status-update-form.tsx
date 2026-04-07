@@ -4,8 +4,9 @@ import { useState, useTransition } from "react";
 import { updateCaseStatusAction } from "@/app/(dashboard)/cases/actions";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import type { Case } from "@/lib/db/schema";
 
-const STATUS_OPTIONS = [
+const STATUS_OPTIONS: { value: Case["status"]; label: string }[] = [
   { value: "open", label: "Open" },
   { value: "in_progress", label: "In Progress" },
   { value: "waiting_on_vendor", label: "Awaiting Vendor" },
@@ -19,15 +20,15 @@ export function StatusUpdateForm({
   currentStatus,
 }: {
   caseId: string;
-  currentStatus: string;
+  currentStatus: Case["status"];
 }) {
   const [isPending, startTransition] = useTransition();
-  const [pendingStatus, setPendingStatus] = useState<string | null>(null);
+  const [pendingStatus, setPendingStatus] = useState<Case["status"] | null>(null);
 
   const pendingLabel = STATUS_OPTIONS.find((o) => o.value === pendingStatus)?.label ?? pendingStatus;
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newStatus = e.target.value;
+    const newStatus = e.target.value as Case["status"];
     if (newStatus === currentStatus) return;
     setPendingStatus(newStatus);
   }

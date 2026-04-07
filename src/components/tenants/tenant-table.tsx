@@ -32,9 +32,9 @@ function getInitials(name: string) {
 const INITIAL_COLORS = [
   "bg-info-container text-info/70",
   "bg-purple-container text-purple/70",
-  "bg-surface-container-high text-on-surface-variant",
+  "bg-caution-container text-on-caution-container/70",
   "bg-success-container text-on-success-container/70",
-  "bg-surface-container-highest text-on-surface",
+  "bg-accent-container text-accent/70",
   "bg-warning-container text-on-warning-container/70",
 ];
 
@@ -259,14 +259,17 @@ export function TenantTable({
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
+              aria-label="Previous page"
               className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
             >
-              <span className="material-symbols-outlined text-sm">chevron_left</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_left</span>
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
+                aria-label={`Page ${page}`}
+                aria-current={page === currentPage ? "page" : undefined}
                 className={`w-8 h-8 text-xs font-bold rounded transition-colors ${
                   page === currentPage
                     ? "bg-primary text-on-primary"
@@ -279,9 +282,10 @@ export function TenantTable({
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
+              aria-label="Next page"
               className="px-2.5 py-1 text-xs font-bold rounded hover:bg-surface-container-high transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-on-surface-variant"
             >
-              <span className="material-symbols-outlined text-sm">chevron_right</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-sm">chevron_right</span>
             </button>
           </div>
         </div>
@@ -299,8 +303,8 @@ export function TenantTable({
                   Follow up on late rent for {selectedTenant.name}
                 </p>
               </div>
-              <button onClick={() => setShowCreateCaseModal(false)} className="text-outline hover:text-on-surface transition-colors">
-                <span className="material-symbols-outlined">close</span>
+              <button onClick={() => setShowCreateCaseModal(false)} aria-label="Close" className="text-outline hover:text-on-surface transition-colors">
+                <span aria-hidden="true" className="material-symbols-outlined">close</span>
               </button>
             </div>
 

@@ -7,6 +7,7 @@ import { CommandSearch } from "@/components/command-search";
 import type { SearchEntities } from "@/components/command-search";
 import { Toaster } from "@/components/ui/sonner";
 import { KeyboardShortcuts } from "@/components/keyboard-shortcuts";
+import { NavigationProgress } from "@/components/navigation-progress";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -24,9 +25,10 @@ export function DashboardShell({ children, searchEntities, userInfo }: Dashboard
       </a>
       <SidebarNav open={sidebarOpen} onClose={() => setSidebarOpen(false)} userInfo={userInfo} />
       <TopBar onMenuToggle={() => setSidebarOpen(true)} />
+      <NavigationProgress />
       <CommandSearch searchEntities={searchEntities} />
       <KeyboardShortcuts />
-      <main id="main-content" className="lg:ml-[220px] pt-16 min-h-screen px-6 lg:px-10 py-8 animate-fade-in-up">
+      <main id="main-content" role="main" aria-label="Dashboard content" className="lg:ml-[220px] pt-16 min-h-screen px-6 lg:px-10 py-8 animate-fade-in-up">
         {children}
       </main>
       <Toaster position="bottom-right" />

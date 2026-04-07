@@ -3,10 +3,11 @@
 import { getOrgId, getCurrentUser } from "@/lib/db/queries/helpers";
 import { updateCase, addTimelineEntry } from "@/lib/db/queries/cases";
 import { revalidatePath } from "next/cache";
+import type { Case } from "@/lib/db/schema";
 
-export async function updateCaseStatusAction(caseId: string, status: string) {
+export async function updateCaseStatusAction(caseId: string, status: Case["status"]) {
   const orgId = await getOrgId();
-  await updateCase(caseId, orgId, { status: status as any });
+  await updateCase(caseId, orgId, { status });
   await addTimelineEntry(caseId, {
     type: "status_change",
     details: `Status changed to ${status.replace(/_/g, " ")}`,
@@ -19,7 +20,7 @@ export async function assignVendorAction(caseId: string, vendorId: string) {
   const orgId = await getOrgId();
   await updateCase(caseId, orgId, {
     vendorId,
-    status: "waiting_on_vendor" as any,
+    status: "waiting_on_vendor",
   });
   await addTimelineEntry(caseId, {
     type: "vendor_assigned",

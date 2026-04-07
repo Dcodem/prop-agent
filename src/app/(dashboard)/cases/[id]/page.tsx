@@ -49,7 +49,7 @@ export default async function CaseDetailPage({
     caseData.urgency === "critical" || caseData.urgency === "high";
 
   return (
-    <main className="pt-8 pb-24 px-12 max-w-[1600px] mx-auto min-h-screen">
+    <div className="py-12 max-w-7xl mx-auto">
       {/* Breadcrumb & Header */}
       <div className="mb-14">
         <Breadcrumb items={[{ label: "Cases", href: "/cases" }, { label: `Case #${caseData.id.slice(0, 8).toUpperCase()}` }]} />
@@ -91,7 +91,7 @@ export default async function CaseDetailPage({
         {/* Left Column */}
         <div className="col-span-12 lg:col-span-8 space-y-12">
           {/* Tenant Request Tile */}
-          <section className="bg-surface-container-lowest rounded-full p-6 mb-8 shadow-sm border border-outline-variant/10 flex items-center gap-6">
+          <section className="bg-surface-container-lowest rounded-2xl p-6 mb-8 shadow-sm border border-outline-variant/10 flex items-center gap-6">
             <div className="relative">
               <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-accent text-2xl font-extrabold border-4 border-accent/10 shadow-sm">
                 {(tenant?.name ?? "?")
@@ -142,17 +142,19 @@ export default async function CaseDetailPage({
               {tenant?.phone && (
                 <a
                   href={`tel:${tenant.phone}`}
+                  aria-label="Call tenant"
                   className="p-3 text-accent hover:bg-accent/5 rounded-full transition-all border border-accent/20"
                 >
-                  <span className="material-symbols-outlined">call</span>
+                  <span aria-hidden="true" className="material-symbols-outlined">call</span>
                 </a>
               )}
               {tenant?.email && (
                 <a
                   href={`mailto:${tenant.email}`}
+                  aria-label="Email tenant"
                   className="p-3 text-accent hover:bg-accent/5 rounded-full transition-all border border-accent/20"
                 >
-                  <span className="material-symbols-outlined">mail</span>
+                  <span aria-hidden="true" className="material-symbols-outlined">mail</span>
                 </a>
               )}
             </div>
@@ -213,6 +215,6 @@ export default async function CaseDetailPage({
           allVendors={allVendors}
         />
       </div>
-    </main>
+    </div>
   );
 }

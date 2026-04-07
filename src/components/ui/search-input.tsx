@@ -44,7 +44,7 @@ export function SearchInput({
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
         aria-label="Search"
-        className="w-full pl-10 pr-9 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        className="w-full pl-10 pr-9 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-colors"
       />
       {!focused && !value && (
         <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-outline text-xs pointer-events-none select-none">

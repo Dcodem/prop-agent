@@ -99,7 +99,7 @@ export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }:
             name="note"
             type="text"
             placeholder="Write a note..."
-            className="flex-grow bg-primary-fixed border border-outline-variant/20 rounded-lg px-5 py-3 text-sm focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all placeholder:text-on-surface-variant/40"
+            className="flex-grow bg-primary-fixed border border-outline-variant/20 rounded-lg px-5 py-3 text-sm focus:ring-2 focus:ring-accent/40 focus:border-accent transition-all placeholder:text-on-surface-variant/40"
             disabled={isPending}
           />
           <button

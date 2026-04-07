@@ -40,7 +40,7 @@ export default function SupportPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-8">
+    <div className="max-w-4xl mx-auto py-12">
       {/* Header */}
       <div className="mb-12">
         <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Help & Support</h1>
@@ -76,6 +76,7 @@ export default function SupportPage() {
             <div key={i} className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 overflow-hidden">
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                aria-expanded={openFaq === i}
                 className="w-full flex items-center justify-between p-5 text-left hover:bg-primary-fixed/30 transition-colors"
               >
                 <span className="text-sm font-bold text-on-surface">{item.q}</span>
@@ -84,10 +85,12 @@ export default function SupportPage() {
                 </span>
               </button>
               <div
-                className="overflow-hidden transition-all duration-200"
-                style={{ maxHeight: openFaq === i ? "200px" : "0px" }}
+                className="grid transition-[grid-template-rows] duration-200 ease-out"
+                style={{ gridTemplateRows: openFaq === i ? "1fr" : "0fr" }}
               >
-                <p className="px-5 pb-5 text-sm text-on-surface-variant leading-relaxed">{item.a}</p>
+                <div className="overflow-hidden">
+                  <p className="px-5 pb-5 text-sm text-on-surface-variant leading-relaxed">{item.a}</p>
+                </div>
               </div>
             </div>
           ))}

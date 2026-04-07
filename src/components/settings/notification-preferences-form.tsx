@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useState, useEffect } from "react";
 import { updateNotificationPrefsAction } from "@/app/(dashboard)/settings/actions";
 import { toast } from "sonner";
 
@@ -18,6 +18,12 @@ export function NotificationPreferencesForm({
 }: {
   defaults: NotificationPrefs;
 }) {
+  const [quietStart, setQuietStart] = useState(defaults.quietHoursStart ?? "22:00");
+  const [quietEnd, setQuietEnd] = useState(defaults.quietHoursEnd ?? "07:00");
+  const [touched, setTouched] = useState(false);
+
+  const quietError = touched && quietStart === quietEnd ? "Start and end times cannot be the same" : undefined;
+
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
     async (_prev, formData) => {
       return await updateNotificationPrefsAction(formData);
@@ -43,7 +49,7 @@ export function NotificationPreferencesForm({
             <div className="space-y-3 col-span-2">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Communication Channels</label>
               <select
-                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface"
                 name="urgentChannel"
                 defaultValue={defaults.urgentChannel}
               >
@@ -54,25 +60,33 @@ export function NotificationPreferencesForm({
             <div className="space-y-3">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Quiet Hours Start</label>
               <input
-                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                className={`w-full px-4 py-3 bg-surface-container-low/50 border rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface ${quietError ? "border-error" : "border-outline-variant/20"}`}
                 type="time"
                 name="quietHoursStart"
-                defaultValue={defaults.quietHoursStart ?? "22:00"}
+                value={quietStart}
+                onChange={(e) => { setQuietStart(e.target.value); setTouched(true); }}
               />
             </div>
             <div className="space-y-3">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Quiet Hours End</label>
               <input
-                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                className={`w-full px-4 py-3 bg-surface-container-low/50 border rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface ${quietError ? "border-error" : "border-outline-variant/20"}`}
                 type="time"
                 name="quietHoursEnd"
-                defaultValue={defaults.quietHoursEnd ?? "07:00"}
+                value={quietEnd}
+                onChange={(e) => { setQuietEnd(e.target.value); setTouched(true); }}
               />
+              {quietError && (
+                <p className="text-xs text-error flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {quietError}
+                </p>
+              )}
             </div>
             <div className="space-y-3 col-span-2">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">System Timezone</label>
               <select
-                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-primary focus:border-primary font-bold text-on-surface"
+                className="w-full px-4 py-3 bg-surface-container-low/50 border border-outline-variant/20 rounded focus:ring-1 focus:ring-accent focus:border-accent font-bold text-on-surface"
                 name="quietHoursTimezone"
                 defaultValue={defaults.quietHoursTimezone}
               >
@@ -86,7 +100,7 @@ export function NotificationPreferencesForm({
         <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || Boolean(quietError)}
             className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}

@@ -19,7 +19,7 @@ export default async function PropertiesPage() {
   );
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto py-12">
       {/* Header Section */}
       <header className="mb-10 flex justify-between items-end">
         <div className="max-w-2xl">

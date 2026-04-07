@@ -126,7 +126,7 @@ export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps)
           <p className="text-[11px] text-on-surface-variant uppercase tracking-widest mt-1">Property Management</p>
         </div>
 
-        <nav className="flex-1 space-y-1">
+        <nav aria-label="Main navigation" className="flex-1 space-y-1">
           {navSections.map((section) => (
             <div key={section.heading}>
               <div className="pt-4 pb-2 px-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
@@ -154,7 +154,7 @@ export function SidebarNav({ open = false, onClose, userInfo }: SidebarNavProps)
                     </span>
                     <span className="text-sm font-medium flex-1">{item.label}</span>
                     {item.badge != null && item.badge > 0 && (
-                      <span className={`min-w-[20px] h-5 flex items-center justify-center ${item.badgeColor || "bg-primary"} text-white text-[11px] font-bold rounded-full px-1.5`}>
+                      <span className={`min-w-[20px] h-5 flex items-center justify-center ${item.badgeColor || "bg-accent"} text-white text-[11px] font-bold rounded-full px-1.5`}>
                         {item.badge}
                       </span>
                     )}

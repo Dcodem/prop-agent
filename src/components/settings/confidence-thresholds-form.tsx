@@ -13,6 +13,9 @@ export function ConfidenceThresholdsForm({
 }) {
   const [high, setHigh] = useState(defaults.high);
   const [medium, setMedium] = useState(defaults.medium);
+  const [touched, setTouched] = useState(false);
+
+  const thresholdError = touched && high <= medium ? "High threshold must be greater than medium" : undefined;
 
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
     async (_prev, formData) => {
@@ -49,7 +52,7 @@ export function ConfidenceThresholdsForm({
                 type="range"
                 name="high"
                 value={high}
-                onChange={(e) => setHigh(Number(e.target.value))}
+                onChange={(e) => { setHigh(Number(e.target.value)); setTouched(true); }}
                 style={{ background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${high * 100}%, var(--color-surface-container-low) ${high * 100}%, var(--color-surface-container-low) 100%)` }}
               />
               <div className="flex justify-between mt-3 text-[10px] text-outline font-bold uppercase tracking-widest">
@@ -57,6 +60,12 @@ export function ConfidenceThresholdsForm({
                 <span>Aggressive</span>
               </div>
             </div>
+            {thresholdError && (
+              <p className="text-xs text-error flex items-center gap-1 -mt-4">
+                <span className="material-symbols-outlined text-sm">error</span>
+                {thresholdError}
+              </p>
+            )}
             <div>
               <div className="flex justify-between items-center mb-6">
                 <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Medium Confidence</label>
@@ -70,7 +79,7 @@ export function ConfidenceThresholdsForm({
                 type="range"
                 name="medium"
                 value={medium}
-                onChange={(e) => setMedium(Number(e.target.value))}
+                onChange={(e) => { setMedium(Number(e.target.value)); setTouched(true); }}
                 style={{ background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${medium * 100}%, var(--color-surface-container-low) ${medium * 100}%, var(--color-surface-container-low) 100%)` }}
               />
             </div>
@@ -79,7 +88,7 @@ export function ConfidenceThresholdsForm({
         <div className="bg-surface-container-low border-t border-outline-variant/20 px-8 py-4 flex justify-end">
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || Boolean(thresholdError)}
             className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}

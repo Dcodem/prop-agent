@@ -97,7 +97,7 @@ export function CaseSidebar({
             </span>
           </p>
           <div className="w-full h-1.5 bg-outline-variant/20 rounded-full mt-2 overflow-hidden">
-            <div className="h-full bg-accent rounded-full" style={{ width: "41%" }}></div>
+            <div className="h-full bg-accent rounded-full transition-all" style={{ width: `${Math.min(100, Math.round((205 / (spendingAuthorized > 0 ? spendingAuthorized : 500)) * 100))}%` }}></div>
           </div>
         </div>
       </div>
@@ -112,8 +112,8 @@ export function CaseSidebar({
                 <h2 className="text-xl font-extrabold text-on-surface">Work Order</h2>
                 <p className="text-xs text-on-surface-variant font-bold uppercase tracking-wider mt-1">{workOrderNumber}</p>
               </div>
-              <button onClick={() => setShowWorkOrder(false)} className="text-outline hover:text-on-surface transition-colors">
-                <span className="material-symbols-outlined">close</span>
+              <button onClick={() => setShowWorkOrder(false)} aria-label="Close work order" className="text-outline hover:text-on-surface transition-colors">
+                <span aria-hidden="true" className="material-symbols-outlined">close</span>
               </button>
             </div>
             <div className="p-8 space-y-8">

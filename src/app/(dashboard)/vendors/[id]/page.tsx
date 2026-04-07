@@ -44,14 +44,14 @@ export default async function VendorDetailPage({
   const scoreDisplay = (score * 10).toFixed(1);
 
   return (
-    <main className="pt-8 pb-24 px-12 max-w-[1600px] mx-auto min-h-screen">
-      <div className="max-w-7xl mx-auto p-8">
+    <div className="py-12 max-w-7xl mx-auto">
+      <div>
         <Breadcrumb items={[{ label: "Vendors", href: "/vendors" }, { label: vendor.name }]} />
         {/* Header Section: Profile & Actions */}
         <header className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
           <div className="flex items-center gap-8">
             <div className="relative group">
-              <div className="w-32 h-32 rounded-xl overflow-hidden bg-surface-container-high ring-4 ring-white shadow-xl flex items-center justify-center">
+              <div className="w-32 h-32 rounded-xl overflow-hidden bg-accent-container ring-4 ring-white shadow-xl flex items-center justify-center">
                 <span className="text-4xl font-extrabold text-accent">{initials}</span>
               </div>
               <div className="absolute -bottom-2 -right-2 bg-primary text-white p-1 rounded-full border-2 border-white">
@@ -65,8 +65,8 @@ export default async function VendorDetailPage({
               </div>
               <p className="text-lg text-on-surface-variant font-medium">{formatEnum(vendor.trade)} Specialist</p>
               <div className="flex items-center gap-4 mt-2 text-sm text-outline">
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">location_on</span> Greater Austin, TX — 25 mi radius</span>
                 <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">calendar_today</span> Partner since {partnerSince}</span>
+                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">assignment</span> {vendorCases.length} total cases</span>
               </div>
             </div>
           </div>
@@ -87,13 +87,10 @@ export default async function VendorDetailPage({
         {/* Bento Grid Metrics */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
           <div className="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm flex flex-col justify-between">
-            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Avg Response</span>
+            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Cases</span>
             <div className="mt-4">
-              <span className="text-4xl font-extrabold text-accent tracking-tighter">42m</span>
-              <div className="text-xs text-on-surface-variant mt-1 flex items-center gap-1">
-                <span className="material-symbols-outlined text-xs text-error">trending_down</span>
-                12% faster than last month
-              </div>
+              <span className="text-4xl font-extrabold text-on-surface tracking-tighter">{vendorCases.length}</span>
+              <div className="text-xs text-on-surface-variant mt-1">All time</div>
             </div>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between">
@@ -104,22 +101,20 @@ export default async function VendorDetailPage({
             </div>
           </div>
           <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-between">
-            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Compliance</span>
+            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Active Cases</span>
             <div className="mt-4">
-              <span className="text-4xl font-extrabold text-on-surface tracking-tighter">100%</span>
-              <div className="text-xs text-on-surface-variant mt-1 text-success font-semibold uppercase tracking-tighter">Fully Insured</div>
+              <span className="text-4xl font-extrabold text-on-surface tracking-tighter">{activeCases.length}</span>
+              <div className="text-xs text-on-surface-variant mt-1">Currently assigned</div>
             </div>
           </div>
           <div className="bg-primary p-6 rounded-xl shadow-lg flex flex-col justify-between text-white">
             <span className="text-xs font-bold text-white/80 uppercase tracking-widest">Partner Score</span>
             <div className="mt-4">
               <span className="text-4xl font-extrabold tracking-tighter">{scoreDisplay}</span>
-              <div className="flex gap-0.5 mt-1">
-                <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+              <div className="flex gap-0.5 mt-1" role="img" aria-label={`${(score * 5).toFixed(1)} out of 5 stars`}>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <span key={i} className="material-symbols-outlined text-xs" style={i < Math.round(score * 5) ? { fontVariationSettings: "'FILL' 1" } : { opacity: 0.3 }}>star</span>
+                ))}
               </div>
             </div>
           </div>
@@ -150,10 +145,10 @@ export default async function VendorDetailPage({
                     <p className="text-sm text-on-surface-variant mb-4 line-clamp-2">{c.rawMessage}</p>
                     <div className="flex items-center justify-between">
                       <div className="flex -space-x-2">
-                        <div className="w-8 h-8 rounded-full border-2 border-white bg-primary flex items-center justify-center text-[10px] font-bold text-white">
+                        <div className="w-8 h-8 rounded-full border-2 border-white bg-accent flex items-center justify-center text-[10px] font-bold text-white">
                           {initials.charAt(0)}
                         </div>
-                        <div className="w-8 h-8 rounded-full border-2 border-white bg-surface-container-low flex items-center justify-center text-[10px] font-bold text-on-surface-variant">
+                        <div className="w-8 h-8 rounded-full border-2 border-white bg-accent-container flex items-center justify-center text-[10px] font-bold text-accent">
                           +{Math.max(1, activeCases.length - 1)}
                         </div>
                       </div>
@@ -185,25 +180,10 @@ export default async function VendorDetailPage({
           <div className="space-y-8">
             {/* Contact & Map Info */}
             <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
-              <div className="h-32 bg-surface-container relative">
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-4xl text-accent/40">map</span>
-                </div>
-                <div className="absolute inset-0 bg-black/10"></div>
-                <div className="absolute bottom-4 left-4 bg-white px-3 py-1 rounded shadow-lg text-xs font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-xs text-caution">location_on</span>
-                  Headquarters
-                </div>
+              <div className="px-6 py-5 border-b border-outline-variant/10">
+                <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">Contact Info</h3>
               </div>
               <div className="p-6 space-y-4">
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-on-surface-variant">location_on</span>
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Service Area</div>
-                    <div className="text-sm font-medium text-on-surface">Greater Austin, TX</div>
-                    <div className="text-xs text-on-surface-variant">25 mile radius from downtown</div>
-                  </div>
-                </div>
                 {vendor.phone && (
                   <div className="flex items-start gap-4">
                     <span className="material-symbols-outlined text-on-surface-variant">phone</span>
@@ -245,6 +225,6 @@ export default async function VendorDetailPage({
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
