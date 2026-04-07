@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Property, Case, Tenant } from "@/lib/db/schema";
 import { formatEnum, timeAgo } from "@/lib/utils";
-import { DatePicker } from "@/components/ui/date-picker";
+import { Calendar, type RangeValue } from "@/components/ui/calendar";
 
 type Props = {
   property: Property;
@@ -96,8 +96,7 @@ type TimeFilter = "6m" | "12m" | "custom";
 
 export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("12m");
-  const [customFrom, setCustomFrom] = useState<Date | null>(null);
-  const [customTo, setCustomTo] = useState<Date | null>(null);
+  const [customRange, setCustomRange] = useState<RangeValue>({ start: null, end: null });
   const [showCustomPicker, setShowCustomPicker] = useState(false);
 
   // Filter cases by time period
@@ -109,8 +108,8 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
     } else if (timeFilter === "12m") {
       cutoff = new Date(now.getFullYear() - 1, now.getMonth(), 1);
     } else {
-      cutoff = customFrom ?? new Date(0);
-      const end = customTo ?? now;
+      cutoff = customRange.start ?? new Date(0);
+      const end = customRange.end ?? now;
       return cases
         .filter((c) => new Date(c.createdAt) >= cutoff && new Date(c.createdAt) <= end)
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -118,7 +117,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
     return cases
       .filter((c) => new Date(c.createdAt) >= cutoff)
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  }, [cases, timeFilter, customFrom, customTo]);
+  }, [cases, timeFilter, customRange]);
 
   // Group cases by month
   const groupedByMonth = useMemo(() => {
@@ -201,36 +200,17 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
               </button>
             </div>
             {showCustomPicker && (
-              <div className="absolute top-full right-0 mt-2 bg-surface-container-lowest rounded-xl shadow-xl border border-outline-variant/20 p-4 z-20 min-w-[280px]">
-                <p className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Select Date Range</p>
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs font-medium text-on-surface-variant">From</label>
-                    <DatePicker
-                      value={customFrom}
-                      onChange={setCustomFrom}
-                      placeholder="Start date"
-                      maxValue={customTo ?? undefined}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-on-surface-variant">To</label>
-                    <DatePicker
-                      value={customTo}
-                      onChange={setCustomTo}
-                      placeholder="End date"
-                      minValue={customFrom ?? undefined}
-                      className="mt-1"
-                    />
-                  </div>
-                  <button
-                    onClick={() => setShowCustomPicker(false)}
-                    className="w-full py-2 bg-accent text-on-accent rounded-lg font-bold text-sm"
-                  >
-                    Apply
-                  </button>
-                </div>
+              <div className="absolute top-full right-0 mt-2 z-20">
+                <Calendar
+                  value={customRange}
+                  onChange={(val) => {
+                    if (val) {
+                      setCustomRange(val);
+                      if (val.start && val.end) setShowCustomPicker(false);
+                    }
+                  }}
+                  compact
+                />
               </div>
             )}
           </div>
