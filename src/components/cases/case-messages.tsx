@@ -213,6 +213,44 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
 
       {/* Input Area */}
       <div className="mt-6 shrink-0">
+        {/* AI Suggestion Chips */}
+        {aiActive && activeThread === "tenant" && (
+          <div className="mb-3 flex items-center gap-2 flex-wrap">
+            <span className="text-[10px] font-bold text-accent uppercase tracking-widest flex items-center gap-1 mr-1">
+              <span className="material-symbols-outlined text-xs">smart_toy</span>
+              AI Suggest
+            </span>
+            {[
+              { label: "Draft response", icon: "edit_note" },
+              { label: "Schedule maintenance", icon: "calendar_month" },
+              { label: "Escalate to vendor", icon: "escalator_warning" },
+              { label: "Request photos", icon: "photo_camera" },
+              { label: "Mark resolved", icon: "check_circle" },
+            ].map((chip) => (
+              <button
+                key={chip.label}
+                onClick={() => {
+                  setInputText(chip.label === "Draft response"
+                    ? "Hi, thank you for reporting this issue. We've assigned a vendor and they will be in touch shortly to schedule a visit."
+                    : chip.label === "Schedule maintenance"
+                    ? "We'd like to schedule a maintenance visit. Are you available this week? Please let us know your preferred times."
+                    : chip.label === "Escalate to vendor"
+                    ? "Escalating this to our vendor team for immediate attention."
+                    : chip.label === "Request photos"
+                    ? "Could you please send photos of the issue? This will help our team assess the situation more quickly."
+                    : "This issue has been resolved. Please let us know if you experience any further problems."
+                  );
+                  inputRef.current?.focus();
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-lowest border border-accent/20 rounded-full text-xs font-bold text-accent hover:bg-accent hover:text-on-accent transition-all hover:shadow-sm active:scale-95"
+              >
+                <span className="material-symbols-outlined text-sm">{chip.icon}</span>
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Attached file pill */}
         {attachedFile && (
           <div className="mb-2 flex items-center gap-2">

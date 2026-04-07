@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import { StatCard } from "@/components/ui/stat-card";
 import { WelcomeBanner } from "@/components/welcome-banner";
+import { EventCalendar } from "@/components/ui/event-calendar";
 import type { Case, Property, Tenant } from "@/lib/db/schema";
 
 interface OverviewClientProps {
@@ -90,10 +91,10 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
 
       {/* Summary Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" />
-        <StatCard icon="assignment" iconBg="bg-info-container" iconColor="text-info" href="/cases" value={openCases.length} label="Open Cases" />
-        <StatCard icon="event_upcoming" iconBg="bg-caution-container" iconColor="text-caution" value={expiringLeases.length} label="Lease Follow-ups" />
-        <StatCard icon="payments" iconBg="bg-error/10" iconColor="text-error" value={lateOnRent.length} label="Late on Rent" />
+        <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" trend={{ value: "12%", direction: "down" }} />
+        <StatCard icon="assignment" iconBg="bg-info-container" iconColor="text-info" href="/cases" value={openCases.length} label="Open Cases" trend={{ value: "3%", direction: "up" }} />
+        <StatCard icon="event_upcoming" iconBg="bg-caution-container" iconColor="text-caution" value={expiringLeases.length} label="Lease Follow-ups" trend={{ value: "0%", direction: "neutral" }} />
+        <StatCard icon="payments" iconBg="bg-error/10" iconColor="text-error" value={lateOnRent.length} label="Late on Rent" trend={{ value: "8%", direction: "down" }} />
       </div>
 
       {/* Open Cases Section */}
@@ -331,6 +332,28 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
           )}
           </div>
         </div>
+      </section>
+
+      {/* Schedule Calendar */}
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <span className="material-symbols-outlined text-accent">calendar_month</span>
+            <h2 className="text-lg font-bold text-on-surface">Schedule</h2>
+          </div>
+        </div>
+        <EventCalendar events={[
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24), title: "Plumbing repair — 45 Oak St, Unit 3B", type: "maintenance" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), title: "HVAC inspection — 120 Main St", type: "inspection" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3), title: "Quick Fix Plumbing site visit", type: "vendor" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5), title: "Lease renewal — Sarah Johnson", type: "lease" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), title: "Fire safety inspection — 88 Elm Ave", type: "inspection" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10), title: "Electrical work — 200 Pine Rd, Unit 7", type: "maintenance" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 12), title: "Lease signing — Mark Williams", type: "lease" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14), title: "Elite Electric callback", type: "vendor" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 18), title: "Quarterly property walkthrough", type: "inspection" },
+          { date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 21), title: "Appliance replacement — 45 Oak St", type: "maintenance" },
+        ]} />
       </section>
 
       {/* AI Status Bar */}

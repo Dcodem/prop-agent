@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { StatsBar } from "@/components/cases/stats-bar";
 import { CaseFilters } from "@/components/cases/case-filters";
 import { CaseTable } from "@/components/cases/case-table";
@@ -63,8 +64,53 @@ export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPa
 
   const uniquePropertyIds = new Set(cases.map((c) => c.propertyId).filter(Boolean));
 
+  const [alertDismissed, setAlertDismissed] = useState(false);
+  const aiProcessing = cases.filter((c) => c.status === "open").length;
+
   return (
     <div className="max-w-7xl mx-auto space-y-6 py-12">
+      {/* Status Alert Bar */}
+      <AnimatePresence>
+        {!alertDismissed && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center justify-between px-4 py-3 rounded-xl bg-accent/5 border border-accent/15"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
+                </span>
+                <span className="text-sm font-bold text-on-surface">AI Active</span>
+              </div>
+              <span className="hidden sm:inline text-xs text-on-surface-variant">|</span>
+              <span className="hidden sm:inline text-xs text-on-surface-variant">
+                Monitoring <strong className="text-on-surface">{cases.length}</strong> cases &middot; <strong className="text-on-surface">{aiProcessing}</strong> awaiting triage
+              </span>
+              {aiProcessing > 0 && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-info/10 text-info text-[11px] font-bold border border-info/20">
+                  <span className="material-symbols-outlined text-xs">autorenew</span>
+                  Processing
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success/10 text-success text-[11px] font-bold border border-success/20">
+                <span className="material-symbols-outlined text-xs">check</span>
+                94.8% confidence
+              </span>
+              <button onClick={() => setAlertDismissed(true)} className="p-1 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-low">
+                <span className="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Page Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface">Cases</h1>

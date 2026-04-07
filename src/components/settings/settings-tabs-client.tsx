@@ -236,22 +236,37 @@ export function SettingsTabsClient({
     <div>
       {/* Tab Bar */}
       <div className="flex gap-2 mb-10 bg-surface-container-low p-1.5 rounded-xl">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
-              activeTab === tab.id
-                ? "bg-primary text-on-primary shadow-md"
-                : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
-            }`}
-          >
-            <span className="material-symbols-outlined text-lg">
-              {tab.icon}
-            </span>
-            {tab.label}
-          </button>
-        ))}
+        {TABS.map((tab) => {
+          const count = tab.id === "stages" ? stages.length
+            : tab.id === "labels" ? labels.length
+            : tab.id === "admin" ? team.length
+            : null;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
+                activeTab === tab.id
+                  ? "bg-primary text-on-primary shadow-md"
+                  : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg">
+                {tab.icon}
+              </span>
+              {tab.label}
+              {count !== null && (
+                <span className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold ${
+                  activeTab === tab.id
+                    ? "bg-on-primary/20 text-on-primary"
+                    : "bg-surface-container-high text-on-surface-variant"
+                }`}>
+                  {count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab Content */}
