@@ -197,7 +197,7 @@ export default function SignupPage() {
 
               {/* Sign Up Button */}
               <button
-                className="w-full bg-primary hover:opacity-90 text-on-primary font-semibold py-3 px-4 rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="w-full bg-primary hover:bg-primary/90 text-on-primary font-semibold py-3 px-4 rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 type="submit"
                 disabled={loading}
               >

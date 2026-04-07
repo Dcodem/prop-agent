@@ -105,7 +105,7 @@ export function AddNoteForm({ caseId, caseStatus = "open", existingNotes = [] }:
           <button
             type="submit"
             disabled={isPending}
-            className="bg-accent text-on-accent px-6 py-3 rounded-lg font-black text-sm hover:opacity-90 active:scale-95 transition-all shadow-sm disabled:opacity-50 flex items-center gap-2"
+            className="bg-accent text-on-accent px-6 py-3 rounded-lg font-black text-sm hover:bg-accent/90 active:scale-95 transition-all shadow-sm disabled:opacity-50 flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-lg">add</span>
             {isPending ? "Adding..." : "Add Note"}

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { formatEnum, timeAgo, generateCaseSummary } from "@/lib/utils";
 import { StatCard } from "@/components/ui/stat-card";
 import { WelcomeBanner } from "@/components/welcome-banner";
@@ -25,6 +26,7 @@ const URGENCY_DOT: Record<string, string> = {
 const LATE_TENANT_INDICES = new Set([2, 5, 8, 11]);
 
 export function OverviewClient({ cases, properties, tenants, hasVendors = false }: OverviewClientProps) {
+  const router = useRouter();
   const propertyMap = new Map(properties.map((p) => [p.id, p.address]));
 
   const openCases = useMemo(
@@ -143,7 +145,7 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
                 </thead>
                 <tbody className="divide-y divide-outline-variant/30">
                   {openCases.slice(0, 3).map((c) => (
-                    <tr key={c.id} onClick={() => window.location.href = `/cases/${c.id}`} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
+                    <tr key={c.id} onClick={() => router.push(`/cases/${c.id}`)} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <span className={`w-2 h-2 rounded-full ${URGENCY_DOT[c.urgency ?? "low"]}`} />
@@ -267,7 +269,7 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
           className="w-full px-6 py-4 flex items-center justify-between cursor-pointer select-none hover:bg-surface-container-low/50 transition-colors text-left"
         >
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-warning-dim">payments</span>
+            <span className="material-symbols-outlined text-error">payments</span>
             <h2 className="text-lg font-bold text-on-surface">Late on Rent</h2>
             <span className="bg-surface-container-high text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full">{lateOnRent.length}</span>
             {lateOnRent.length === 0 && !lateRentOpen && (

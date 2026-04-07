@@ -94,7 +94,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
           className={`border-2 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-sm ${
             aiActive
               ? "bg-surface-container-lowest/50 border-accent/20 text-accent hover:bg-accent hover:text-on-accent"
-              : "bg-accent border-accent text-on-accent hover:opacity-90"
+              : "bg-accent border-accent text-on-accent hover:bg-accent/90"
           }`}
         >
           <span className="material-symbols-outlined text-lg">
@@ -289,7 +289,7 @@ export function CaseMessages({ messages }: { messages: MessageLog[] }) {
               <button
                 onClick={handleSend}
                 disabled={!inputText.trim() && !attachedFile}
-                className="bg-accent text-on-accent px-8 py-3.5 rounded-full font-extrabold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
+                className="bg-accent text-on-accent px-8 py-3.5 rounded-full font-extrabold text-sm hover:bg-accent/90 active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
               >
                 <span>Send Message</span>
                 <span className="material-symbols-outlined text-lg text-accent">send</span>

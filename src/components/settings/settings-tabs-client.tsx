@@ -201,7 +201,7 @@ export function SettingsTabsClient({
                 resolution.
               </p>
             </div>
-            <button onClick={() => setShowAddStage(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <button onClick={() => setShowAddStage(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">add</span>
               Add Stage
             </button>
@@ -275,7 +275,7 @@ export function SettingsTabsClient({
                 <span className="material-symbols-outlined text-lg">auto_awesome</span>
                 AI Smart Labels
               </button>
-              <button onClick={() => setShowCreateLabel(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+              <button onClick={() => setShowCreateLabel(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors flex items-center gap-2">
                 <span className="material-symbols-outlined text-lg">add</span>
                 Create Label
               </button>
@@ -312,7 +312,7 @@ export function SettingsTabsClient({
                         setLabels((prev) => [...prev, { name: suggestion.name, color: suggestion.color, count: 0 }]);
                         setAiLabelSuggestions((prev) => prev.filter((s) => s.name !== suggestion.name));
                       }}
-                      className="shrink-0 px-3 py-1.5 bg-accent text-on-accent rounded-lg text-xs font-bold hover:opacity-90 transition-opacity"
+                      className="shrink-0 px-3 py-1.5 bg-accent text-on-accent rounded-lg text-xs font-bold hover:bg-accent/90 transition-colors"
                     >
                       Add
                     </button>
@@ -370,7 +370,7 @@ export function SettingsTabsClient({
                 Manage user access and roles for your organization.
               </p>
             </div>
-            <button onClick={() => setShowInviteUser(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+            <button onClick={() => setShowInviteUser(true)} className="px-5 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-lg">
                 person_add
               </span>
@@ -551,7 +551,7 @@ export function SettingsTabsClient({
               <button onClick={() => setShowAddStage(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
                 Cancel
               </button>
-              <button onClick={handleAddStage} disabled={!newStageName.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+              <button onClick={handleAddStage} disabled={!newStageName.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors disabled:opacity-50">
                 Add Stage
               </button>
             </div>
@@ -599,7 +599,7 @@ export function SettingsTabsClient({
               <button onClick={() => setShowCreateLabel(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
                 Cancel
               </button>
-              <button onClick={handleCreateLabel} disabled={!newLabelName.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+              <button onClick={handleCreateLabel} disabled={!newLabelName.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors disabled:opacity-50">
                 Create Label
               </button>
             </div>
@@ -646,7 +646,7 @@ export function SettingsTabsClient({
               <button onClick={() => setShowInviteUser(false)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
                 Cancel
               </button>
-              <button onClick={handleInviteUser} disabled={!inviteEmail.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+              <button onClick={handleInviteUser} disabled={!inviteEmail.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors disabled:opacity-50">
                 Send Invite
               </button>
             </div>
@@ -687,7 +687,7 @@ export function SettingsTabsClient({
               <button onClick={() => setEditingRoleEmail(null)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
                 Cancel
               </button>
-              <button onClick={handleChangeRole} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all">
+              <button onClick={handleChangeRole} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors">
                 Save Role
               </button>
             </div>
@@ -734,7 +734,7 @@ export function SettingsTabsClient({
               <button onClick={() => setEditingLabel(null)} className="px-5 py-2.5 bg-surface-container-high text-on-surface rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">
                 Cancel
               </button>
-              <button onClick={handleEditLabel} disabled={!editingLabel.name.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50">
+              <button onClick={handleEditLabel} disabled={!editingLabel.name.trim()} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-colors disabled:opacity-50">
                 Save Changes
               </button>
             </div>

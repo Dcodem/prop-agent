@@ -119,7 +119,7 @@ export function UrgencyTimersForm({
           <button
             type="submit"
             disabled={isPending}
-            className="bg-primary hover:opacity-90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
+            className="bg-primary hover:bg-primary/90 text-on-primary px-8 py-2 rounded font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Changes"}
           </button>

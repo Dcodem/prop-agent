@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import type { Case, Vendor, Property } from "@/lib/db/schema";
 import { StatusUpdateForm } from "./status-update-form";
 import { AssignVendorForm } from "./assign-vendor-form";
@@ -103,10 +104,24 @@ export function CaseSidebar({
       </div>
 
       {/* Work Order Modal */}
+      <AnimatePresence>
       {showWorkOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-on-surface/50" onClick={() => setShowWorkOrder(false)} />
-          <div className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="absolute inset-0 bg-on-surface/50"
+            onClick={() => setShowWorkOrder(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 12 }}
+            transition={{ type: "tween", ease: [0.25, 1, 0.5, 1], duration: 0.2 }}
+            className="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          >
             <div className="sticky top-0 bg-surface-container-lowest border-b border-outline-variant/20 p-6 flex items-center justify-between z-10">
               <div>
                 <h2 className="text-xl font-extrabold text-on-surface">Work Order</h2>
@@ -188,15 +203,16 @@ export function CaseSidebar({
               </button>
               <button
                 onClick={() => setShowWorkOrder(false)}
-                className="px-6 py-3 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all flex items-center gap-2"
+                className="px-6 py-3 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:bg-accent/90 transition-colors flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-lg">save</span>
                 Save to Case
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
+      </AnimatePresence>
     </div>
   );
 }

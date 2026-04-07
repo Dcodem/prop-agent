@@ -235,7 +235,7 @@ export function TenantForm({
             <button
               type="submit"
               disabled={isPending}
-              className="flex-1 bg-accent hover:opacity-90 text-on-accent font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+              className="flex-1 bg-accent hover:bg-accent/90 text-on-accent font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
             >
               {isPending ? (
                 "Saving..."

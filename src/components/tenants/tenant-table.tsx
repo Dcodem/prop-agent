@@ -352,7 +352,7 @@ export function TenantTable({
                   </button>
                   <button
                     onClick={handleSubmitCase}
-                    className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition-all flex items-center gap-2"
+                    className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-md hover:bg-accent/90 transition-all flex items-center gap-2"
                   >
                     <span className="material-symbols-outlined text-sm">add_circle</span>
                     Create Case

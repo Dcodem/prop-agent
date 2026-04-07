@@ -61,7 +61,7 @@ export function PropertyCard({
               {activeCases} Active {activeCases === 1 ? "Case" : "Cases"}
             </span>
           ) : (
-            <span className="px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant text-[11px] font-bold uppercase tracking-wider shadow-sm">
+            <span className="px-3 py-1 rounded-full bg-success-container text-on-success-container text-[11px] font-bold uppercase tracking-wider shadow-sm">
               No Issues
             </span>
           )}
@@ -89,9 +89,12 @@ export function PropertyCard({
         </div>
         {/* Activity summary */}
         <div className={`pt-2 border-t border-outline-variant/10 flex items-center gap-1.5 ${
-          activeCases > 0 ? "text-on-surface-variant" : "text-on-surface-variant"
+          activeCases > 0 ? "text-on-surface-variant" : "text-success"
         }`}>
-          <span className="material-symbols-outlined text-sm">
+          <span
+            className="material-symbols-outlined text-sm"
+            style={activeCases === 0 ? { fontVariationSettings: "'FILL' 1" } : undefined}
+          >
             {activeCases > 0 ? "build" : "check_circle"}
           </span>
           <span className="text-xs font-medium">

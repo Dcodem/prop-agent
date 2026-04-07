@@ -151,8 +151,8 @@ export function TenantDetailClient({
             <span className="bg-surface-container text-on-surface-variant px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
               Resident Status
             </span>
-            <span className="flex items-center gap-1.5 text-accent font-bold text-sm">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span className="flex items-center gap-1.5 text-success font-bold text-sm">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
               Active
             </span>
           </div>
@@ -324,7 +324,7 @@ export function TenantDetailClient({
                       </span>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <button className="material-symbols-outlined text-on-surface-variant hover:text-error">
+                      <button className="material-symbols-outlined text-on-surface-variant hover:text-accent transition-colors">
                         download
                       </button>
                     </td>
@@ -538,7 +538,7 @@ export function TenantDetailClient({
                 <span className="material-symbols-outlined text-sm">download</span>
                 Download
               </button>
-              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
+              <button onClick={() => setPreviewDoc(null)} className="px-6 py-2.5 bg-accent text-on-accent rounded-lg font-bold text-sm shadow-lg hover:bg-accent/90 transition-colors">
                 Close
               </button>
             </div>

@@ -106,7 +106,7 @@ export default function LoginPage() {
           </div>
 
           <button
-            className="w-full bg-accent text-on-accent py-4 rounded-lg font-bold text-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-accent text-on-accent py-4 rounded-lg font-bold text-lg hover:bg-accent/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed"
             type="submit"
             disabled={loading}
           >

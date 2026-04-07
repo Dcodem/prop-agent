@@ -145,21 +145,21 @@ export function CaseTable({ cases, properties, tenants }: CaseTableProps) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleBulkAction("Mark as Resolved")}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-success-container text-on-success-container hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-success-container text-on-success-container hover:bg-success-container/80 transition-colors"
             >
               <span aria-hidden="true" className="material-symbols-outlined text-sm">check_circle</span>
               Resolve
             </button>
             <button
               onClick={() => setPendingBulkAction("Closed")}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-on-surface-variant hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors"
             >
               <span aria-hidden="true" className="material-symbols-outlined text-sm">archive</span>
               Close
             </button>
             <button
               onClick={() => setPendingBulkAction("Escalated")}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-caution-container text-on-caution-container hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-caution-container text-on-caution-container hover:bg-caution-container/80 transition-colors"
             >
               <span aria-hidden="true" className="material-symbols-outlined text-sm">priority_high</span>
               Escalate

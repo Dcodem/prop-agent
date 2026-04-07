@@ -9,10 +9,10 @@ interface TopBarProps {
 }
 
 const notifications = [
-  { id: 1, icon: "warning", iconBg: "bg-surface-container-high", iconColor: "text-on-surface", title: "Critical case opened", desc: "Emergency plumbing issue reported at 45 Oak St, Unit 3B", time: "12m ago", unread: true, href: "/cases" },
-  { id: 2, icon: "assignment", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "3 cases awaiting review", desc: "New maintenance requests need triage and vendor assignment", time: "2h ago", unread: true, href: "/cases" },
-  { id: 3, icon: "event", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "Lease expiring soon", desc: "2 tenant leases expire within the next 30 days", time: "5h ago", unread: false, href: "/tenants" },
-  { id: 4, icon: "engineering", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", title: "Vendor confirmed", desc: "Quick Fix Plumbing confirmed appointment for tomorrow 9AM", time: "1d ago", unread: false, href: "/vendors" },
+  { id: 1, icon: "warning", iconBg: "bg-error-container", iconColor: "text-on-error-container", title: "Critical case opened", desc: "Emergency plumbing issue reported at 45 Oak St, Unit 3B", time: "12m ago", unread: true, href: "/cases" },
+  { id: 2, icon: "assignment", iconBg: "bg-info-container", iconColor: "text-info", title: "3 cases awaiting review", desc: "New maintenance requests need triage and vendor assignment", time: "2h ago", unread: true, href: "/cases" },
+  { id: 3, icon: "event", iconBg: "bg-caution-container", iconColor: "text-on-caution-container", title: "Lease expiring soon", desc: "2 tenant leases expire within the next 30 days", time: "5h ago", unread: false, href: "/tenants" },
+  { id: 4, icon: "engineering", iconBg: "bg-warning-container", iconColor: "text-warning-dim", title: "Vendor confirmed", desc: "Quick Fix Plumbing confirmed appointment for tomorrow 9AM", time: "1d ago", unread: false, href: "/vendors" },
 ];
 
 export function TopBar({ onMenuToggle }: TopBarProps) {

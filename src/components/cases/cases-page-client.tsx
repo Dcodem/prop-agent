@@ -9,6 +9,8 @@ import { CaseKanban } from "@/components/cases/case-kanban";
 import { CaseCreateModal } from "@/components/cases/case-create-modal";
 import type { Case, Property, Tenant, Vendor } from "@/lib/db/schema";
 
+const OPEN_STATUSES = new Set(["open", "in_progress", "waiting_on_vendor", "waiting_on_tenant"]);
+
 interface CasesPageClientProps {
   cases: Case[];
   properties: Property[];
@@ -41,8 +43,6 @@ export function CasesPageClient({ cases, properties, tenants, vendors }: CasesPa
   const [urgencyFilter, setUrgencyFilter] = useState(searchParams.get("urgency") ?? "");
   const [propertyFilter, setPropertyFilter] = useState(searchParams.get("property") ?? "");
   const [showNewCaseModal, setShowNewCaseModal] = useState(false);
-
-  const OPEN_STATUSES = new Set(["open", "in_progress", "waiting_on_vendor", "waiting_on_tenant"]);
 
   const filteredCases = useMemo(() => {
     return cases.filter((c) => {
