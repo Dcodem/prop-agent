@@ -1,6 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+
+// 1x1 transparent PNG for hiding the native drag image
+const TRANSPARENT_IMG = typeof document !== "undefined" ? (() => {
+  const img = new Image();
+  img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
+  return img;
+})() : null;
 
 const TABS = [
   { id: "ai", label: "AI Settings", icon: "smart_toy" },
@@ -127,6 +136,67 @@ export function SettingsTabsClient({
     setShowAddStage(false);
   }
 
+  // ── Stage drag-and-drop ──
+  const [dragStageIdx, setDragStageIdx] = useState<number | null>(null);
+  const [dragOverStageIdx, setDragOverStageIdx] = useState<number | null>(null);
+  const [justDroppedStageIdx, setJustDroppedStageIdx] = useState<number | null>(null);
+  const [stageGhostPos, setStageGhostPos] = useState<{ x: number; y: number } | null>(null);
+  const dropStageTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleStageDocDragOver = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    setStageGhostPos({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  useEffect(() => {
+    if (dragStageIdx !== null) {
+      document.addEventListener("dragover", handleStageDocDragOver);
+      return () => document.removeEventListener("dragover", handleStageDocDragOver);
+    } else {
+      setStageGhostPos(null);
+    }
+  }, [dragStageIdx, handleStageDocDragOver]);
+
+  useEffect(() => {
+    if (justDroppedStageIdx !== null) {
+      dropStageTimeout.current = setTimeout(() => setJustDroppedStageIdx(null), 400);
+      return () => { if (dropStageTimeout.current) clearTimeout(dropStageTimeout.current); };
+    }
+  }, [justDroppedStageIdx]);
+
+  function handleStageDragStart(e: React.DragEvent, idx: number) {
+    setDragStageIdx(idx);
+    if (TRANSPARENT_IMG) e.dataTransfer.setDragImage(TRANSPARENT_IMG, 0, 0);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function handleStageDragEnd() {
+    setDragStageIdx(null);
+    setDragOverStageIdx(null);
+    setStageGhostPos(null);
+  }
+
+  function handleStageDragOver(e: React.DragEvent, idx: number) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverStageIdx !== idx) setDragOverStageIdx(idx);
+  }
+
+  function handleStageDrop(targetIdx: number) {
+    if (dragStageIdx !== null && dragStageIdx !== targetIdx) {
+      setStages((prev) => {
+        const next = [...prev];
+        const [moved] = next.splice(dragStageIdx, 1);
+        next.splice(targetIdx, 0, moved);
+        return next;
+      });
+      setJustDroppedStageIdx(targetIdx);
+    }
+    setDragStageIdx(null);
+    setDragOverStageIdx(null);
+    setStageGhostPos(null);
+  }
+
   function handleCreateLabel() {
     if (!newLabelName.trim()) return;
     setLabels((prev) => [...prev, { name: newLabelName.trim(), color: newLabelColor, count: 0 }]);
@@ -206,41 +276,91 @@ export function SettingsTabsClient({
               Add Stage
             </button>
           </div>
-          <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
-            {stages.map((stage, i) => (
+          <LayoutGroup id="stages">
+            <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
+              <AnimatePresence mode="popLayout">
+                {stages.map((stage, i) => {
+                  const isDragging = dragStageIdx === i;
+                  const isDragOver = dragOverStageIdx === i && dragStageIdx !== null && dragStageIdx !== i;
+                  const isJustDropped = justDroppedStageIdx === i;
+
+                  return (
+                    <motion.div
+                      key={stage.name}
+                      layout
+                      layoutId={`stage-${stage.name}`}
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={
+                        isJustDropped
+                          ? { opacity: 1, scale: [1, 1.02, 0.99, 1], y: 0 }
+                          : { opacity: isDragging ? 0.3 : 1, scale: 1, y: 0 }
+                      }
+                      exit={{ opacity: 0, scale: 0.95, y: -8 }}
+                      transition={
+                        isJustDropped
+                          ? { layout: { type: "spring", stiffness: 400, damping: 28 }, scale: { duration: 0.3 } }
+                          : { layout: { type: "spring", stiffness: 400, damping: 30 }, opacity: { duration: 0.15 } }
+                      }
+                      draggable
+                      onDragStart={(e) => handleStageDragStart(e as unknown as React.DragEvent, i)}
+                      onDragEnd={handleStageDragEnd}
+                      onDragOver={(e) => handleStageDragOver(e as unknown as React.DragEvent, i)}
+                      onDrop={() => handleStageDrop(i)}
+                      className={`flex items-center gap-4 px-6 py-5 ${
+                        i < stages.length - 1 ? "border-b border-outline-variant/10" : ""
+                      } ${!stage.enabled ? "opacity-50" : ""} ${
+                        isDragOver ? "bg-accent/[0.06] border-b-accent/30" : ""
+                      } ${isJustDropped ? "bg-accent/[0.04]" : ""} transition-colors`}
+                    >
+                      <span className="material-symbols-outlined text-on-surface-variant cursor-grab active:cursor-grabbing select-none">
+                        drag_indicator
+                      </span>
+                      <span className={`w-3 h-3 rounded-full ${stage.color}`} />
+                      <span className="text-sm font-bold text-on-surface flex-1">
+                        {stage.name}
+                      </span>
+                      <span className="text-xs text-on-surface-variant font-medium uppercase tracking-wider mr-4">
+                        Step {i + 1}
+                      </span>
+                      <button
+                        onClick={() => toggleStage(i)}
+                        className={`relative w-11 h-6 rounded-full transition-colors ${
+                          stage.enabled ? "bg-primary" : "bg-outline-variant"
+                        }`}
+                      >
+                        <span
+                          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                            stage.enabled ? "translate-x-5" : "translate-x-0"
+                          }`}
+                        />
+                      </button>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+          </LayoutGroup>
+          {/* Stage drag ghost */}
+          {dragStageIdx !== null && stageGhostPos && typeof document !== "undefined" &&
+            createPortal(
               <div
-                key={stage.name}
-                className={`flex items-center gap-4 px-6 py-5 ${
-                  i < stages.length - 1
-                    ? "border-b border-outline-variant/10"
-                    : ""
-                } ${!stage.enabled ? "opacity-50" : ""}`}
+                className="fixed pointer-events-none z-[9999]"
+                style={{ left: stageGhostPos.x + 12, top: stageGhostPos.y - 12 }}
               >
-                <span className="material-symbols-outlined text-on-surface-variant cursor-grab">
-                  drag_indicator
-                </span>
-                <span className={`w-3 h-3 rounded-full ${stage.color}`} />
-                <span className="text-sm font-bold text-on-surface flex-1">
-                  {stage.name}
-                </span>
-                <span className="text-xs text-on-surface-variant font-medium uppercase tracking-wider mr-4">
-                  Step {i + 1}
-                </span>
-                <button
-                  onClick={() => toggleStage(i)}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    stage.enabled ? "bg-primary" : "bg-outline-variant"
-                  }`}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.1 }}
+                  className="flex items-center gap-3 bg-surface-container-lowest rounded-lg shadow-2xl border border-accent/20 px-4 py-3 rotate-[2deg]"
                 >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                      stage.enabled ? "translate-x-5" : "translate-x-0"
-                    }`}
-                  />
-                </button>
-              </div>
-            ))}
-          </div>
+                  <span className={`w-3 h-3 rounded-full ${stages[dragStageIdx].color}`} />
+                  <span className="text-sm font-bold text-on-surface">{stages[dragStageIdx].name}</span>
+                  <span className="text-[10px] text-on-surface-variant font-medium uppercase">Step {dragStageIdx + 1}</span>
+                </motion.div>
+              </div>,
+              document.body,
+            )
+          }
           <p className="text-xs text-on-surface-variant">
             Drag to reorder stages. Disabling a stage will prevent cases from
             being moved to it.
