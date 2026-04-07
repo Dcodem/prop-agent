@@ -107,7 +107,7 @@ export default async function CaseDetailPage({
                 <h2 className="text-2xl font-extrabold text-on-surface tracking-tight font-headline">
                   {tenant?.name ?? "Unknown Tenant"}
                 </h2>
-                <span className="px-3 py-1 bg-accent/5 text-accent text-[10px] font-black uppercase tracking-widest rounded-full border border-accent/10">
+                <span className="px-3 py-1 bg-accent/5 text-accent text-[10px] font-bold uppercase tracking-widest rounded-full border border-accent/10">
                   Primary Tenant
                 </span>
               </div>

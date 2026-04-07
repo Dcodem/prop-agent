@@ -65,7 +65,8 @@ export function SpendingLimitsForm({
             <span className="material-symbols-outlined text-success text-2xl">payments</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Spending Limits</h2>
           </div>
-          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Establish maximum budgets for autonomous agent spending on vendor services.</p>
+          <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">Establish maximum budgets for autonomous agent spending on vendor services.</p>
+          <p className="text-xs text-on-surface-variant/70 mb-10 leading-relaxed">The AI agent can authorize vendor work up to the <strong>default limit</strong> without your approval. For cases flagged as emergencies, the <strong>emergency limit</strong> applies instead. Any amount above these limits requires manual sign-off.</p>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Default Limit</label>

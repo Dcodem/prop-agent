@@ -27,23 +27,23 @@ export function CaseSidebar({
     <div className="col-span-12 lg:col-span-4 space-y-10">
       {/* Quick Actions Tile */}
       <div className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm border border-outline-variant/10">
-        <h3 className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em] mb-8">
+        <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-8">
           Case Controls
         </h3>
         <div className="space-y-8">
           <StatusUpdateForm caseId={caseData.id} currentStatus={caseData.status} />
 
           <div className="space-y-3">
-            <label className="text-xs font-black text-on-surface uppercase tracking-wider px-1">
+            <label className="text-xs font-bold text-on-surface uppercase tracking-wider px-1">
               Assign Contractor
             </label>
             {vendor ? (
               <div className="flex items-center gap-4 p-5 bg-primary-fixed rounded-lg border border-outline-variant/10 relative">
-                <div className="w-12 h-12 bg-accent/10 text-accent rounded-lg flex items-center justify-center font-black text-lg">
+                <div className="w-12 h-12 bg-accent/10 text-accent rounded-lg flex items-center justify-center font-bold text-lg">
                   {vendor.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-grow">
-                  <p className="text-sm font-black">{vendor.name}</p>
+                  <p className="text-sm font-bold">{vendor.name}</p>
                   <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
                     {vendor.trade ? vendor.trade.charAt(0).toUpperCase() + vendor.trade.slice(1) : "General"}{" "}
                     {vendor.preferenceScore ? `\u2022 \u2605 ${vendor.preferenceScore.toFixed(1)}` : ""}
@@ -58,7 +58,7 @@ export function CaseSidebar({
 
           <button
             onClick={() => setShowWorkOrder(true)}
-            className="w-full py-5 border-2 border-outline-variant/20 text-on-surface rounded-lg font-black text-sm flex items-center justify-center gap-3 hover:bg-surface transition-all"
+            className="w-full py-5 border-2 border-outline-variant/20 text-on-surface rounded-lg font-bold text-sm flex items-center justify-center gap-3 hover:bg-surface transition-all"
           >
             <span className="material-symbols-outlined">description</span>
             Generate Work Order
@@ -68,7 +68,7 @@ export function CaseSidebar({
 
       {/* Financial Ledger */}
       <div className="bg-primary-fixed rounded-2xl p-10 shadow-sm border border-outline-variant/10">
-        <h3 className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em] mb-6">
+        <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">
           Estimated Costs
         </h3>
         <div className="space-y-4">
@@ -86,14 +86,14 @@ export function CaseSidebar({
           </div>
           <div className="h-[2px] bg-outline-variant/20 my-4"></div>
           <div className="flex justify-between items-center text-2xl">
-            <span className="font-black text-on-surface tracking-tighter">Total Est.</span>
-            <span className="font-black text-accent">$205.00</span>
+            <span className="font-bold text-on-surface tracking-tighter">Total Est.</span>
+            <span className="font-bold text-accent">$205.00</span>
           </div>
         </div>
         <div className="mt-8 p-4 bg-surface-container-lowest/50 rounded-lg border border-accent/10">
           <p className="text-[10px] text-on-surface-variant font-bold leading-relaxed uppercase tracking-wider">
             Pre-approved budget:{" "}
-            <span className="text-accent font-black">
+            <span className="text-accent font-bold">
               {spendingAuthorized > 0 ? formatCurrency(spendingAuthorized) : "$500.00"}
             </span>
           </p>
@@ -185,7 +185,7 @@ export function CaseSidebar({
                   <div className="flex justify-between text-sm"><span>Service Call</span><span className="font-bold">$85.00</span></div>
                   <div className="flex justify-between text-sm"><span>Labor</span><span className="font-bold">$120.00</span></div>
                   <div className="flex justify-between text-sm"><span>Parts</span><span className="font-bold">$0.00</span></div>
-                  <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-lg font-black">
+                  <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-lg font-bold">
                     <span>Total</span><span className="text-accent">$205.00</span>
                   </div>
                 </div>

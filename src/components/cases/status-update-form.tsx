@@ -50,7 +50,7 @@ export function StatusUpdateForm({
 
   return (
     <div className="space-y-3">
-      <label className="text-xs font-black text-on-surface uppercase tracking-wider px-1">
+      <label className="text-xs font-bold text-on-surface uppercase tracking-wider px-1">
         Adjust Status
       </label>
       <div className="relative group">

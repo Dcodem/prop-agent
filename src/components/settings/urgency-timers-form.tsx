@@ -52,9 +52,10 @@ export function UrgencyTimersForm({
             <span className="material-symbols-outlined text-caution text-2xl">timer</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Urgency Response Timers</h2>
           </div>
-          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Define follow-up intervals (in minutes) for vendor management based on priority.</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
+          <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">Define follow-up intervals (in minutes) for vendor management based on priority.</p>
+          <p className="text-xs text-on-surface-variant/70 mb-10 leading-relaxed"><strong>Response</strong> = time before first vendor ping. <strong>Reminder</strong> = interval between follow-ups. <strong>Next Vendor</strong> = when to try an alternate vendor. <strong>Escalation</strong> = when to alert you directly.</p>
+          <div className="overflow-x-auto -mx-2 px-2">
+            <table className="w-full text-left min-w-[480px]">
               <thead>
                 <tr className="text-[10px] text-outline font-bold uppercase tracking-[0.2em] border-b border-outline-variant/10">
                   <th className="pb-4">Priority</th>

@@ -89,7 +89,7 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
       />
 
       {/* Summary Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard icon="priority_high" iconBg="bg-error/10" iconColor="text-error" value={totalActions} label="Action Items" />
         <StatCard icon="assignment" iconBg="bg-info-container" iconColor="text-info" href="/cases" value={openCases.length} label="Open Cases" />
         <StatCard icon="event_upcoming" iconBg="bg-caution-container" iconColor="text-caution" value={expiringLeases.length} label="Lease Follow-ups" />
@@ -225,8 +225,8 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
                 {expiringLeases.slice(0, 3).map((t) => {
                   const colors = getLeaseUrgencyColor(t.daysLeft);
                   return (
-                    <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-colors">
-                      <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
+                    <Link key={t.id} href={`/tenants/${t.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low/50 transition-all duration-200">
+                      <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center transition-transform duration-200 group-hover:scale-105`}>
                         <span className={`material-symbols-outlined ${colors.text} text-lg`}>calendar_today</span>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -334,7 +334,7 @@ export function OverviewClient({ cases, properties, tenants, hasVendors = false 
       </section>
 
       {/* AI Status Bar */}
-      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow px-6 py-4 flex items-center justify-between">
+      <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 card-shadow px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
           <span className="text-sm font-bold text-on-surface">PropAgent Active</span>

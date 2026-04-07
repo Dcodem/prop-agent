@@ -85,8 +85,8 @@ export default async function VendorDetailPage({
         </header>
 
         {/* Bento Grid Metrics */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm flex flex-col justify-between">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+          <div className="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Cases</span>
             <div className="mt-4">
               <span className="text-4xl font-extrabold text-on-surface tracking-tighter">{vendorCases.length}</span>

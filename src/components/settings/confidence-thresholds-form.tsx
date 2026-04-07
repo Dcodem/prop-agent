@@ -37,7 +37,8 @@ export function ConfidenceThresholdsForm({
             <span className="material-symbols-outlined text-purple text-2xl">psychology</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Confidence Thresholds</h2>
           </div>
-          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions. Higher scores increase accuracy but may require more manual intervention.</p>
+          <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">Set the confidence score requirements for AI-driven case resolutions.</p>
+          <p className="text-xs text-on-surface-variant/70 mb-10 leading-relaxed">Cases scoring above the <strong>high</strong> threshold are handled automatically. Cases between <strong>medium</strong> and <strong>high</strong> are queued for your review. Cases below <strong>medium</strong> are escalated immediately.</p>
           <div className="space-y-10">
             <div>
               <div className="flex justify-between items-center mb-6">

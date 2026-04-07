@@ -41,7 +41,7 @@ export function PropertyCard({
   return (
     <Link
       href={`/properties/${property.id}`}
-      className="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-accent/20 hover:shadow-lg transition-all duration-300 card-shadow"
+      className="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-accent/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 card-shadow"
     >
       <div className="h-48 overflow-hidden relative">
         {photo ? (

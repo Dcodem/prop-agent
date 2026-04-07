@@ -295,7 +295,7 @@ export function PropertyAnalyticsClient({ property, cases, tenants }: Props) {
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
                             <span className={`w-2 h-2 rounded-full ${c.urgency === "critical" ? "bg-error" : c.urgency === "high" ? "bg-on-surface" : c.urgency === "medium" ? "bg-accent" : "bg-outline"}`} />
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${getUrgencyColor(c.urgency)}`}>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${getUrgencyColor(c.urgency)}`}>
                               {c.urgency ?? "Unknown"}
                             </span>
                             {c.category && (

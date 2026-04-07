@@ -153,7 +153,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <h4 className="text-on-surface-variant font-medium text-sm">
               Active Cases
             </h4>
-            <p className="text-3xl font-black text-on-surface mt-1">
+            <p className="text-3xl font-extrabold text-on-surface mt-1">
               {activeCases.length}
             </p>
           </div>
@@ -177,7 +177,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <h4 className="text-on-surface-variant font-medium text-sm">
               Occupancy Rate
             </h4>
-            <p className="text-3xl font-black text-on-surface mt-1">
+            <p className="text-3xl font-extrabold text-on-surface mt-1">
               {occupancyRate}%
             </p>
           </div>
@@ -201,7 +201,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             <h4 className="text-on-surface-variant font-medium text-sm">
               Total Tenants
             </h4>
-            <p className="text-3xl font-black text-on-surface mt-1">
+            <p className="text-3xl font-extrabold text-on-surface mt-1">
               {tenants.length}
             </p>
           </div>
@@ -227,7 +227,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
           <div className="bg-surface-container-lowest rounded-xl p-8 border-none shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-8">
-                <h4 className="text-xs font-black uppercase tracking-widest text-outline">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-outline">
                   Recent Activity
                 </h4>
                 {recentCases.length > 0 ? (
@@ -268,13 +268,13 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 )}
               </div>
               <div className="space-y-6">
-                <h4 className="text-xs font-black uppercase tracking-widest text-outline">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-outline">
                   Property Health
                 </h4>
                 <Link href={`/cases?propertyId=${property.id}`} className="bg-surface-container-low p-6 rounded-xl border border-outline-variant/30 hover:border-accent/30 hover:bg-surface-container transition-all block">
                   <p className="text-sm font-semibold text-on-surface-variant">Active Cases</p>
                   <div className="flex items-end gap-2 mt-2">
-                    <span className="text-3xl font-black text-on-surface">
+                    <span className="text-3xl font-extrabold text-on-surface">
                       {activeCases.length}
                     </span>
                     <span className={`font-bold text-xs mb-1 ${activeCases.length === 0 ? "text-success" : "text-error"}`}>
@@ -285,7 +285,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                 <Link href={`/cases?propertyId=${property.id}`} className="bg-surface-container-low p-6 rounded-xl border border-outline-variant/30 hover:border-accent/30 hover:bg-surface-container transition-all block">
                   <p className="text-sm font-semibold text-on-surface-variant">Total Cases</p>
                   <div className="flex items-end gap-2 mt-2">
-                    <span className="text-3xl font-black text-on-surface">{cases.length}</span>
+                    <span className="text-3xl font-extrabold text-on-surface">{cases.length}</span>
                     <span className="text-outline font-bold text-xs mb-1">All time</span>
                   </div>
                 </Link>
@@ -312,7 +312,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
             </Link>
           </div>
           <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
-            <div className="grid grid-cols-6 px-6 py-4 bg-surface-container-low text-[10px] font-black uppercase tracking-wider text-on-surface-variant">
+            <div className="grid grid-cols-6 px-6 py-4 bg-surface-container-low text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">
               <div className="col-span-1">Unit</div>
               <div className="col-span-1">Type</div>
               <div className="col-span-2">Resident</div>
@@ -359,7 +359,7 @@ export function PropertyDetailClient({ property, tenants, cases }: Props) {
                         <span className="text-sm font-semibold group-hover:text-on-surface transition-colors">{tenant.name}</span>
                       </div>
                       <div className="col-span-1">
-                        <span className={`${leaseBadgeClass} px-3 py-1 rounded-full text-[10px] font-black uppercase`}>
+                        <span className={`${leaseBadgeClass} px-3 py-1 rounded-full text-[10px] font-bold uppercase`}>
                           {leaseLabel}
                         </span>
                       </div>

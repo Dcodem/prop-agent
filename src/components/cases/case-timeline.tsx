@@ -73,7 +73,7 @@ export function CaseTimeline({
           <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">System of Record</h2>
           <p className="text-sm text-on-surface-variant font-medium mt-1">At-a-glance roll call of case interactions</p>
         </div>
-        <span className="text-xs font-black text-accent uppercase tracking-widest bg-accent/5 px-4 py-2 rounded-full border border-accent/10">
+        <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-4 py-2 rounded-full border border-accent/10">
           Audit Ready
         </span>
       </div>

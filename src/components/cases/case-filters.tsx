@@ -36,9 +36,9 @@ export function CaseFilters({
   const hasFilters = statusFilter || urgencyFilter || propertyFilter;
 
   return (
-    <div className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex flex-wrap items-center gap-4">
-      <div className="flex items-center gap-2">
-        <label className="text-xs font-bold text-outline uppercase">Filters:</label>
+    <div className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+        <label className="text-xs font-bold text-outline uppercase hidden sm:block">Filters:</label>
         <select
           className="bg-surface-container-low border-outline-variant/20 rounded-lg text-sm px-3 py-1.5 focus:ring-accent focus:border-accent outline-none min-w-[120px]"
           value={statusFilter}
@@ -85,7 +85,7 @@ export function CaseFilters({
           Clear filters
         </button>
       )}
-      <div className={`flex items-center bg-surface-container-low p-1 rounded-lg ${hasFilters ? "mr-2" : "ml-auto mr-2"}`}>
+      <div className={`flex items-center bg-surface-container-low p-1 rounded-lg ${hasFilters ? "sm:mr-2" : "sm:ml-auto sm:mr-2"}`}>
         <button
           className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
             viewMode === "table"
@@ -107,10 +107,10 @@ export function CaseFilters({
           Kanban
         </button>
       </div>
-      <div className="h-8 w-px bg-surface-container"></div>
+      <div className="hidden sm:block h-8 w-px bg-surface-container"></div>
       <button
         onClick={onNewCase}
-        className="bg-accent hover:bg-accent/90 text-on-accent px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-colors"
+        className="bg-accent hover:bg-accent/90 text-on-accent px-4 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-colors w-full sm:w-auto"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>

@@ -44,7 +44,8 @@ export function NotificationPreferencesForm({
             <span className="material-symbols-outlined text-caution text-2xl">notifications_active</span>
             <h2 className="text-xl font-bold text-on-surface tracking-tight">Notification Preferences</h2>
           </div>
-          <p className="text-sm text-on-surface-variant mb-10 leading-relaxed">Manage how and when you receive agent activity updates and system alerts.</p>
+          <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">Manage how and when you receive agent activity updates and system alerts.</p>
+          <p className="text-xs text-on-surface-variant/70 mb-10 leading-relaxed">During <strong>quiet hours</strong>, only critical-urgency alerts are delivered. All other notifications are batched and sent when quiet hours end.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
             <div className="space-y-3 col-span-2">
               <label className="text-sm font-bold text-on-surface uppercase tracking-widest">Communication Channels</label>
